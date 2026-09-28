@@ -15,7 +15,7 @@
  * because it contains your admin password.
  */
 
-const ADMIN_PASSWORD = 'CHANGE-THIS-PASSWORD';
+const ADMIN_PASSWORD = 'AVEROXA@@TEST';
 
 const EVENTS_SHEET = 'Events';
 const ATTEMPTS_SHEET = 'Attempts';
