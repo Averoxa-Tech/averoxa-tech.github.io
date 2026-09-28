@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Console | Averoxa Mock Test</title>
+<style>
+:root{
+  --navy:#17365d; --blue:#2f6cb0; --sky:#e9f1fb; --bg:#f3f6fa; --line:#d5dde8; --ink:#1d2733; --muted:#5c6b7d;
+  --ok:#1f8a3b; --bad:#c62828; --orange:#e8891c;
+  --font:"Segoe UI",Roboto,Arial,Helvetica,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:var(--font);font-size:15px;line-height:1.5;color:var(--ink);background:var(--bg)}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+input,select{font-family:inherit;font-size:16px}
+:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
+.hidden{display:none!important}
+.btn{border:0;border-radius:4px;padding:10px 18px;font-weight:700;color:#fff;background:var(--blue);min-height:42px}
+.btn:hover{filter:brightness(.93)}
+.btn.light{background:#fff;color:var(--navy);border:1px solid #b8c4d3}
+.btn.dark{background:var(--navy)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.top{background:var(--navy);color:#fff}
+.top .in{max-width:1240px;margin:0 auto;padding:12px 16px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.top h1{margin:0;font-size:18px}
+.top small{opacity:.8;font-weight:400;font-size:13px;display:block}
+.top .row{display:flex;gap:8px;flex-wrap:wrap}
+.top .btn.light{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+
+/* login */
+.login{max-width:420px;margin:8vh auto;padding:0 16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 1px 2px rgba(20,40,70,.06)}
+.card .hd{background:var(--sky);border-bottom:1px solid var(--line);padding:10px 16px;font-weight:700;color:var(--navy);border-radius:6px 6px 0 0}
+.card .bd{padding:16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:600;margin-bottom:4px;color:var(--navy)}
+.field input,.field select{width:100%;padding:10px 12px;border:1px solid #b8c4d3;border-radius:4px;min-height:44px}
+.err{color:var(--bad);font-size:14px;min-height:1.2em;margin:0 0 10px}
+.note{font-size:13px;color:var(--muted)}
+
+/* dashboard */
+.wrap{max-width:1240px;margin:0 auto;padding:16px}
+.kpis{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.kpis{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:1100px){.kpis{grid-template-columns:repeat(7,1fr)}}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px}
+.kpi span{display:block;font-size:12.5px;color:var(--muted)}
+.kpi b{display:block;font-size:26px;color:var(--navy);line-height:1.2}
+.grid2{display:grid;gap:14px;grid-template-columns:1fr;margin-top:14px}
+@media(min-width:900px){.grid2{grid-template-columns:repeat(3,1fr)}}
+.bars{display:grid;gap:6px}
+.bar{display:grid;grid-template-columns:110px 1fr 34px;gap:8px;align-items:center;font-size:13px}
+.bar .lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.bar .track{background:#edf1f6;border-radius:3px;height:14px;overflow:hidden}
+.bar .fill{background:var(--blue);height:100%;min-width:2px}
+.bar .v{text-align:right;font-weight:700;color:var(--navy)}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 10px;align-items:end}
+.tools .field{margin:0;min-width:150px;flex:1}
+.wrapx{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:#fff;max-height:560px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;white-space:nowrap}
+th{background:var(--sky);color:var(--navy);position:sticky;top:0;cursor:pointer;user-select:none}
+th.sorted::after{content:" ▾"} th.sorted.asc::after{content:" ▴"}
+tr:hover td{background:#f8fbff}
+.tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700;color:#fff;background:var(--navy)}
+.tag.adv{background:#7a3ea1}
+.status{font-size:13px;color:var(--muted);margin:8px 0}
+</style>
+</head>
+<body>
+
+<!-- LOGIN (separate from the student page) -->
+<div id="loginView">
+  <div class="login">
+    <div class="card">
+      <div class="hd">Admin Login · Averoxa Mock Test</div>
+      <div class="bd">
+        <form id="loginForm">
+          <div class="field"><label for="pw">Admin password</label>
+            <input id="pw" type="password" autocomplete="current-password" placeholder="Enter password"></div>
+          <p class="err" id="loginErr" role="alert"></p>
+          <button class="btn dark" type="submit" id="loginBtn" style="width:100%">Login</button>
+        </form>
+        <p class="note" style="margin-top:14px">Authorised staff only. The password is checked on the server, not in this page.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashView" class="hidden">
+  <div class="top"><div class="in">
+    <h1>Admin Console<small>JEE Mock Test · Powered by Averoxa</small></h1>
+    <div class="row">
+      <button class="btn light" id="refreshBtn">↻ Refresh</button>
+      <button class="btn light" id="csvBtn">⬇ Export CSV</button>
+      <button class="btn light" id="logoutBtn">Logout</button>
+    </div>
+  </div></div>
+  <div class="wrap">
+    <div class="status" id="statusLine"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="grid2">
+      <div class="card"><div class="hd">Visits · last 14 days</div><div class="bd"><div class="bars" id="chDays"></div></div></div>
+      <div class="card"><div class="hd">Score distribution</div><div class="bd"><div class="bars" id="chScore"></div></div></div>
+      <div class="card"><div class="hd">Top states</div><div class="bd"><div class="bars" id="chState"></div></div></div>
+    </div>
+    <div class="tools">
+      <div class="field"><label for="fExam">Exam</label>
+        <select id="fExam"><option value="all">All exams</option><option value="main">JEE Main</option><option value="adv">JEE Advanced</option></select></div>
+      <div class="field" style="flex:2"><label for="fSearch">Search name / roll no. / state</label>
+        <input id="fSearch" type="search" placeholder="Type to filter"></div>
+    </div>
+    <div class="wrapx"><table id="tbl"></table></div>
+    <p class="note" style="margin-top:10px">Raw records are also available in your Google Sheet (tabs “Events” and “Attempts”).</p>
+  </div>
+</div>
+
+<script>
+/* Paste your Google Apps Script Web App URL here (same one as in mock-test.html) */
+const API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+const API_ON = API_URL && !/PASTE_YOUR/.test(API_URL);
+
+const $ = id => document.getElementById(id);
+function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtTime(sec){ sec=Math.round(sec); const m=Math.floor(sec/60), s=sec%60; return m+'m '+String(s).padStart(2,'0')+'s'; }
+
+let DATA = null, sortKey = 'score', sortDir = -1;
+
+async function post(payload){
+  const res = await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});
+  return res.json();
+}
+
+/* ---------- login ---------- */
+$('loginForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const pw = $('pw').value;
+  $('loginErr').textContent = '';
+  if(!API_ON){ $('loginErr').textContent = 'The server address is not configured yet (API_URL).'; return; }
+  if(!pw){ $('loginErr').textContent = 'Please enter the password.'; return; }
+  $('loginBtn').disabled = true; $('loginBtn').textContent = 'Checking…';
+  try{
+    const r = await post({action:'admin',password:pw});
+    if(r.ok){ sessionStorage.setItem('avx_admin_key',pw); DATA = r; showDash(); }
+    else $('loginErr').textContent = r.error==='unauthorized' ? 'Incorrect password.' : 'Could not log in: '+(r.error||'unknown error');
+  }catch(err){ $('loginErr').textContent = 'Could not reach the server. Check your internet connection.'; }
+  $('loginBtn').disabled = false; $('loginBtn').textContent = 'Login';
+});
+function showDash(){
+  $('loginView').classList.add('hidden'); $('dashView').classList.remove('hidden');
+  $('pw').value = '';
+  renderAll();
+}
+$('logoutBtn').onclick = ()=>{ sessionStorage.removeItem('avx_admin_key'); DATA=null; $('dashView').classList.add('hidden'); $('loginView').classList.remove('hidden'); };
+$('refreshBtn').onclick = ()=>load();
+async function load(){
+  const key = sessionStorage.getItem('avx_admin_key');
+  if(!key) return;
+  $('statusLine').textContent = 'Loading…';
+  try{
+    const r = await post({action:'admin',password:key});
+    if(r.ok){ DATA = r; renderAll(); }
+    else { $('logoutBtn').click(); $('loginErr').textContent='Session expired. Please log in again.'; }
+  }catch(e){ $('statusLine').textContent = 'Could not refresh. Check your internet connection.'; }
+}
+
+/* ---------- render ---------- */
+function bars(el, items, max){
+  const m = max || Math.max(1,...items.map(i=>i.v));
+  el.innerHTML = items.length ? items.map(i=>`<div class="bar"><div class="lbl" title="${esc(i.l)}">${esc(i.l)}</div><div class="track"><div class="fill" style="width:${Math.round(i.v/m*100)}%"></div></div><div class="v">${i.v}</div></div>`).join('') : '<span class="note">No data yet.</span>';
+}
+function ranked(){
+  // competition ranking within each exam
+  const out = DATA.attempts.map(a=>({...a}));
+  ['main','adv'].forEach(ex=>{
+    const list = out.filter(a=>a.exam===ex).sort((a,b)=>b.score-a.score);
+    let rank = 0, prev = null, seen = 0;
+    list.forEach(a=>{ seen++; if(a.score!==prev){ rank = seen; prev = a.score; } a.rank = rank; });
+  });
+  return out;
+}
+function filtered(){
+  const ex = $('fExam').value, q = $('fSearch').value.trim().toLowerCase();
+  return ranked().filter(a=>(ex==='all'||a.exam===ex) && (!q || (a.name+' '+a.roll+' '+a.state).toLowerCase().includes(q)));
+}
+function renderAll(){
+  if(!DATA) return;
+  const t = DATA.totals, at = DATA.attempts;
+  const avgPct = at.length ? Math.round(at.reduce((s,a)=>s+a.score/a.max*100,0)/at.length*10)/10 : 0;
+  const top = at.length ? Math.max(...at.map(a=>a.score)) : 0;
+  const compl = t.starts ? Math.round(t.submitted/t.starts*100) : 0;
+  $('kpis').innerHTML = [
+    ['Total visits',t.visits],['Unique visitors',t.uniqueVisitors],['Tests started',t.starts],['Tests submitted',t.submitted],
+    ['Completion rate',compl+'%'],['Average score',avgPct+'%'],['Highest score',top]
+  ].map(k=>`<div class="kpi"><span>${k[0]}</span><b>${k[1]}</b></div>`).join('');
+
+  // visits last 14 days (UTC dates)
+  const days = [];
+  for(let i=13;i>=0;i--){ const d=new Date(Date.now()-i*864e5).toISOString().slice(0,10); days.push({l:d.slice(5),v:DATA.perDay[d]||0}); }
+  bars($('chDays'),days);
+  // score distribution
+  const buckets = [0,0,0,0,0]; const labels=['0–20%','20–40%','40–60%','60–80%','80–100%'];
+  at.forEach(a=>{ const p=a.score/a.max*100; buckets[Math.max(0,Math.min(4,Math.floor(p/20)))]++; });
+  bars($('chScore'),buckets.map((v,i)=>({l:labels[i],v})));
+  // states
+  const sc = {}; at.forEach(a=>{ sc[a.state]=(sc[a.state]||0)+1; });
+  bars($('chState'),Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([l,v])=>({l,v})));
+  $('statusLine').textContent = 'Updated '+new Date().toLocaleTimeString()+' · times shown in your local timezone';
+  renderTable();
+}
+const COLS = [
+  ['rank','Rank'],['roll','Roll no.'],['name','Name'],['dob','DOB'],['state','State'],['exam','Exam'],
+  ['score','Score'],['correct','Correct'],['incorrect','Incorrect'],['unattempted','Unattempted'],['seconds','Time'],['submittedAt','Submitted']
+];
+function renderTable(){
+  const rows = filtered().sort((a,b)=>{
+    const x=a[sortKey], y=b[sortKey];
+    return (typeof x==='number' ? x-y : String(x).localeCompare(String(y))) * sortDir;
+  });
+  $('tbl').innerHTML = '<thead><tr>'+COLS.map(c=>`<th data-k="${c[0]}" class="${sortKey===c[0]?'sorted'+(sortDir>0?' asc':''):''}">${c[1]}</th>`).join('')+'</tr></thead><tbody>'
+   + (rows.length ? rows.map(a=>`<tr><td>${a.rank}</td><td>${esc(a.roll)}</td><td>${esc(a.name)}</td><td>${esc(a.dob)}</td><td>${esc(a.state)}</td>
+      <td><span class="tag ${a.exam==='adv'?'adv':''}">${a.exam==='adv'?'Advanced':'Main'}</span></td>
+      <td><b>${a.score}</b> / ${a.max}</td><td>${a.correct}</td><td>${a.incorrect}</td><td>${a.unattempted}</td><td>${fmtTime(a.seconds)}</td>
+      <td>${new Date(a.submittedAt).toLocaleString()}</td></tr>`).join('')
+     : `<tr><td colspan="${COLS.length}" style="padding:20px;color:var(--muted)">No test attempts yet.</td></tr>`)
+   + '</tbody>';
+  $('tbl').querySelectorAll('th').forEach(th=>th.onclick=()=>{
+    const k = th.dataset.k;
+    if(sortKey===k) sortDir*=-1; else { sortKey=k; sortDir = (k==='name'||k==='roll'||k==='state')?1:-1; }
+    renderTable();
+  });
+}
+$('fExam').onchange = renderTable; $('fSearch').oninput = renderTable;
+
+/* ---------- CSV export ---------- */
+$('csvBtn').onclick = ()=>{
+  const rows = filtered().sort((a,b)=>a.rank-b.rank);
+  const head = ['Rank','Roll no','Name','DOB','State','Exam','Score','Max','Correct','Incorrect','Partial','Unattempted','Time (s)','Submitted (UTC)'];
+  const cell = v => { let s = String(v===undefined||v===null?'':v); if(/^[=+\-@]/.test(s)) s = "'"+s; return '"'+s.replace(/"/g,'""')+'"'; };
+  const lines = [head.map(cell).join(',')].concat(rows.map(a=>[a.rank,a.roll,a.name,a.dob,a.state,a.exam==='adv'?'JEE Advanced':'JEE Main',a.score,a.max,a.correct,a.incorrect,a.partial,a.unattempted,a.seconds,a.submittedAt].map(cell).join(',')));
+  const blob = new Blob(['\ufeff'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'averoxa-mock-results.csv'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+
+/* auto-login if this browser tab already authenticated */
+if(sessionStorage.getItem('avx_admin_key') && API_ON){ $('loginView').classList.add('hidden'); $('dashView').classList.remove('hidden'); load(); }
+</script>
+</body>
+</html>
