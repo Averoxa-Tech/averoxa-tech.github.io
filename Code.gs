@@ -15,13 +15,14 @@
  * because it contains your admin password.
  */
 
-const ADMIN_PASSWORD = 'AVEROXA@@TEST';
+const ADMIN_PASSWORD = 'CHANGE-THIS-PASSWORD';
 
 const EVENTS_SHEET = 'Events';
 const ATTEMPTS_SHEET = 'Attempts';
 const EVENTS_HEADERS = ['time', 'type', 'visitorId', 'roll', 'exam', 'state', 'userAgent'];
-const ATTEMPT_HEADERS = ['submittedAt', 'attemptId', 'roll', 'name', 'dob', 'state', 'exam',
-  'score', 'max', 'correct', 'incorrect', 'partial', 'unattempted', 'seconds', 'subjectsJson', 'answersJson'];
+const ATTEMPT_HEADERS = ['submittedAt', 'attemptId', 'roll', 'name', 'dob', 'state', 'exam', 'mode', 'subjectsSel', 'chapters', 'level', 'source',
+  'score', 'max', 'correct', 'incorrect', 'partial', 'unattempted', 'pending', 'seconds', 'subjectsJson', 'answersJson'];
+const VALID_EXAMS = ['jm', 'ja', 'neet', 'cbse', 'isc'];
 
 function setup() {
   sheet_(EVENTS_SHEET, EVENTS_HEADERS);
@@ -86,27 +87,34 @@ function logEvent_(type, b) {
 function saveAttempt_(b) {
   if (!b.attemptId || !b.roll || !b.name) return { ok: false, error: 'missing fields' };
   const exam = String(b.exam);
-  if (exam !== 'main' && exam !== 'adv') return { ok: false, error: 'bad exam' };
+  if (VALID_EXAMS.indexOf(exam) === -1) return { ok: false, error: 'bad exam' };
 
   const sh = sheet_(ATTEMPTS_SHEET, ATTEMPT_HEADERS);
   const last = sh.getLastRow();
   const data = last > 1 ? sh.getRange(2, 1, last - 1, ATTEMPT_HEADERS.length).getValues() : [];
   const id = String(b.attemptId);
+  const SCORE_COL = 12; // 0-based index of 'score' in ATTEMPT_HEADERS
 
   let mine = data.find(function (r) { return String(r[1]) === id; });
+  const num = function (v) { const n = Number(v); return isFinite(n) ? n : 0; };
+  const score = num(b.score), max = num(b.max);
+  if (max <= 0 || score > max) return { ok: false, error: 'invalid score' };
+  const row = [new Date(), clean_(id, 40), clean_(b.roll, 40), clean_(b.name, 60), clean_(b.dob, 10),
+    clean_(b.state, 50), exam, clean_(b.mode, 10), clean_(b.subjectsSel, 200), clean_(b.chapters, 300),
+    clean_(b.level, 10), clean_(b.source, 10), score, max, num(b.correct), num(b.incorrect), num(b.partial),
+    num(b.unattempted), num(b.pending), num(b.seconds),
+    clean_(JSON.stringify(b.subjects || {}), 4000), clean_(JSON.stringify(b.answers || []), 30000)];
   if (!mine) {
-    const num = function (v) { const n = Number(v); return isFinite(n) ? n : 0; };
-    const score = num(b.score), max = num(b.max);
-    if (max <= 0 || score > max) return { ok: false, error: 'invalid score' };
-    mine = [new Date(), clean_(id, 40), clean_(b.roll, 40), clean_(b.name, 60), clean_(b.dob, 10),
-      clean_(b.state, 50), exam, score, max, num(b.correct), num(b.incorrect), num(b.partial),
-      num(b.unattempted), num(b.seconds),
-      clean_(JSON.stringify(b.subjects || {}), 4000), clean_(JSON.stringify(b.answers || []), 30000)];
-    sh.appendRow(mine);
-    data.push(mine);
+    sh.appendRow(row);
+    data.push(row);
+  } else {
+    // re-submission after self-grading written answers: update the existing row in place
+    const rowIndex = data.indexOf(mine) + 2; // +1 for header, +1 for 1-based
+    sh.getRange(rowIndex, 1, 1, ATTEMPT_HEADERS.length).setValues([row]);
+    data[data.indexOf(mine)] = row;
   }
-  const myScore = Number(mine[7]);
-  const scores = data.filter(function (r) { return r[6] === exam; }).map(function (r) { return Number(r[7]); });
+  const myScore = score;
+  const scores = data.filter(function (r) { return r[6] === exam; }).map(function (r) { return Number(r[SCORE_COL]); });
   const rank = 1 + scores.filter(function (s) { return s > myScore; }).length;
   return { ok: true, rank: rank, total: scores.length };
 }
@@ -141,8 +149,10 @@ function adminData_(b) {
   const attempts = rows.map(function (r) {
     return {
       submittedAt: new Date(r[0]).toISOString(), roll: r[2], name: r[3], dob: r[4], state: r[5],
-      exam: r[6], score: Number(r[7]), max: Number(r[8]), correct: Number(r[9]),
-      incorrect: Number(r[10]), partial: Number(r[11]), unattempted: Number(r[12]), seconds: Number(r[13])
+      exam: r[6], mode: r[7], subjectsSel: r[8], chapters: r[9], level: r[10], source: r[11],
+      score: Number(r[12]), max: Number(r[13]), correct: Number(r[14]),
+      incorrect: Number(r[15]), partial: Number(r[16]), unattempted: Number(r[17]),
+      pending: Number(r[18]), seconds: Number(r[19])
     };
   });
 
