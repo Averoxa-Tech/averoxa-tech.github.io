@@ -68,6 +68,7 @@ function doPost(e) {
       case 'start': return json_(logEvent_('start', b));
       case 'submit': return json_(saveAttempt_(b));
       case 'admin': return json_(adminData_(b));
+      case 'reset': return json_(resetData_(b));
       default: return json_({ ok: false, error: 'unknown action' });
     }
   } catch (err) {
@@ -117,6 +118,22 @@ function saveAttempt_(b) {
   const scores = data.filter(function (r) { return r[6] === exam; }).map(function (r) { return Number(r[SCORE_COL]); });
   const rank = 1 + scores.filter(function (s) { return s > myScore; }).length;
   return { ok: true, rank: rank, total: scores.length };
+}
+
+// Permanently erases all rows in Events and Attempts (keeps the header row).
+function resetData_(b) {
+  if (String(b.password || '') !== ADMIN_PASSWORD) {
+    Utilities.sleep(1200); // slows down password guessing
+    return { ok: false, error: 'unauthorized' };
+  }
+  [ [EVENTS_SHEET, EVENTS_HEADERS], [ATTEMPTS_SHEET, ATTEMPT_HEADERS] ].forEach(function (pair) {
+    const sh = sheet_(pair[0], pair[1]);
+    const last = sh.getLastRow();
+    if (last > 1) {
+      sh.getRange(2, 1, last - 1, sh.getLastColumn()).clearContent();
+    }
+  });
+  return { ok: true };
 }
 
 function adminData_(b) {

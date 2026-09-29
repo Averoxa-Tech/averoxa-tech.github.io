@@ -129,6 +129,7 @@ tbody tr:hover td{background:rgba(217,165,62,.06)}
     <div class="row">
       <button class="btn light" id="refreshBtn">↻ Refresh</button>
       <button class="btn light" id="csvBtn">⬇ Export CSV</button>
+      <button class="btn light" id="resetBtn" style="border-color:var(--bad);color:var(--bad)">🗑 Reset data</button>
       <button class="btn light" id="logoutBtn">Logout</button>
     </div>
   </div></div>
@@ -277,6 +278,21 @@ function renderTable(){
   });
 }
 $('fExam').onchange = renderTable; $('fSearch').oninput = renderTable;
+
+/* ---------- reset all data ---------- */
+$('resetBtn').onclick = async ()=>{
+  if(!confirm('This will PERMANENTLY delete every visit, start and test attempt from the Google Sheet. This cannot be undone. Continue?')) return;
+  const typed = prompt('Type DELETE (in capitals) to confirm the permanent reset:');
+  if(typed !== 'DELETE'){ alert('Reset cancelled. Nothing was deleted.'); return; }
+  const key = sessionStorage.getItem('avx_admin_key');
+  $('resetBtn').disabled = true; $('resetBtn').textContent = 'Resetting…';
+  try{
+    const r = await post({action:'reset', password:key});
+    if(r.ok){ alert('All data has been erased.'); await load(); }
+    else alert('Could not reset: '+(r.error||'unknown error'));
+  }catch(e){ alert('Could not reach the server. Check your internet connection.'); }
+  $('resetBtn').disabled = false; $('resetBtn').textContent = '🗑 Reset data';
+};
 
 /* ---------- CSV export ---------- */
 $('csvBtn').onclick = ()=>{
