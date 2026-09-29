@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /mock-admin.html
+Sitemap: https://averoxa-tech.github.io/sitemap.xml
