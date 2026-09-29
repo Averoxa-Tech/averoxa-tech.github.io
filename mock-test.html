@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JEE Mock Test Portal | Averoxa Technologies</title>
-<meta name="description" content="Practice JEE Main and JEE Advanced style mock tests with instant scoring, review and solutions.">
+<title>Mock Test Portal | Averoxa Technologies</title>
+<meta name="description" content="Practice JEE Main, JEE Advanced, NEET, CBSE Class 12 and ISC Class 12 mock tests with chapter selection, instant scoring and solutions.">
 <style>
+
 :root{
   --navy:#17365d; --blue:#2f6cb0; --blue-d:#245590; --sky:#e9f1fb; --bg:#f3f6fa; --line:#d5dde8;
   --ink:#1d2733; --muted:#5c6b7d; --white:#fff;
@@ -207,129 +208,157 @@ table.res th{background:var(--sky);color:var(--navy);position:sticky;top:0}
 .chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
 .foot{max-width:1180px;margin:0 auto;padding:0 16px 28px;font-size:12.5px;color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:6px;z-index:80;font-size:14px;max-width:90vw}
+
+
+/* ===== v2 additions ===== */
+.btn{border-radius:10px;box-shadow:0 2px 0 rgba(0,0,0,.16),0 4px 10px rgba(20,40,70,.12);transition:transform .12s,box-shadow .12s,background .12s}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(1px);box-shadow:none}
+.btn.light{box-shadow:none}
+.page{grid-template-columns:minmax(0,1fr)!important;max-width:1080px}
+.examgrid{grid-template-columns:1fr!important}
+@media(min-width:700px){.examgrid{grid-template-columns:1fr 1fr!important}}
+@media(min-width:1000px){.examgrid{grid-template-columns:repeat(3,1fr)!important}}
+.examcard .tagline{font-size:12.5px;color:var(--blue);font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin:0 0 4px}
+
+.avx-badge{position:fixed;right:14px;bottom:14px;z-index:30;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 6px 5px 16px;box-shadow:0 6px 20px rgba(10,30,60,.25)}
+.avx-badge span{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);line-height:1.2;text-align:right}
+.avx-badge b{display:block;font-size:14px;letter-spacing:.14em;color:var(--navy)}
+.avx-badge img{width:46px;height:46px;border-radius:50%;display:block;flex:none}
+body.exam-on .avx-badge{bottom:74px}
+@media(max-width:899px){body.exam-on .avx-badge{padding:4px;bottom:88px}body.exam-on .avx-badge span{display:none}}
+.foot{padding-bottom:90px}
+
+.seg{display:inline-flex;border:1px solid #b8c4d3;border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:#fff;padding:10px 16px;font-weight:700;color:var(--navy)}
+.seg button.on{background:var(--navy);color:#fff}
+.seg button:disabled{opacity:.45;cursor:not-allowed}
+.chipset{display:flex;flex-wrap:wrap;gap:8px}
+.tg{border:1px solid #b8c4d3;background:#fff;border-radius:999px;padding:7px 15px;font-weight:600;color:var(--navy);min-height:40px}
+.tg.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tg:disabled{opacity:.45;cursor:not-allowed}
+.chapgrid{display:grid;gap:8px;grid-template-columns:1fr}
+@media(min-width:640px){.chapgrid{grid-template-columns:1fr 1fr}}
+.chap{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:9px 12px;background:#fff;cursor:pointer;min-height:46px}
+.chap.on{border-color:var(--blue);background:#eaf3ff}
+.chap.off{opacity:.5;cursor:not-allowed}
+.chap input{width:18px;height:18px;flex:none}
+.chap .cnt{margin-left:auto;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.setgrp{margin:18px 0}
+.setgrp>.lbl{display:block;font-weight:700;color:var(--navy);margin-bottom:8px}
+.subh{font-weight:700;color:var(--navy);margin:14px 0 6px;font-size:14px;text-transform:uppercase;letter-spacing:.05em}
+.sumbox{background:var(--sky);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:16px 0}
+.sumbox b{color:var(--navy)}
+.warn{background:#fff4e0;border:1px solid #f1cf8f;color:#7a4b00;border-radius:6px;padding:8px 12px;font-size:13.5px;margin:8px 0}
+.infoline{background:#eaf3ff;border:1px solid #bcd6f5;color:#1c4a80;border-radius:6px;padding:8px 12px;font-size:13.5px;margin:8px 0}
+.qcount{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.qcount input{width:110px;padding:10px 12px;border:1px solid #b8c4d3;border-radius:6px;min-height:44px;font-weight:700}
+textarea.subans{width:100%;min-height:210px;padding:12px;border:2px solid #b8c4d3;border-radius:6px;font-size:16px;font-family:inherit;line-height:1.5;resize:vertical}
+.hintline{font-size:12.5px;color:var(--muted);margin-top:6px}
+.model{white-space:pre-wrap;line-height:1.55}
+.rb label{display:flex;gap:10px;align-items:flex-start;padding:7px 0;cursor:pointer;border-bottom:1px dashed #e6d98f}
+.rb label:last-child{border-bottom:0}
+.rb input{width:20px;height:20px;margin-top:2px;flex:none}
+.yours{background:#f6f8fb;border:1px solid var(--line);border-radius:6px;padding:10px 12px;white-space:pre-wrap;margin:8px 0}
+.tag.pd{background:#5b6bd6}
+.kpi.pd b{color:#5b6bd6}
 </style>
 </head>
 <body>
+<div id="bankError" class="hidden" style="padding:24px;font-family:sans-serif"><h2>Question bank not found</h2><p>Upload <b>questions.js</b> in the same folder as this page.</p></div>
 
-<!-- ===================== SCREEN: HOME ===================== -->
+<!-- ===================== HOME ===================== -->
 <div id="screen-home">
   <div class="topbar"><div class="in">
-    <div class="brand"><div class="seal">AVX</div><h1>JEE Mock Test Portal<small>Practice tests with instant results and solutions</small></h1></div>
+    <div class="brand"><div class="seal">AVX</div><h1>Mock Test Portal<small>Practice with the real exam patterns</small></h1></div>
   </div></div>
-  <div class="navstrip"><div class="in">Select your examination to begin</div></div>
-  <div class="page">
-    <div>
-      <div class="card">
-        <div class="hd">Choose Examination</div>
-        <div class="bd">
-          <div id="resumeBox" class="sync info hidden"></div>
-          <div class="examgrid">
-            <button class="examcard" data-exam="main">
-              <h3>JEE Main</h3>
-              <p>Paper 1 style practice · B.E. / B.Tech.</p>
-              <ul>
-                <li>30 questions · Physics, Chemistry, Mathematics</li>
-                <li>Multiple choice + numerical value</li>
-                <li>Duration: 60 minutes</li>
-              </ul>
-              <span class="go">Select JEE Main →</span>
-            </button>
-            <button class="examcard" data-exam="adv">
-              <h3>JEE Advanced</h3>
-              <p>Advanced pattern practice</p>
-              <ul>
-                <li>18 questions · Physics, Chemistry, Mathematics</li>
-                <li>Single correct, multiple correct, numerical</li>
-                <li>Duration: 60 minutes</li>
-              </ul>
-              <span class="go">Select JEE Advanced →</span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:16px"><div class="hd">What you get</div><div class="bd">
-        <ul style="margin:0;padding-left:20px">
-          <li>Automatic evaluation the moment you submit</li>
-          <li>Question-wise report: correct, incorrect and unattempted</li>
-          <li>Review every question, with detailed solutions for the ones you missed</li>
-        </ul>
-      </div></div>
-    </div>
-    <div class="side">
-      <div class="powered">
-        <div class="lbl">Powered by</div>
-        <p class="brandname">AVEROXA</p>
-        <img class="avx-logo" alt="Averoxa Technologies logo">
-      </div>
-      <p class="note">Independent practice platform. Not affiliated with or endorsed by the National Testing Agency (NTA) or any official examination authority. All questions are original practice questions.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ===================== SCREEN: REGISTER ===================== -->
-<div id="screen-reg" class="hidden">
-  <div class="topbar"><div class="in">
-    <div class="brand"><div class="seal">AVX</div><h1 id="regTitle">JEE Main<small>Candidate details</small></h1></div>
-  </div></div>
-  <div class="navstrip"><div class="in">Step 1 of 2 · Fill in your details</div></div>
+  <div class="navstrip"><div class="in">Choose your examination</div></div>
   <div class="page">
     <div class="card">
-      <div class="hd">Candidate Registration</div>
+      <div class="hd">Select Examination</div>
       <div class="bd">
-        <form id="regForm" class="form" novalidate>
-          <div class="field"><label for="f_name">Full name</label>
-            <input id="f_name" type="text" autocomplete="name" maxlength="60" placeholder="As on your ID">
-            <div class="err" id="e_name"></div></div>
-          <div class="field"><label for="f_dob">Date of birth</label>
-            <input id="f_dob" type="date">
-            <div class="err" id="e_dob"></div></div>
-          <div class="field"><label for="f_roll">Roll number (allotted automatically)</label>
-            <input id="f_roll" type="text" readonly>
-            <div class="hint">Note this down. You will need it to identify your result.</div></div>
-          <div class="field"><label for="f_state">State</label>
-            <select id="f_state"><option value="">Select your state</option></select>
-            <div class="err" id="e_state"></div></div>
-          <div class="hint" style="color:var(--muted);font-size:13px">Your name, date of birth, state and test result are stored by Averoxa Technologies to show your result and to produce anonymous usage statistics for the platform.</div>
-          <div class="row">
-            <button type="button" class="btn light" id="regBack">← Back</button>
-            <button type="submit" class="btn">Proceed →</button>
-          </div>
-        </form>
+        <div id="resumeBox" class="sync info hidden"></div>
+        <div class="examgrid" id="examGrid"></div>
       </div>
     </div>
-    <div class="side"><div class="powered"><div class="lbl">Powered by</div><p class="brandname">AVEROXA</p><img class="avx-logo" alt="Averoxa Technologies logo"></div></div>
+    <div class="card"><div class="hd">What you get</div><div class="bd">
+      <ul style="margin:0;padding-left:20px">
+        <li>Pick your own chapters, number of questions and difficulty level, or take a full paper in the official pattern</li>
+        <li>Objective and written questions, with the exam’s own marking scheme</li>
+        <li>Instant score, question-wise report and solutions for the questions you missed</li>
+      </ul>
+    </div></div>
   </div>
 </div>
 
-<!-- ===================== SCREEN: INSTRUCTIONS ===================== -->
-<div id="screen-instr" class="hidden">
-  <div class="topbar"><div class="in">
-    <div class="brand"><div class="seal">AVX</div><h1 id="instrTitle">Instructions<small>Please read carefully</small></h1></div>
-  </div></div>
-  <div class="navstrip"><div class="in">Step 2 of 2 · Instructions</div></div>
+<!-- ===================== REGISTER ===================== -->
+<div id="screen-reg" class="hidden">
+  <div class="topbar"><div class="in"><div class="brand"><div class="seal">AVX</div><h1 id="regTitle">Candidate details</h1></div></div></div>
+  <div class="navstrip"><div class="in">Step 1 of 3 · Your details</div></div>
   <div class="page">
-    <div class="card instr">
-      <div class="hd">General Instructions</div>
-      <div class="bd" id="instrBody"></div>
-    </div>
-    <div class="side"><div class="powered"><div class="lbl">Powered by</div><p class="brandname">AVEROXA</p><img class="avx-logo" alt="Averoxa Technologies logo"></div></div>
+    <div class="card"><div class="hd">Candidate Registration</div><div class="bd">
+      <form id="regForm" class="form" novalidate>
+        <div class="field"><label for="f_name">Full name</label>
+          <input id="f_name" type="text" autocomplete="name" maxlength="60" placeholder="As on your ID"><div class="err" id="e_name"></div></div>
+        <div class="field"><label for="f_dob">Date of birth</label>
+          <input id="f_dob" type="date"><div class="err" id="e_dob"></div></div>
+        <div class="field"><label for="f_roll">Roll number (allotted automatically)</label>
+          <input id="f_roll" type="text" readonly><div class="hint">Note this down. You will need it to identify your result.</div></div>
+        <div class="field"><label for="f_state">State</label>
+          <select id="f_state"><option value="">Select your state</option></select><div class="err" id="e_state"></div></div>
+        <div class="hint" style="font-size:13px">Your name, date of birth, state and test result are stored by Averoxa Technologies to show your result and to produce anonymous usage statistics for the platform.</div>
+        <div class="row"><button type="button" class="btn light" id="regBack">← Back</button><button type="submit" class="btn">Proceed →</button></div>
+      </form>
+    </div></div>
   </div>
 </div>
 
-<!-- ===================== SCREEN: EXAM ===================== -->
+<!-- ===================== SETUP ===================== -->
+<div id="screen-setup" class="hidden">
+  <div class="topbar"><div class="in"><div class="brand"><div class="seal">AVX</div><h1 id="setupTitle">Test setup</h1></div></div></div>
+  <div class="navstrip"><div class="in">Step 2 of 3 · Build your test</div></div>
+  <div class="page">
+    <div class="card"><div class="hd">Choose your test</div><div class="bd">
+      <div class="setgrp"><span class="lbl">Test type</span>
+        <div class="seg" id="modeSeg"><button type="button" data-m="full">Full paper (official pattern)</button><button type="button" data-m="custom">Custom practice</button></div>
+        <div class="hintline" id="modeHint"></div></div>
+      <div class="setgrp" id="subjGrp"><span class="lbl" id="subjLbl">Subject</span><div class="chipset" id="subjSet"></div></div>
+      <div class="setgrp"><span class="lbl">Difficulty level</span><div class="chipset" id="lvSet"></div></div>
+      <div class="setgrp"><span class="lbl">Questions from</span><div class="chipset" id="srcSet"></div><div class="hintline" id="srcHint"></div></div>
+      <div class="setgrp" id="chapGrp"><span class="lbl">Chapters <span style="font-weight:400;color:var(--muted)">(select one or more)</span></span>
+        <div class="row" style="margin-bottom:8px"><button type="button" class="tg" id="chAll">Select all</button><button type="button" class="tg" id="chNone">Clear</button></div>
+        <div id="chapBox"></div></div>
+      <div class="setgrp" id="countGrp"><span class="lbl">Number of questions</span>
+        <div class="qcount"><input id="qCount" type="number" min="1" inputmode="numeric" value="10"><div class="chipset" id="qQuick"></div></div>
+        <div class="hintline" id="qAvail"></div></div>
+      <div class="sumbox" id="sumBox"></div>
+      <div id="setWarn"></div>
+      <div class="row"><button type="button" class="btn light" id="setBack">← Back</button><button type="button" class="btn green" id="setGo">Continue →</button></div>
+    </div></div>
+  </div>
+</div>
+
+<!-- ===================== INSTRUCTIONS ===================== -->
+<div id="screen-instr" class="hidden">
+  <div class="topbar"><div class="in"><div class="brand"><div class="seal">AVX</div><h1 id="instrTitle">Instructions</h1></div></div></div>
+  <div class="navstrip"><div class="in">Step 3 of 3 · Instructions</div></div>
+  <div class="page"><div class="card instr"><div class="hd">General Instructions</div><div class="bd" id="instrBody"></div></div></div>
+</div>
+
+<!-- ===================== EXAM ===================== -->
 <div id="screen-exam" class="hidden">
   <div class="ex-head"><div class="in">
-    <div class="ex-title"><span id="exTitle">JEE Main</span><small id="exSub"></small></div>
+    <div class="ex-title"><span id="exTitle"></span><small id="exSub"></small></div>
     <div class="cand"><div class="av" id="candAv">A</div><div><b id="candName"></b><br><span id="candRoll" style="color:var(--muted)"></span></div></div>
     <div class="row" style="gap:8px;flex-wrap:nowrap">
-      <div class="timer" id="timer" aria-live="off">00:00:00</div>
+      <div class="timer" id="timer">00:00:00</div>
       <button class="btn light paltoggle" id="palBtn" style="padding:6px 10px;min-height:34px">Palette</button>
     </div>
   </div></div>
   <div class="tabs" id="tabs" role="tablist"></div>
   <div class="ex-body">
     <div class="qarea">
-      <div class="qhead"><span class="qn" id="qNum">Question 1</span><span class="mk" id="qMk"></span></div>
+      <div class="qhead"><span class="qn" id="qNum"></span><span class="mk" id="qMk"></span></div>
       <div class="secline" id="qSec"></div>
       <div class="qbody" id="qBody"></div>
       <div class="actbar">
@@ -351,9 +380,8 @@ table.res th{background:var(--sky);color:var(--navy);position:sticky;top:0}
           <div><span class="shape s-mk">1</span>Marked for Review</div>
           <div style="grid-column:1/3"><span class="shape s-am">1</span>Answered &amp; Marked for Review (will be evaluated)</div>
         </div>
-        <h4 id="palSubj">Physics</h4>
+        <h4 id="palSubj"></h4>
         <div class="grid" id="palGrid"></div>
-        <div class="powered-mini"><img class="avx-logo" alt="Averoxa logo"><div><div class="t">Powered by</div><div class="b">AVEROXA</div></div></div>
       </div>
       <div class="submitrow"><button class="btn green" id="bSubmit">Submit Test</button></div>
     </aside>
@@ -361,197 +389,109 @@ table.res th{background:var(--sky);color:var(--navy);position:sticky;top:0}
 </div>
 <div class="scrim hidden" id="scrim"></div>
 
-<!-- ===================== SCREEN: RESULT ===================== -->
+<!-- ===================== RESULT ===================== -->
 <div id="screen-result" class="hidden">
-  <div class="topbar"><div class="in">
-    <div class="brand"><div class="seal">AVX</div><h1 id="resTitle">Result<small>Instant evaluation</small></h1></div>
-  </div></div>
+  <div class="topbar"><div class="in"><div class="brand"><div class="seal">AVX</div><h1 id="resTitle">Result</h1></div></div></div>
   <div class="navstrip"><div class="in">Your result</div></div>
   <div class="page">
-    <div>
-      <div class="card"><div class="bd" id="resTop"></div></div>
-      <div class="card" style="margin-top:16px"><div class="hd">Subject-wise score</div><div class="bd" id="resSubj"></div></div>
-      <div class="card" style="margin-top:16px"><div class="hd">Question-wise report</div><div class="bd">
-        <div class="wrapx"><table class="res" id="resTable"></table></div>
-        <div class="row" style="margin-top:14px">
-          <button class="btn" id="btnReview">Review Questions &amp; Solutions →</button>
-          <button class="btn light" id="btnHome">Back to Home</button>
-        </div>
-      </div></div>
-    </div>
-    <div class="side"><div class="powered"><div class="lbl">Powered by</div><p class="brandname">AVEROXA</p><img class="avx-logo" alt="Averoxa Technologies logo"></div></div>
+    <div class="card"><div class="bd" id="resTop"></div></div>
+    <div class="card"><div class="hd">Subject-wise score</div><div class="bd" id="resSubj"></div></div>
+    <div class="card"><div class="hd">Question-wise report</div><div class="bd">
+      <div class="wrapx"><table class="res" id="resTable"></table></div>
+      <div class="row" style="margin-top:14px">
+        <button class="btn" id="btnReview">Review Questions &amp; Solutions →</button>
+        <button class="btn light" id="btnHome">Back to Home</button>
+      </div>
+    </div></div>
   </div>
 </div>
 
-<!-- ===================== SCREEN: REVIEW ===================== -->
+<!-- ===================== REVIEW ===================== -->
 <div id="screen-review" class="hidden">
   <div class="topbar"><div class="in">
     <div class="brand"><div class="seal">AVX</div><h1>Review &amp; Solutions<small id="rvSub"></small></h1></div>
     <button class="btn light" id="rvBack" style="padding:8px 14px;min-height:38px">← Result</button>
   </div></div>
-  <div class="page">
-    <div>
-      <div class="chips" id="rvChips"></div>
-      <div id="rvList"></div>
-    </div>
-    <div class="side"><div class="powered"><div class="lbl">Powered by</div><p class="brandname">AVEROXA</p><img class="avx-logo" alt="Averoxa Technologies logo"></div></div>
-  </div>
+  <div class="page"><div><div class="chips" id="rvChips"></div><div id="rvList"></div></div></div>
 </div>
 
-<div class="foot">© Averoxa Technologies · Independent practice platform, not affiliated with NTA or any official examination authority.</div>
+<div class="foot" style="max-width:1080px;margin:0 auto;padding:0 16px 90px;font-size:12.5px;color:var(--muted)">© Averoxa Technologies · Independent practice platform. Not affiliated with or endorsed by NTA, CBSE, CISCE or any official examination authority. Questions are original practice questions.</div>
 
+<div class="avx-badge" aria-label="Powered by Averoxa"><span>Powered by<b>AVEROXA</b></span><img class="avx-circle" alt="Averoxa Technologies logo"></div>
 <div id="modalRoot"></div>
 
+<script src="questions.js"></script>
 <script>
 /* =====================================================================
-   CONFIG — paste your Google Apps Script Web App URL here (see setup guide)
+   CONFIG — paste your Google Apps Script Web App URL here
    ===================================================================== */
-const API_URL = "   https://script.google.com/macros/s/AKfycbzVe84muL26j9DA1atVDZahAoqTYC8xjS7gsa1jvFYO96hp6QdGi8oZZmrsFegoPRGcpw/exec";
-const LOGO = "data:image/jpeg;base64,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";   // Averoxa logo card (embedded so the page works as a single file)
-document.querySelectorAll(".avx-logo").forEach(i=>{ i.src = LOGO; });
+const API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+const CIRCLE = "data:image/png;base64,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";
+document.querySelectorAll('.avx-circle').forEach(i=>{ i.src = CIRCLE; });
+const QB = (typeof QBANK!=='undefined' && Array.isArray(QBANK)) ? QBANK : null;
+if(!QB){ document.querySelectorAll('body > div').forEach(d=>d.classList.add('hidden')); document.getElementById('bankError').classList.remove('hidden'); throw new Error('questions.js not found'); }
 
-/* =====================================================================
-   QUESTION BANK  (original practice questions — replace/extend freely)
-   type: 'mcq' single correct | 'multi' one or more correct | 'num' numerical
-   ans : mcq -> option index | multi -> [indices] | num -> number
-   ===================================================================== */
-const BANK = {
-main: [
- // ---------------- PHYSICS ----------------
- {s:'Physics',t:'mcq',q:'A car starts from rest and accelerates uniformly at 2 m/s². The distance travelled by the car in the 5<sup>th</sup> second is:',o:['9 m','10 m','16 m','25 m'],a:0,
-  x:'Distance in the n<sup>th</sup> second: s<sub>n</sub> = u + a(2n − 1)/2 = 0 + 2(2·5 − 1)/2 = <b>9 m</b>.'},
- {s:'Physics',t:'mcq',q:'The dimensional formula of Planck’s constant (h) is:',o:['[M L² T⁻²]','[M L² T⁻¹]','[M L T⁻¹]','[M L⁻² T⁻¹]'],a:1,
-  x:'E = hν ⇒ h = E/ν. [E] = M L² T⁻² and [ν] = T⁻¹, so [h] = <b>M L² T⁻¹</b>.'},
- {s:'Physics',t:'mcq',q:'A projectile is launched at 45° to the horizontal with a speed of 20 m/s. Taking g = 10 m/s², its maximum height is:',o:['5 m','10 m','20 m','40 m'],a:1,
-  x:'H = u² sin²θ / (2g) = (400 × ½) / 20 = <b>10 m</b>.'},
- {s:'Physics',t:'mcq',q:'A 4 kg block at rest on a smooth horizontal surface is pulled by a constant horizontal force of 8 N through a distance of 9 m. Its final speed is:',o:['3 m/s','6 m/s','9 m/s','12 m/s'],a:1,
-  x:'Work done W = F·d = 8 × 9 = 72 J = ½mv² = 2v² ⇒ v² = 36 ⇒ <b>v = 6 m/s</b>.'},
- {s:'Physics',t:'mcq',q:'Two point charges of 2 μC and 3 μC are placed 3 cm apart in vacuum. The magnitude of the force between them is (1/4πε₀ = 9 × 10⁹ N m² C⁻²):',o:['0.6 N','6 N','60 N','600 N'],a:2,
-  x:'F = kq₁q₂/r² = (9×10⁹ × 2×10⁻⁶ × 3×10⁻⁶) / (3×10⁻²)² = 5.4×10⁻² / 9×10⁻⁴ = <b>60 N</b>.'},
- {s:'Physics',t:'mcq',q:'Three resistors of 2 Ω, 3 Ω and 6 Ω are connected in parallel. The equivalent resistance is:',o:['0.5 Ω','1 Ω','2 Ω','11 Ω'],a:1,
-  x:'1/R = 1/2 + 1/3 + 1/6 = 3/6 + 2/6 + 1/6 = 1 ⇒ <b>R = 1 Ω</b>.'},
- {s:'Physics',t:'mcq',q:'An object is placed 30 cm in front of a convex lens of focal length 20 cm. The image is formed at a distance of:',o:['12 cm','30 cm','50 cm','60 cm'],a:3,
-  x:'Lens formula 1/v − 1/u = 1/f with u = −30 cm, f = 20 cm: 1/v = 1/20 − 1/30 = 1/60 ⇒ <b>v = 60 cm</b> (real image on the other side).'},
- {s:'Physics',t:'num',q:'A stone is dropped from a height of 80 m. Taking g = 10 m/s², the time taken (in seconds) to reach the ground is ______.',a:4,
-  x:'h = ½gt² ⇒ 80 = 5t² ⇒ t² = 16 ⇒ <b>t = 4 s</b>.'},
- {s:'Physics',t:'num',q:'A wave has a frequency of 50 Hz and a wavelength of 4 m. Its speed (in m/s) is ______.',a:200,
-  x:'v = fλ = 50 × 4 = <b>200 m/s</b>.'},
- {s:'Physics',t:'num',q:'The heat required (in kJ) to raise the temperature of 2 kg of water from 20 °C to 70 °C is ______. (Specific heat of water = 4200 J kg⁻¹ K⁻¹)',a:420,
-  x:'Q = mcΔT = 2 × 4200 × 50 = 4,20,000 J = <b>420 kJ</b>.'},
- // ---------------- CHEMISTRY ----------------
- {s:'Chemistry',t:'mcq',q:'The number of moles in 11 g of CO₂ is (atomic masses: C = 12, O = 16):',o:['0.25','0.5','1','2'],a:0,
-  x:'Molar mass of CO₂ = 44 g/mol, so n = 11 / 44 = <b>0.25 mol</b>.'},
- {s:'Chemistry',t:'mcq',q:'Which of the following elements has the highest electronegativity?',o:['Chlorine','Oxygen','Fluorine','Nitrogen'],a:2,
-  x:'Electronegativity increases across a period and decreases down a group. <b>Fluorine</b> (3.98 on the Pauling scale) is the most electronegative element.'},
- {s:'Chemistry',t:'mcq',q:'The hybridisation of the carbon atoms in ethene (C₂H₄) is:',o:['sp','sp²','sp³','sp³d'],a:1,
-  x:'Each carbon forms three σ bonds (two C–H and one C–C) and one π bond, so it is <b>sp²</b> hybridised.'},
- {s:'Chemistry',t:'mcq',q:'The pH of a 0.001 M aqueous solution of HCl is:',o:['1','2','3','11'],a:2,
-  x:'HCl is a strong acid, so [H⁺] = 10⁻³ M and pH = −log(10⁻³) = <b>3</b>.'},
- {s:'Chemistry',t:'mcq',q:'The oxidation state of manganese in KMnO₄ is:',o:['+2','+4','+6','+7'],a:3,
-  x:'(+1) + x + 4(−2) = 0 ⇒ x = <b>+7</b>.'},
- {s:'Chemistry',t:'mcq',q:'The IUPAC name of CH₃CH₂CH₂OH is:',o:['Propan-2-ol','Propan-1-ol','Propanal','Propanone'],a:1,
-  x:'A three-carbon chain with the –OH group on carbon 1 is named <b>propan-1-ol</b>.'},
- {s:'Chemistry',t:'mcq',q:'Which of the following is a Lewis acid?',o:['NH₃','OH⁻','BF₃','H₂O'],a:2,
-  x:'A Lewis acid accepts an electron pair. <b>BF₃</b> has an incomplete octet on boron and readily accepts a pair; NH₃, OH⁻ and H₂O are electron-pair donors.'},
- {s:'Chemistry',t:'num',q:'The number of moles of water in 180 g of water is ______. (Molar mass of H₂O = 18 g/mol)',a:10,
-  x:'n = 180 / 18 = <b>10 mol</b>.'},
- {s:'Chemistry',t:'num',q:'The total number of σ bonds in a molecule of ethene (C₂H₄) is ______.',a:5,
-  x:'Four C–H σ bonds + one C–C σ bond (the second C–C bond is a π bond) = <b>5</b>.'},
- {s:'Chemistry',t:'num',q:'20 g of NaOH is dissolved in water to make 250 mL of solution. Its molarity (in mol/L) is ______. (Molar mass of NaOH = 40 g/mol)',a:2,
-  x:'n = 20 / 40 = 0.5 mol; V = 0.25 L; M = 0.5 / 0.25 = <b>2 mol/L</b>.'},
- // ---------------- MATHEMATICS ----------------
- {s:'Mathematics',t:'mcq',q:'If α and β are the roots of x² − 5x + 6 = 0, then α² + β² equals:',o:['5','11','13','25'],a:2,
-  x:'α + β = 5 and αβ = 6, so α² + β² = (α + β)² − 2αβ = 25 − 12 = <b>13</b>.'},
- {s:'Mathematics',t:'mcq',q:'The value of ∫<sub>0</sub><sup>π</sup> sin x dx is:',o:['0','1','2','π'],a:2,
-  x:'[−cos x] from 0 to π = −cos π + cos 0 = 1 + 1 = <b>2</b>.'},
- {s:'Mathematics',t:'mcq',q:'Two fair dice are thrown. The probability that the sum of the numbers on them is 7 is:',o:['1/12','1/6','5/36','7/36'],a:1,
-  x:'Favourable outcomes: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6 out of 36, so P = <b>1/6</b>.'},
- {s:'Mathematics',t:'mcq',q:'The 5<sup>th</sup> term of the geometric progression 3, 6, 12, … is:',o:['24','30','48','96'],a:2,
-  x:'a = 3, r = 2. T₅ = ar⁴ = 3 × 16 = <b>48</b>.'},
- {s:'Mathematics',t:'mcq',q:'The distance between the points (1, 2) and (4, 6) is:',o:['√7','5','7','25'],a:1,
-  x:'d = √[(4 − 1)² + (6 − 2)²] = √(9 + 16) = <b>5</b>.'},
- {s:'Mathematics',t:'mcq',q:'The slope of the line 3x − 4y + 8 = 0 is:',o:['−4/3','−3/4','3/4','4/3'],a:2,
-  x:'Rewrite as y = (3/4)x + 2, so the slope is <b>3/4</b>.'},
- {s:'Mathematics',t:'mcq',q:'The value of d/dx (x³ + sin x) at x = 0 is:',o:['0','1','2','3'],a:1,
-  x:'d/dx (x³ + sin x) = 3x² + cos x. At x = 0 this equals 0 + 1 = <b>1</b>.'},
- {s:'Mathematics',t:'num',q:'The sum of the first 20 natural numbers is ______.',a:210,
-  x:'S = n(n + 1)/2 = 20 × 21 / 2 = <b>210</b>.'},
- {s:'Mathematics',t:'num',q:'The number of ways of selecting 2 students from a group of 5 students is ______.',a:10,
-  x:'⁵C₂ = 5! / (2! · 3!) = <b>10</b>.'},
- {s:'Mathematics',t:'num',q:'If <b>a</b> and <b>b</b> are perpendicular vectors with |<b>a</b>| = 3 and |<b>b</b>| = 4, then |<b>a</b> + <b>b</b>|² equals ______.',a:25,
-  x:'|a + b|² = |a|² + |b|² + 2 a·b = 9 + 16 + 0 = <b>25</b>.'}
-],
-adv: [
- // ---------------- PHYSICS ----------------
- {s:'Physics',t:'mcq',q:'A particle moves along a circle of radius 2 m with a constant speed of 4 m/s. The magnitude of its acceleration is:',o:['2 m/s²','4 m/s²','8 m/s²','16 m/s²'],a:2,
-  x:'In uniform circular motion the acceleration is centripetal: a = v²/r = 16/2 = <b>8 m/s²</b>.'},
- {s:'Physics',t:'mcq',q:'Two identical capacitors, each of capacitance C, are connected in series across a battery of emf V. The total energy stored is:',o:['CV²/8','CV²/4','CV²/2','CV²'],a:1,
-  x:'In series C<sub>eq</sub> = C/2, so U = ½ C<sub>eq</sub> V² = ½ (C/2) V² = <b>CV²/4</b>.'},
- {s:'Physics',t:'mcq',q:'A block on a rough inclined plane of angle θ is just on the verge of sliding down. The coefficient of static friction is:',o:['sin θ','cos θ','tan θ','cot θ'],a:2,
-  x:'At the verge of sliding: mg sin θ = μ mg cos θ ⇒ <b>μ = tan θ</b>.'},
- {s:'Physics',t:'multi',q:'An ideal gas expands isothermally. Which of the following statements is/are correct?',o:['Its internal energy remains constant','The heat absorbed equals the work done by the gas','The temperature of the gas increases','The pressure of the gas decreases'],a:[0,1,3],
-  x:'Isothermal ⇒ ΔT = 0 ⇒ ΔU = 0 for an ideal gas (A). From the first law Q = ΔU + W = W (B). The temperature is constant, so (C) is false. PV = constant, so as V increases P decreases (D). Correct: <b>A, B, D</b>.'},
- {s:'Physics',t:'num',q:'A 60 W bulb is used for 5 hours every day for 30 days. The energy consumed (in kWh) is ______.',a:9,
-  x:'E = 0.06 kW × 5 h × 30 = <b>9 kWh</b>.'},
- {s:'Physics',t:'num',q:'Resistors of 4 Ω and 12 Ω are connected in parallel across a 12 V battery. The total current drawn from the battery (in A) is ______.',a:4,
-  x:'I₁ = 12/4 = 3 A and I₂ = 12/12 = 1 A. Total current = <b>4 A</b>.'},
- // ---------------- CHEMISTRY ----------------
- {s:'Chemistry',t:'mcq',q:'The shape of the XeF₄ molecule is:',o:['Tetrahedral','See-saw','Square planar','Octahedral'],a:2,
-  x:'Xe has 4 bond pairs and 2 lone pairs (sp³d², octahedral electron geometry). The two lone pairs sit opposite each other, giving a <b>square planar</b> shape.'},
- {s:'Chemistry',t:'mcq',q:'Among Li, Be, B and C, the element with the highest first ionisation enthalpy is:',o:['Li','Be','B','C'],a:3,
-  x:'Approximate values (kJ mol⁻¹): Li 520 &lt; B 801 &lt; Be 900 &lt; C 1086. Carbon is highest.'},
- {s:'Chemistry',t:'mcq',q:'For a first-order reaction, the half-life is:',o:['Directly proportional to the initial concentration','Independent of the initial concentration','Inversely proportional to the initial concentration','Proportional to the square of the initial concentration'],a:1,
-  x:'For a first-order reaction t<sub>½</sub> = 0.693 / k, and k is a constant. So the half-life is <b>independent of the initial concentration</b>.'},
- {s:'Chemistry',t:'multi',q:'Which of the following oxides are amphoteric?',o:['Al₂O₃','ZnO','Na₂O','CO₂'],a:[0,1],
-  x:'Al₂O₃ and ZnO react with both acids and bases, so they are amphoteric. Na₂O is basic and CO₂ is acidic. Correct: <b>A, B</b>.'},
- {s:'Chemistry',t:'num',q:'The number of unpaired electrons in Fe³⁺ (atomic number of Fe = 26) is ______.',a:5,
-  x:'Fe³⁺ has the configuration [Ar] 3d⁵. By Hund’s rule each of the five d orbitals holds one electron, so there are <b>5</b> unpaired electrons.'},
- {s:'Chemistry',t:'num',q:'The number of lone pairs of electrons on the central atom of XeF₂ is ______.',a:3,
-  x:'Xenon has 8 valence electrons. Two are used to bond with the two F atoms, leaving 6 electrons = <b>3 lone pairs</b> (linear, sp³d).'},
- // ---------------- MATHEMATICS ----------------
- {s:'Mathematics',t:'mcq',q:'lim<sub>x→0</sub> (sin 3x) / x equals:',o:['0','1','3','1/3'],a:2,
-  x:'(sin 3x)/x = 3 · (sin 3x)/(3x) → 3 × 1 = <b>3</b>.'},
- {s:'Mathematics',t:'mcq',q:'The number of real solutions of the equation |x| = x² − 2 is:',o:['1','2','3','4'],a:1,
-  x:'For x ≥ 0: x² − x − 2 = 0 ⇒ (x − 2)(x + 1) = 0 ⇒ x = 2 (x = −1 rejected). For x &lt; 0: x² + x − 2 = 0 ⇒ (x + 2)(x − 1) = 0 ⇒ x = −2 (x = 1 rejected). Two solutions: x = ±2, so the answer is <b>2</b>.'},
- {s:'Mathematics',t:'mcq',q:'The eccentricity of the ellipse x²/25 + y²/9 = 1 is:',o:['3/5','4/5','5/4','1/5'],a:1,
-  x:'a² = 25, b² = 9 ⇒ e = √(1 − b²/a²) = √(16/25) = <b>4/5</b>.'},
- {s:'Mathematics',t:'multi',q:'Which of the following functions are continuous at x = 0?',o:['f(x) = |x|','f(x) = x sin(1/x) for x ≠ 0, and f(0) = 0','f(x) = 1/x for x ≠ 0, and f(0) = 0','f(x) = sin x'],a:[0,1,3],
-  x:'|x| and sin x are continuous everywhere. For x sin(1/x): |x sin(1/x)| ≤ |x| → 0, so the limit equals f(0) = 0. For 1/x the limit does not exist, so it is discontinuous at 0. Correct: <b>A, B, D</b>.'},
- {s:'Mathematics',t:'num',q:'The sum of the infinite series 1 + 1/3 + 1/9 + 1/27 + … is ______. (Enter as a decimal.)',a:1.5,
-  x:'Geometric series with a = 1 and r = 1/3: S = a / (1 − r) = 1 / (2/3) = 3/2 = <b>1.5</b>.'},
- {s:'Mathematics',t:'num',q:'The number of distinct arrangements of the letters of the word LEVEL is ______.',a:30,
-  x:'Five letters with L repeated twice and E repeated twice: 5! / (2! · 2!) = 120 / 4 = <b>30</b>.'}
-]
-};
-
+/* ---------- exam definitions (patterns verified against official sources, Sept 2026) ---------- */
+const SUBT = ['vsa','sa','case','la'];
+const SUBM = {vsa:2, sa:3, case:4, la:5};
+const TL = {mcq:'Multiple Choice',multi:'One or More Correct',num:'Numerical Value',vsa:'Very Short Answer',sa:'Short Answer',case:'Case-Based',la:'Long Answer'};
+const TYPE_ORDER = ['mcq','multi','num','vsa','sa','case','la'];
 const EXAMS = {
-  main:{ key:'main', name:'JEE Main', minutes:60,
-    rules:{ mcq:{c:4,w:-1}, num:{c:4,w:0} },      // change num.w to -1 if your bulletin applies negative marking to numericals
-    sections:{ mcq:'Section A · Multiple Choice (single correct)', num:'Section B · Numerical Value' } },
-  adv:{  key:'adv',  name:'JEE Advanced', minutes:60,
-    rules:{ mcq:{c:3,w:-1}, multi:{full:4,partialPer:1,w:-2}, num:{c:4,w:0} },
-    sections:{ mcq:'Section 1 · Single Correct', multi:'Section 2 · One or More Correct', num:'Section 3 · Numerical Value' } }
+  jm:{name:'JEE Main',code:'M',opt:'num',multi:true,subjects:['Physics','Chemistry','Mathematics'],minutes:180,
+    blurb:'75 questions · 3 hours · Physics, Chemistry, Mathematics',
+    rules:{mcq:{c:4,w:-1},num:{c:4,w:0}},   // set num.w to -1 if your official bulletin applies negative marking to numericals
+    secs:()=>[{sec:'Section A',t:'mcq',n:20},{sec:'Section B',t:'num',n:5}],
+    pattern:'Each subject: Section A – 20 multiple-choice questions; Section B – 5 numerical value questions. 3 hours.'},
+  ja:{name:'JEE Advanced',code:'A',opt:'alpha',multi:true,subjects:['Physics','Chemistry','Mathematics'],minutes:180,
+    blurb:'Single, multiple-correct and numerical · 3 hours',
+    rules:{mcq:{c:3,w:-1},multi:{full:4,partialPer:1,w:-2},num:{c:4,w:0}},
+    secs:()=>[{sec:'Section 1',t:'mcq',n:4},{sec:'Section 2',t:'multi',n:3},{sec:'Section 3',t:'num',n:4}],
+    pattern:'JEE Advanced-style paper (the official pattern changes every year): single correct, one-or-more correct with partial marking, and numerical value. 3 hours.'},
+  neet:{name:'NEET UG',code:'N',opt:'num',multi:true,subjects:['Physics','Chemistry','Biology'],minutes:180,
+    blurb:'180 questions · 3 hours · Physics, Chemistry, Biology',
+    rules:{mcq:{c:4,w:-1}},
+    secs:(s)=>[{sec:'Section A',t:'mcq',n:s==='Biology'?90:45}],
+    pattern:'180 compulsory multiple-choice questions: Physics 45, Chemistry 45, Biology 90. 720 marks, 3 hours.'},
+  cbse:{name:'CBSE Class 12',code:'C',opt:'alpha',multi:false,subjects:['Physics','Chemistry','Mathematics','Biology'],minutes:180,
+    blurb:'Board pattern · objective + written · 3 hours',
+    rules:{mcq:{c:1,w:0}},
+    secs:(s)=> s==='Mathematics'
+      ? [{sec:'Section A',t:'mcq',n:20},{sec:'Section B',t:'vsa',n:5},{sec:'Section C',t:'sa',n:6},{sec:'Section D',t:'la',n:4},{sec:'Section E',t:'case',n:3}]
+      : [{sec:'Section A',t:'mcq',n:16},{sec:'Section B',t:'vsa',n:5},{sec:'Section C',t:'sa',n:7},{sec:'Section D',t:'case',n:2},{sec:'Section E',t:'la',n:3}],
+    pattern:'Science subjects (70 marks): A – 16×1, B – 5×2, C – 7×3, D – 2 case-based×4, E – 3 long answer×5. Mathematics (80 marks): A – 20×1, B – 5×2, C – 6×3, D – 4×5, E – 3 case-based×4. 3 hours.'},
+  isc:{name:'ISC Class 12',code:'I',opt:'alpha',multi:false,subjects:['Physics','Chemistry','Mathematics','Biology'],minutes:180,fullSubjects:['Physics'],
+    blurb:'Board pattern · objective + written · 3 hours',
+    rules:{mcq:{c:1,w:0}},
+    secs:()=>[{sec:'Section A',t:'mcq',n:14},{sec:'Section B',t:'vsa',n:7},{sec:'Section C',t:'sa',n:9},{sec:'Section D',t:'la',n:3}],
+    pattern:'Physics (70 marks): A – 14×1, B – 7×2, C – 9×3, D – 3×5. 3 hours. Full-paper mode is available for Physics; other subjects use custom practice.'}
 };
-
 const STATES = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli and Daman and Diu","Delhi","Jammu and Kashmir","Ladakh","Lakshadweep","Puducherry","Outside India"];
+const LEVELS = [['all','Mixed'],['1','Easy'],['2','Medium'],['3','Hard']];
 
 /* <SCORING> */
-function ruleFor(exam, q){ return exam.rules[q.t]; }
-function marksLabel(exam, q){
-  const r = ruleFor(exam, q);
-  if(q.t==='multi') return {p:'+'+r.full+' (full)', n:String(r.w), extra:'+'+r.partialPer+' per correct option if no wrong option chosen'};
-  return {p:'+'+r.c, n:(r.w===0?'0':String(r.w))};
+function isSub(q){ return SUBT.indexOf(q.t) >= 0; }
+function maxOne(ex,q){ if(isSub(q)) return q.m; const r=ex.rules[q.t]; return q.t==='multi'? r.full : r.c; }
+function secMax(ex,sp){ return (SUBM[sp.t] || maxOne(ex,{t:sp.t})) * sp.n; }
+function paperMarks(ex,subject){
+  const subs = ex.multi ? ex.subjects : [subject || ex.subjects[0]];
+  return subs.reduce((t,s)=>t+ex.secs(s).reduce((u,sp)=>u+secMax(ex,sp),0),0);
 }
-function sameNum(a, b){ return Math.abs(a-b) <= 0.01; }
 function parseNum(v){
   if(v===null||v===undefined) return null;
-  const s = String(v).trim();
+  const s=String(v).trim();
   if(s===''||!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return null;
   return parseFloat(s);
 }
-/* returns {status:'correct'|'incorrect'|'partial'|'unattempted', marks:number} */
-function evaluateOne(exam, q, given){
-  const r = ruleFor(exam, q);
+/* {status: correct|incorrect|partial|unattempted|pending, marks} ; self = marks the student awarded a written answer */
+function evaluateOne(ex,q,given,self){
+  if(isSub(q)){
+    const has = typeof given==='string' && given.trim().length>0;
+    if(!has) return {status:'unattempted',marks:0};
+    if(self===undefined||self===null) return {status:'pending',marks:0};
+    const m = Math.max(0,Math.min(q.m,self));
+    return {status: m===q.m?'correct':(m===0?'incorrect':'partial'), marks:m};
+  }
+  const r = ex.rules[q.t];
   if(q.t==='mcq'){
     if(given===null||given===undefined||given==='') return {status:'unattempted',marks:0};
     return given===q.a ? {status:'correct',marks:r.c} : {status:'incorrect',marks:r.w};
@@ -559,43 +499,76 @@ function evaluateOne(exam, q, given){
   if(q.t==='multi'){
     const g = Array.isArray(given)? given : [];
     if(g.length===0) return {status:'unattempted',marks:0};
-    const wrong = g.some(i=>!q.a.includes(i));
-    if(wrong) return {status:'incorrect',marks:r.w};
+    if(g.some(i=>q.a.indexOf(i)<0)) return {status:'incorrect',marks:r.w};
     if(g.length===q.a.length) return {status:'correct',marks:r.full};
     return {status:'partial',marks:r.partialPer*g.length};
   }
-  // numerical
   const n = parseNum(given);
   if(n===null) return {status:'unattempted',marks:0};
-  return sameNum(n,q.a) ? {status:'correct',marks:r.c} : {status:'incorrect',marks:r.w};
+  return Math.abs(n-q.a)<=0.01 ? {status:'correct',marks:r.c} : {status:'incorrect',marks:r.w};
 }
-function maxMarks(exam, list){
-  return list.reduce((t,q)=>{ const r=ruleFor(exam,q); return t + (q.t==='multi'? r.full : r.c); },0);
-}
-function evaluateAll(exam, list, answers){
-  const rows = list.map((q,i)=>({i, q, given:answers[i], ...evaluateOne(exam,q,answers[i])}));
-  const sum = {score:0,max:maxMarks(exam,list),correct:0,incorrect:0,partial:0,unattempted:0,subjects:{}};
+function evaluateAll(ex,list,answers,self){
+  self = self || {};
+  const rows = list.map((q,i)=>Object.assign({i,q,given:answers[i]}, evaluateOne(ex,q,answers[i],self[i])));
+  const sum = {score:0,max:0,correct:0,incorrect:0,partial:0,unattempted:0,pending:0,subjects:{}};
   rows.forEach(r=>{
-    sum.score += r.marks;
-    sum[r.status]++;
-    const s = sum.subjects[r.q.s] || (sum.subjects[r.q.s]={score:0,max:0,correct:0,incorrect:0,partial:0,unattempted:0});
-    s.score += r.marks; s.max += (r.q.t==='multi'? ruleFor(exam,r.q).full : ruleFor(exam,r.q).c); s[r.status]++;
+    const mx = maxOne(ex,r.q);
+    sum.score += r.marks; sum.max += mx; sum[r.status]++;
+    const s = sum.subjects[r.q.s] || (sum.subjects[r.q.s]={score:0,max:0,correct:0,incorrect:0,partial:0,unattempted:0,pending:0});
+    s.score += r.marks; s.max += mx; s[r.status]++;
   });
   return {rows,sum};
 }
 function statusOf(st){
-  // st: {visited,marked,ans} -> nv | na | an | mk | am
-  const answered = st.has;
   if(!st.visited) return 'nv';
-  if(st.marked && answered) return 'am';
+  if(st.marked && st.has) return 'am';
   if(st.marked) return 'mk';
-  if(answered) return 'an';
+  if(st.has) return 'an';
   return 'na';
+}
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function shuffleQ(q){
+  if(q.t!=='mcq') return q;
+  const perm = q.o.map((_,i)=>i); shuffle(perm);
+  return Object.assign({}, q, {o:perm.map(i=>q.o[i]), a:perm.indexOf(q.a)});
+}
+function passLevel(q,f){ return f.level==='all' || q.lv===+f.level; }
+function passSrc(q,f){ return f.src==='all' || (f.src==='pyq' ? q.src==='pyq' : q.src!=='pyq'); }
+function poolFor(bank,examKey,f){ return bank.filter(q=>q.ex.indexOf(examKey)>=0 && passLevel(q,f) && passSrc(q,f)); }
+function secLabel(sp){ return sp.sec+' · '+TL[sp.t]; }
+/* Build a test. cfg: {mode:'full'|'custom', subjects:[..], chapters:['Subject|Chapter'..], n, level, src} */
+function buildTest(bank,examKey,cfg){
+  const ex = EXAMS[examKey], notes = [], picked = [];
+  const pool = poolFor(bank,examKey,cfg);
+  if(cfg.mode==='full'){
+    cfg.subjects.forEach(s=>{
+      ex.secs(s).forEach(sp=>{
+        const take = shuffle(pool.filter(q=>q.s===s && q.t===sp.t)).slice(0,sp.n);
+        if(take.length<sp.n) notes.push(s+' · '+sp.sec+' ('+TL[sp.t]+'): '+take.length+' of '+sp.n+' questions available');
+        take.forEach(q=>picked.push(Object.assign({},q,{sec:secLabel(sp)})));
+      });
+    });
+  } else {
+    const groups = cfg.chapters.map(k=>{ const p=k.split('|'); return shuffle(pool.filter(q=>q.s===p[0]&&q.ch===p[1])); }).filter(g=>g.length);
+    let i = 0, guard = 0;
+    while(picked.length<cfg.n && groups.some(g=>g.length) && guard++<100000){
+      const g = groups[i%groups.length]; i++;
+      if(g.length){ const q=g.pop(); picked.push(Object.assign({},q,{sec:TL[q.t]+(isSub(q)?' ('+q.m+' marks)':'')})); }
+    }
+    picked.sort((a,b)=> ex.subjects.indexOf(a.s)-ex.subjects.indexOf(b.s) || TYPE_ORDER.indexOf(a.t)-TYPE_ORDER.indexOf(b.t) || a.ch.localeCompare(b.ch));
+    if(picked.length<cfg.n) notes.push('Only '+picked.length+' of the '+cfg.n+' questions you asked for are available for these filters');
+  }
+  return {list:picked.map(shuffleQ), notes};
+}
+function testMinutes(examKey,list,subject){
+  const ex = EXAMS[examKey];
+  const mx = list.reduce((t,q)=>t+maxOne(ex,q),0);
+  return Math.max(5, Math.min(ex.minutes, Math.round(ex.minutes*mx/paperMarks(ex,subject))));
 }
 /* </SCORING> */
 
-/* ---------- small helpers ---------- */
-const $ = (id)=>document.getElementById(id);
+/* ---------- helpers ---------- */
+const $ = id=>document.getElementById(id);
 const LS = {get(k,d){try{const v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}},
             set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
             del(k){try{localStorage.removeItem(k)}catch(e){}}};
@@ -604,425 +577,455 @@ function pad(n){ return String(n).padStart(2,'0'); }
 function fmtTime(sec){ sec=Math.max(0,Math.floor(sec)); return pad(Math.floor(sec/3600))+':'+pad(Math.floor(sec%3600/60))+':'+pad(sec%60); }
 function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
-const SCREENS = ['home','reg','instr','exam','result','review'];
-function show(name){ SCREENS.forEach(s=>$('screen-'+s).classList.toggle('hidden',s!==name)); window.scrollTo(0,0); }
+const SCREENS = ['home','reg','setup','instr','exam','result','review'];
+function show(name){ SCREENS.forEach(s=>$('screen-'+s).classList.toggle('hidden',s!==name)); document.body.classList.toggle('exam-on',name==='exam'); window.scrollTo(0,0); }
 const API_ON = API_URL && !/PASTE_YOUR/.test(API_URL);
-
-/* ---------- backend calls (Google Apps Script) ---------- */
 async function api(payload){
   if(!API_ON) return {ok:false,demo:true};
-  try{
-    const res = await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});
-    return await res.json();
-  }catch(e){ return {ok:false,error:String(e)}; }
+  try{ const res = await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)}); return await res.json(); }
+  catch(e){ return {ok:false,error:String(e)}; }
 }
-function fireAndForget(payload){ api(payload).catch(()=>{}); }
+function fireAndForget(p){ api(p).catch(()=>{}); }
 
-/* ---------- state ---------- */
-let S = null;   // active test session
-function QL(){ return S.list || BANK[S.exam]; }   // this attempt's question list (options shuffled once per attempt)
-function shuffleQ(q){
-  if(q.t!=='mcq') return q;                       // multi-correct keeps its printed order (solutions refer to A, B, C, D)
-  const perm = q.o.map((_,i)=>i);
-  for(let i=perm.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [perm[i],perm[j]]=[perm[j],perm[i]]; }
-  return Object.assign({}, q, {o:perm.map(i=>q.o[i]), a:perm.indexOf(q.a)});
-}
-const visitorId = (()=>{ let v = LS.get('avx_vid',null); if(!v){ v=uid(); LS.set('avx_vid',v);} return v; })();
-
-/* visit tracking: once per browser session */
-(function trackVisit(){
-  try{
-    if(sessionStorage.getItem('avx_visit_sent')) return;
-    sessionStorage.setItem('avx_visit_sent','1');
-  }catch(e){}
-  fireAndForget({action:'visit',visitorId,ua:navigator.userAgent.slice(0,120)});
-})();
+let S = null, RESULT = null;
+const visitorId = (()=>{ let v=LS.get('avx_vid',null); if(!v){ v=uid(); LS.set('avx_vid',v);} return v; })();
+(function(){ try{ if(sessionStorage.getItem('avx_visit_sent')) return; sessionStorage.setItem('avx_visit_sent','1'); }catch(e){}
+  fireAndForget({action:'visit',visitorId,ua:navigator.userAgent.slice(0,120)}); })();
+function optLetter(k){ return (S && EXAMS[S.exam].opt==='alpha') ? '('+'ABCD'[k]+')' : '('+(k+1)+')'; }
 
 /* ---------- HOME ---------- */
-document.querySelectorAll('.examcard').forEach(b=>b.addEventListener('click',()=>openReg(b.dataset.exam)));
+function renderHome(){
+  $('examGrid').innerHTML = Object.keys(EXAMS).map(k=>{
+    const ex = EXAMS[k], n = QB.filter(q=>q.ex.indexOf(k)>=0).length;
+    return `<button class="examcard" data-exam="${k}"><div class="tagline">${k==='cbse'||k==='isc'?'Board exam':'Entrance exam'}</div><h3>${ex.name}</h3><p>${ex.blurb}</p><ul><li>${n} questions in the bank</li><li>Chapter-wise or full-paper tests</li></ul><span class="go">Select →</span></button>`;
+  }).join('');
+  $('examGrid').querySelectorAll('.examcard').forEach(b=>b.addEventListener('click',()=>openReg(b.dataset.exam)));
+}
 function checkResume(){
-  const saved = LS.get('avx_session',null);
-  const box = $('resumeBox');
-  if(saved && !saved.done && saved.endAt > Date.now()){
+  const saved = LS.get('avx_session',null), box = $('resumeBox');
+  if(saved && !saved.done && saved.endAt>Date.now() && EXAMS[saved.exam]){
     box.classList.remove('hidden');
-    box.innerHTML = 'You have a test in progress ('+esc(EXAMS[saved.exam].name)+', roll no. <b>'+esc(saved.cand.roll)+'</b>). '
-      +'<button class="btn" id="resumeBtn" style="padding:6px 14px;min-height:34px;margin-left:8px">Resume test</button> '
-      +'<button class="btn light" id="discardBtn" style="padding:6px 14px;min-height:34px">Discard</button>';
+    box.innerHTML = 'You have a test in progress ('+esc(EXAMS[saved.exam].name)+', roll no. <b>'+esc(saved.cand.roll)+'</b>). <button class="btn" id="resumeBtn" style="padding:6px 14px;min-height:34px;margin-left:8px">Resume test</button> <button class="btn light" id="discardBtn" style="padding:6px 14px;min-height:34px">Discard</button>';
     $('resumeBtn').onclick = ()=>{ S=saved; startExam(true); };
     $('discardBtn').onclick = ()=>{ LS.del('avx_session'); box.classList.add('hidden'); };
-  } else {
-    if(saved && !saved.done) LS.del('avx_session');
-    box.classList.add('hidden');
-  }
-  retryPending();
-}
-async function retryPending(){
+  } else { if(saved && !saved.done) LS.del('avx_session'); box.classList.add('hidden'); }
   const p = LS.get('avx_pending',null);
-  if(!p || !API_ON) return;
-  const r = await api(p);
-  if(r && r.ok){ LS.del('avx_pending'); }
+  if(p && API_ON) api(p).then(r=>{ if(r&&r.ok) LS.del('avx_pending'); });
 }
 
 /* ---------- REGISTER ---------- */
-let pendingExam = null, pendingRoll = null;
+let pendingExam=null, pendingRoll=null;
 STATES.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; $('f_state').appendChild(o); });
-function makeRoll(examKey){
-  const yy = String(new Date().getFullYear()).slice(2);
-  const rnd = String(Math.floor(Math.random()*900000)+100000);
-  return 'AVX'+yy+(examKey==='main'?'M':'A')+'-'+rnd;
-}
-function openReg(examKey){
-  pendingExam = examKey;
-  pendingRoll = makeRoll(examKey);
-  $('regTitle').innerHTML = esc(EXAMS[examKey].name)+'<small>Candidate details</small>';
-  $('f_roll').value = pendingRoll;
-  $('f_dob').max = new Date().toISOString().slice(0,10);
-  ['e_name','e_dob','e_state'].forEach(i=>$(i).textContent='');
-  show('reg');
+function openReg(k){
+  pendingExam = k;
+  pendingRoll = 'AVX'+String(new Date().getFullYear()).slice(2)+EXAMS[k].code+'-'+String(Math.floor(Math.random()*900000)+100000);
+  $('regTitle').innerHTML = esc(EXAMS[k].name)+'<small>Candidate details</small>';
+  $('f_roll').value = pendingRoll; $('f_dob').max = new Date().toISOString().slice(0,10);
+  ['e_name','e_dob','e_state'].forEach(i=>$(i).textContent=''); show('reg');
 }
 $('regBack').onclick = ()=>show('home');
-$('regForm').addEventListener('submit',(e)=>{
+$('regForm').addEventListener('submit',e=>{
   e.preventDefault();
-  const name = $('f_name').value.trim().replace(/\s+/g,' ');
-  const dob = $('f_dob').value, state = $('f_state').value;
-  let ok = true;
-  $('e_name').textContent = $('e_dob').textContent = $('e_state').textContent = '';
+  const name = $('f_name').value.trim().replace(/\s+/g,' '), dob = $('f_dob').value, state = $('f_state').value;
+  let ok = true; $('e_name').textContent=$('e_dob').textContent=$('e_state').textContent='';
   if(name.length<2 || !/^[A-Za-z][A-Za-z .'-]*$/.test(name)){ $('e_name').textContent='Please enter your full name (letters only).'; ok=false; }
   const today = new Date().toISOString().slice(0,10);
   if(!dob || dob>=today || dob<'1950-01-01'){ $('e_dob').textContent='Please enter a valid date of birth.'; ok=false; }
   if(!state){ $('e_state').textContent='Please select your state.'; ok=false; }
   if(!ok) return;
-  S = { exam:pendingExam, cand:{name,dob,state,roll:pendingRoll}, attemptId:pendingRoll, answers:[], st:[], cur:0, subj:null, startedAt:null, endAt:null, done:false };
-  showInstructions();
+  S = {exam:pendingExam, cand:{name,dob,state,roll:pendingRoll}, attemptId:pendingRoll, done:false};
+  openSetup();
 });
+
+/* ---------- SETUP ---------- */
+let SET = null;
+function openSetup(){
+  const ex = EXAMS[S.exam];
+  SET = {mode:'full', subjects: ex.multi ? ex.subjects.slice() : [ex.subjects[0]], chapters:new Set(), n:10, level:'all', src:'all'};
+  if(!ex.multi && ex.fullSubjects && ex.fullSubjects.indexOf(SET.subjects[0])<0) SET.mode='custom';
+  $('setupTitle').innerHTML = esc(ex.name)+'<small>Build your test</small>';
+  renderSetup(); show('setup');
+}
+function fullAllowed(){ const ex=EXAMS[S.exam]; return ex.multi || !ex.fullSubjects || ex.fullSubjects.indexOf(SET.subjects[0])>=0; }
+function chapterTable(){
+  const ex = EXAMS[S.exam], f = {level:SET.level, src:SET.src}, out = [];
+  ex.subjects.forEach(s=>{
+    const chs = {};
+    QB.filter(q=>q.ex.indexOf(S.exam)>=0 && q.s===s).forEach(q=>{ chs[q.ch] = chs[q.ch] || {total:0,avail:0}; chs[q.ch].total++; if(passLevel(q,f)&&passSrc(q,f)) chs[q.ch].avail++; });
+    Object.keys(chs).sort().forEach(c=>out.push({s,ch:c,key:s+'|'+c,total:chs[c].total,avail:chs[c].avail}));
+  });
+  return out;
+}
+function renderSetup(){
+  const ex = EXAMS[S.exam], f = {level:SET.level, src:SET.src};
+  if(SET.mode==='full' && !fullAllowed()) SET.mode='custom';
+  // mode
+  $('modeSeg').querySelectorAll('button').forEach(b=>{ b.classList.toggle('on',b.dataset.m===SET.mode); if(b.dataset.m==='full') b.disabled = !fullAllowed(); });
+  $('modeHint').textContent = SET.mode==='full' ? ex.pattern : 'Pick subjects, chapters, number of questions and level yourself.';
+  // subjects
+  const single = !ex.multi || false;
+  $('subjLbl').textContent = ex.multi ? (SET.mode==='full'?'Subjects (all included in a full paper)':'Subjects') : 'Subject';
+  $('subjSet').innerHTML = ex.subjects.map(s=>`<button type="button" class="tg${SET.subjects.indexOf(s)>=0?' on':''}" data-s="${s}"${ex.multi&&SET.mode==='full'?' disabled':''}>${s}</button>`).join('');
+  $('subjSet').querySelectorAll('.tg').forEach(b=>b.onclick=()=>{
+    const s=b.dataset.s;
+    if(!ex.multi){ SET.subjects=[s]; SET.chapters=new Set(); }
+    else { const i=SET.subjects.indexOf(s); if(i>=0 && SET.subjects.length>1) SET.subjects.splice(i,1); else if(i<0) SET.subjects.push(s); SET.chapters = new Set([...SET.chapters].filter(k=>SET.subjects.indexOf(k.split('|')[0])>=0)); }
+    renderSetup();
+  });
+  // level + source
+  $('lvSet').innerHTML = LEVELS.map(l=>`<button type="button" class="tg${SET.level===l[0]?' on':''}" data-l="${l[0]}">${l[1]}</button>`).join('');
+  $('lvSet').querySelectorAll('.tg').forEach(b=>b.onclick=()=>{ SET.level=b.dataset.l; renderSetup(); });
+  const nPyq = QB.filter(q=>q.ex.indexOf(S.exam)>=0 && q.src==='pyq').length;
+  $('srcSet').innerHTML = [['all','All questions'],['pyq','Previous year only ('+nPyq+')'],['practice','Practice only']].map(l=>`<button type="button" class="tg${SET.src===l[0]?' on':''}" data-r="${l[0]}">${l[1]}</button>`).join('');
+  $('srcSet').querySelectorAll('.tg').forEach(b=>b.onclick=()=>{ SET.src=b.dataset.r; renderSetup(); });
+  $('srcHint').textContent = nPyq===0 ? 'No previous-year questions have been added to the bank yet. They appear here as soon as they are added.' : '';
+  // chapters / count (custom only)
+  $('chapGrp').classList.toggle('hidden',SET.mode!=='custom');
+  $('countGrp').classList.toggle('hidden',SET.mode!=='custom');
+  const tbl = chapterTable().filter(c=>SET.subjects.indexOf(c.s)>=0);
+  if(SET.mode==='custom'){
+    let html='', last='';
+    tbl.forEach(c=>{
+      if(c.s!==last){ html += `<div class="subh">${c.s}</div><div class="chapgrid">`.replace(/^/, last?'</div>':''); last=c.s; }
+      const on = SET.chapters.has(c.key), off = c.avail===0;
+      html += `<label class="chap${on?' on':''}${off?' off':''}"><input type="checkbox" data-k="${esc(c.key)}"${on?' checked':''}${off?' disabled':''}><span>${esc(c.ch)}</span><span class="cnt">${c.avail} question${c.avail===1?'':'s'}</span></label>`;
+    });
+    $('chapBox').innerHTML = html + (last?'</div>':'');
+    $('chapBox').querySelectorAll('input').forEach(i=>i.onchange=()=>{ i.checked ? SET.chapters.add(i.dataset.k) : SET.chapters.delete(i.dataset.k); renderSetup(); });
+    $('chAll').onclick = ()=>{ tbl.forEach(c=>{ if(c.avail) SET.chapters.add(c.key); }); renderSetup(); };
+    $('chNone').onclick = ()=>{ SET.chapters.clear(); renderSetup(); };
+  }
+  // preview of what will be built
+  const cfg = currentCfg();
+  const availCustom = QB.filter(q=>q.ex.indexOf(S.exam)>=0 && passLevel(q,f) && passSrc(q,f) && SET.chapters.has(q.s+'|'+q.ch)).length;
+  if(SET.mode==='custom'){
+    const want = Math.max(1, parseInt($('qCount').value,10)||1);
+    $('qAvail').textContent = SET.chapters.size ? 'Available for your selection: '+availCustom+' question'+(availCustom===1?'':'s')+(want>availCustom?' (you asked for '+want+', the test will contain '+availCustom+')':'') : 'Select at least one chapter.';
+    $('qQuick').innerHTML = [10,25,50,75].map(n=>`<button type="button" class="tg" data-n="${n}">${n}</button>`).join('')+`<button type="button" class="tg" data-n="max">Max</button>`;
+    $('qQuick').querySelectorAll('.tg').forEach(b=>b.onclick=()=>{ $('qCount').value = b.dataset.n==='max' ? Math.max(1,availCustom) : b.dataset.n; renderSetup(); });
+  }
+  const built = buildPreview(cfg);
+  const mins = built.list.length ? testMinutes(S.exam,built.list,SET.subjects[0]) : 0;
+  const mx = built.list.reduce((t,q)=>t+maxOne(ex,q),0);
+  $('sumBox').innerHTML = built.list.length
+    ? `<b>${built.list.length}</b> question${built.list.length===1?'':'s'} · <b>${mx}</b> marks · <b>${mins}</b> minutes`
+    : 'No questions match your selection yet.';
+  $('setWarn').innerHTML = built.notes.map(n=>`<div class="warn">${esc(n)}</div>`).join('') + (SET.mode==='full' && built.notes.length ? '<div class="infoline">The question bank is still growing. Your full paper is shortened until enough questions are added, and the time is reduced in proportion.</div>' : '');
+  $('setGo').disabled = built.list.length===0;
+}
+function currentCfg(){
+  const ex = EXAMS[S.exam];
+  return {mode:SET.mode, subjects: (SET.mode==='full' && ex.multi) ? ex.subjects.slice() : SET.subjects.slice(), chapters:[...SET.chapters],
+          n: Math.max(1,parseInt($('qCount').value,10)||1), level:SET.level, src:SET.src};
+}
+function buildPreview(cfg){
+  // counts only (no shuffling needed for the summary), same rules as the real builder
+  const r = buildTest(QB,S.exam,cfg); return r;
+}
+$('modeSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>{ if(!b.disabled){ SET.mode=b.dataset.m; renderSetup(); } });
+$('qCount').addEventListener('input',()=>renderSetup());
+$('setBack').onclick = ()=>show('reg');
+$('setGo').onclick = ()=>{
+  const cfg = currentCfg(), r = buildTest(QB,S.exam,cfg);
+  if(!r.list.length) return;
+  S.mode=cfg.mode; S.subjects=cfg.subjects; S.chapters=cfg.chapters; S.level=cfg.level; S.src=cfg.src;
+  S.list=r.list; S.notes=r.notes;
+  S.minutes = testMinutes(S.exam,r.list,cfg.subjects[0]);
+  showInstructions();
+};
 
 /* ---------- INSTRUCTIONS ---------- */
 function showInstructions(){
-  const ex = EXAMS[S.exam], list = BANK[S.exam];
-  const mx = maxMarks(ex,list);
-  const rows = Object.keys(ex.rules).map(t=>{
+  const ex = EXAMS[S.exam], list = S.list;
+  const mx = list.reduce((t,q)=>t+maxOne(ex,q),0);
+  const types = TYPE_ORDER.filter(t=>list.some(q=>q.t===t));
+  const rows = types.map(t=>{
+    if(SUBT.indexOf(t)>=0) return `<tr><td>${TL[t]}</td><td>${SUBM[t]}</td><td>Awarded by you against the marking scheme after submission</td><td>No negative marking</td></tr>`;
     const r = ex.rules[t];
-    const name = {mcq:'Single correct',multi:'One or more correct',num:'Numerical value'}[t];
-    if(t==='multi') return `<tr><td>${name}</td><td>+${r.full}</td><td>+${r.partialPer} for each correct option chosen, only if no wrong option is chosen</td><td>${r.w} if any wrong option is chosen</td></tr>`;
-    return `<tr><td>${name}</td><td>+${r.c}</td><td>—</td><td>${r.w===0?'No negative marking':r.w}</td></tr>`;
+    if(t==='multi') return `<tr><td>${TL[t]}</td><td>+${r.full}</td><td>+${r.partialPer} for each correct option chosen, if no wrong option is chosen</td><td>${r.w} if any wrong option is chosen</td></tr>`;
+    return `<tr><td>${TL[t]}</td><td>+${r.c}</td><td>—</td><td>${r.w===0?'No negative marking':r.w}</td></tr>`;
   }).join('');
+  const hasSub = list.some(isSub);
   $('instrTitle').innerHTML = esc(ex.name)+'<small>Please read carefully</small>';
   $('instrBody').innerHTML = `
     <p><b>Candidate:</b> ${esc(S.cand.name)} &nbsp;·&nbsp; <b>Roll no.:</b> ${esc(S.cand.roll)}</p>
-    <ul class="stat"><li>${list.length} questions</li><li>${ex.minutes} minutes</li><li>Maximum marks: ${mx}</li></ul>
+    <ul class="stat"><li>${S.mode==='full'?'Full paper':'Custom practice'}</li><li>${list.length} questions</li><li>${S.minutes} minutes</li><li>Maximum marks: ${mx}</li></ul>
+    ${S.mode==='custom' ? '<p style="margin:6px 0;font-size:14px"><b>Chapters:</b> '+esc(S.chapters.map(k=>k.replace('|',' – ')).join('; '))+'</p>' : ''}
+    ${S.notes.map(n=>'<div class="warn">'+esc(n)+'</div>').join('')}
     <h3>General</h3>
     <ol>
-      <li>The clock at the top of the screen shows the time left. The test is submitted automatically when it reaches zero.</li>
-      <li>Use the tabs to move between Physics, Chemistry and Mathematics, and the question palette to jump to any question.</li>
-      <li>Your selected answer is kept automatically. Use <b>Save &amp; Next</b> to move ahead, <b>Mark for Review &amp; Next</b> to flag a question, and <b>Clear Response</b> to remove your answer.</li>
+      <li>The clock shows the time left. The test is submitted automatically when it reaches zero.</li>
+      <li>Use the tabs and the question palette to move between ${S.tabMode==='x'?'':'sections and '}questions.</li>
+      <li>Your selected or typed answer is kept automatically. <b>Save &amp; Next</b> moves ahead, <b>Mark for Review &amp; Next</b> flags a question, <b>Clear Response</b> removes your answer.</li>
       <li>A question that is <b>Answered &amp; Marked for Review</b> is evaluated. A question marked without an answer is not.</li>
-      <li>Do not close or refresh the page unnecessarily. If you do, you can resume from the home page while time remains.</li>
+      ${hasSub ? '<li>For written answers, type your answer. After submitting you will see the model answer and the marking scheme, and you award yourself marks honestly.</li>' : ''}
+      <li>If you refresh the page, you can resume from the home page while time remains.</li>
     </ol>
     <h3>Question palette</h3>
-    <div class="legend">
-      <div><span class="shape s-nv">1</span>Not visited</div>
-      <div><span class="shape s-na">2</span>Not answered</div>
-      <div><span class="shape s-an">3</span>Answered</div>
-      <div><span class="shape s-mk">4</span>Marked for review</div>
-      <div><span class="shape s-am">5</span>Answered &amp; marked for review</div>
-    </div>
-    <h3>Marking scheme (as configured on this platform)</h3>
-    <div class="wrapx" style="max-height:none"><table class="mk"><tr><th>Question type</th><th>Correct</th><th>Partial</th><th>Incorrect</th></tr>${rows}</table></div>
+    <div class="legend"><div><span class="shape s-nv">1</span>Not visited</div><div><span class="shape s-na">2</span>Not answered</div><div><span class="shape s-an">3</span>Answered</div><div><span class="shape s-mk">4</span>Marked for review</div><div><span class="shape s-am">5</span>Answered &amp; marked for review</div></div>
+    <h3>Marking scheme</h3>
+    <div class="wrapx" style="max-height:none"><table class="mk"><tr><th>Question type</th><th>Marks</th><th>Partial</th><th>Incorrect</th></tr>${rows}</table></div>
     <p style="font-size:13px;color:var(--muted)">Unattempted questions carry no marks. Numerical answers are accepted within ±0.01.</p>
     <div class="decl"><input type="checkbox" id="declChk"><label for="declChk">I have read and understood the instructions. I agree that my name, date of birth, state and test result may be stored by Averoxa Technologies for showing my result and for platform statistics.</label></div>
     <p class="err" id="declErr" role="alert" style="color:var(--bad);font-weight:600;margin:0 0 10px;min-height:1.2em"></p>
     <div class="row"><button class="btn light" id="instrBack">← Back</button><button class="btn green" id="instrGo">I am ready to begin →</button></div>`;
-  $('declChk').onchange = (e)=>{ if(e.target.checked) $('declErr').textContent=''; };
-  $('instrBack').onclick = ()=>show('reg');
+  $('declChk').onchange = e=>{ if(e.target.checked) $('declErr').textContent=''; };
+  $('instrBack').onclick = ()=>show('setup');
   $('instrGo').onclick = ()=>{
     if(!$('declChk').checked){
       $('declErr').textContent = 'Please tick the box above ("I have read and understood the instructions") to start the test.';
-      $('declChk').closest('.decl').scrollIntoView({behavior:'smooth',block:'center'});
-      return;
+      $('declChk').closest('.decl').scrollIntoView({behavior:'smooth',block:'center'}); return;
     }
     beginTest();
   };
   show('instr');
 }
 function beginTest(){
-  const ex = EXAMS[S.exam];
-  S.list = BANK[S.exam].map(shuffleQ);
   const list = S.list;
   S.answers = list.map(q=> q.t==='multi'? [] : null);
   S.st = list.map(()=>({visited:false,marked:false}));
-  S.cur = 0; S.subj = list[0].s;
-  S.startedAt = Date.now();
-  S.endAt = S.startedAt + ex.minutes*60000;
-  S.done = false;
+  S.self = {}; S.rb = {};
+  S.tabMode = new Set(list.map(q=>q.s)).size>1 ? 'subject' : 'sec';
+  S.cur = 0; S.startedAt = Date.now(); S.endAt = S.startedAt + S.minutes*60000; S.done = false;
   fireAndForget({action:'start',visitorId,roll:S.cand.roll,exam:S.exam,state:S.cand.state});
   startExam(false);
 }
 
 /* ---------- EXAM ---------- */
 let tick = null;
+function tabOf(q){ return S.tabMode==='subject' ? q.s : q.sec; }
 function hasAns(i){
-  const q = QL()[i], a = S.answers[i];
+  const q = S.list[i], a = S.answers[i];
   if(q.t==='multi') return Array.isArray(a) && a.length>0;
   if(q.t==='num') return parseNum(a)!==null;
+  if(isSub(q)) return typeof a==='string' && a.trim().length>0;
   return a!==null && a!==undefined;
 }
 function persist(){ LS.set('avx_session',S); }
 function startExam(resumed){
-  const ex = EXAMS[S.exam], list = QL();
-  $('exTitle').textContent = ex.name+' · Practice Test';
+  const ex = EXAMS[S.exam], list = S.list;
+  $('exTitle').textContent = ex.name+' · '+(S.mode==='full'?'Full Paper':'Practice Test');
   $('exSub').textContent = 'Roll no. '+S.cand.roll;
-  $('candName').textContent = S.cand.name; $('candRoll').textContent = 'Roll: '+S.cand.roll;
+  $('candName').textContent = $('palName').textContent = S.cand.name;
+  $('candRoll').textContent = $('palRoll').textContent = 'Roll: '+S.cand.roll;
   $('candAv').textContent = $('palAv').textContent = S.cand.name.charAt(0).toUpperCase();
-  $('palName').textContent = S.cand.name; $('palRoll').textContent = 'Roll: '+S.cand.roll;
-  const subs = [...new Set(list.map(q=>q.s))];
+  const tabs = [...new Set(list.map(tabOf))];
   $('tabs').innerHTML = '';
-  subs.forEach(sn=>{
-    const b = document.createElement('button'); b.textContent = sn; b.setAttribute('role','tab');
-    b.onclick = ()=>{ const first = list.findIndex(q=>q.s===sn); goTo(first); };
-    $('tabs').appendChild(b);
-  });
+  tabs.forEach(t=>{ const b=document.createElement('button'); b.textContent=t; b.setAttribute('role','tab'); b.onclick=()=>goTo(list.findIndex(q=>tabOf(q)===t)); $('tabs').appendChild(b); });
   show('exam');
   window.onbeforeunload = ()=> (S && !S.done) ? 'Your test is in progress.' : undefined;
-  goTo(S.cur, true);
-  clearInterval(tick);
-  tick = setInterval(updateTimer, 500); updateTimer();
+  goTo(S.cur);
+  clearInterval(tick); tick = setInterval(updateTimer,500); updateTimer();
   if(resumed) toast('Test resumed');
 }
 function updateTimer(){
-  if(!S || S.done) return;
-  const left = (S.endAt - Date.now())/1000;
-  $('timer').textContent = fmtTime(left);
-  $('timer').classList.toggle('low', left<=300);
-  if(left<=0){ finish(true); }
+  if(!S||S.done) return;
+  const left = (S.endAt-Date.now())/1000;
+  $('timer').textContent = fmtTime(left); $('timer').classList.toggle('low',left<=300);
+  if(left<=0) finish(true);
 }
-function goTo(i, silent){
-  const list = QL();
-  i = Math.max(0,Math.min(list.length-1,i));
-  S.cur = i; S.subj = list[i].s;
-  S.st[i].visited = true;
-  render();
-  persist();
+function goTo(i){ i=Math.max(0,Math.min(S.list.length-1,i)); S.cur=i; S.st[i].visited=true; render(); persist(); }
+function marksLabel(q){
+  const ex = EXAMS[S.exam];
+  if(isSub(q)) return 'Marks: <b class="p">'+q.m+'</b> · written answer';
+  const r = ex.rules[q.t];
+  if(q.t==='multi') return 'Marks: <b class="p">+'+r.full+' (full)</b> · Negative: <b class="n">'+r.w+'</b>';
+  return 'Marks: <b class="p">+'+r.c+'</b> · Negative: <b class="n">'+(r.w===0?'0':r.w)+'</b>';
 }
 function render(){
-  const ex = EXAMS[S.exam], list = QL(), q = list[S.cur];
-  // tabs
-  [...$('tabs').children].forEach(b=>b.classList.toggle('on', b.textContent===S.subj));
-  // header
+  const list = S.list, q = list[S.cur], curTab = tabOf(q);
+  [...$('tabs').children].forEach(b=>b.classList.toggle('on',b.textContent===curTab));
   $('qNum').textContent = 'Question '+(S.cur+1)+' of '+list.length;
-  const ml = marksLabel(ex,q);
-  $('qMk').innerHTML = 'Marks: <b class="p">'+ml.p+'</b> · Negative: <b class="n">'+esc(ml.n)+'</b>';
-  $('qSec').textContent = S.subj+' — '+ex.sections[q.t];
-  // body
+  $('qMk').innerHTML = marksLabel(q);
+  $('qSec').textContent = q.s+' — '+q.sec+(q.src==='pyq'?' · Previous year'+(q.yr?' '+q.yr:''):'');
   let html = '<p class="qtext">'+q.q+'</p>';
-  if(q.t==='mcq' || q.t==='multi'){
-    const type = q.t==='mcq' ? 'radio' : 'checkbox';
-    html += '<div class="opts" role="'+(q.t==='mcq'?'radiogroup':'group')+'">';
+  if(q.t==='mcq'||q.t==='multi'){
+    const type = q.t==='mcq'?'radio':'checkbox';
+    html += '<div class="opts">';
     q.o.forEach((o,k)=>{
-      const sel = q.t==='mcq' ? S.answers[S.cur]===k : (S.answers[S.cur]||[]).includes(k);
+      const sel = q.t==='mcq' ? S.answers[S.cur]===k : (S.answers[S.cur]||[]).indexOf(k)>=0;
       html += '<label class="opt'+(sel?' sel':'')+'"><input type="'+type+'" name="opt" value="'+k+'"'+(sel?' checked':'')+'><span class="k">'+optLetter(k)+'</span><span>'+o+'</span></label>';
     });
     html += '</div>';
-    if(q.t==='multi') html += '<p style="font-size:13px;color:var(--muted);margin-top:10px">One or more options may be correct. Choosing any incorrect option gives negative marks.</p>';
-  } else {
-    const v = S.answers[S.cur]===null? '' : S.answers[S.cur];
+    if(q.t==='multi') html += '<p class="hintline">One or more options may be correct. Choosing any incorrect option gives negative marks.</p>';
+  } else if(q.t==='num'){
+    const v = S.answers[S.cur]===null ? '' : S.answers[S.cur];
     html += '<div class="numin"><input id="numAns" inputmode="decimal" autocomplete="off" placeholder="Type your answer" value="'+esc(v)+'"><div class="hint">Enter a number (decimals allowed).</div></div>';
+  } else {
+    html += '<textarea class="subans" id="subAns" placeholder="Write your answer here…">'+esc(S.answers[S.cur]||'')+'</textarea><div class="hintline">After you submit, you will see the model answer and the marking scheme, and you can award yourself marks.</div>';
   }
-  $('qBody').innerHTML = html;
-  $('qBody').scrollTop = 0;
-  // handlers
-  $('qBody').querySelectorAll('input[name=opt]').forEach(inp=>{
-    inp.addEventListener('change',()=>{
-      const k = +inp.value;
-      if(q.t==='mcq') S.answers[S.cur] = k;
-      else {
-        const set = new Set(S.answers[S.cur]||[]);
-        inp.checked ? set.add(k) : set.delete(k);
-        S.answers[S.cur] = [...set].sort();
-      }
-      $('qBody').querySelectorAll('.opt').forEach((lab,idx)=>{
-        const on = q.t==='mcq' ? S.answers[S.cur]===idx : (S.answers[S.cur]||[]).includes(idx);
-        lab.classList.toggle('sel',on);
-      });
-      renderPalette(); persist();
-    });
-  });
-  const ni = $('numAns');
-  if(ni){ ni.addEventListener('input',()=>{
-      ni.value = ni.value.replace(/[^0-9.\-]/g,'');
-      S.answers[S.cur] = ni.value===''? null : ni.value;
-      renderPalette(); persist();
-    }); }
+  $('qBody').innerHTML = html; $('qBody').scrollTop = 0;
+  $('qBody').querySelectorAll('input[name=opt]').forEach(inp=>inp.addEventListener('change',()=>{
+    const k = +inp.value;
+    if(q.t==='mcq') S.answers[S.cur]=k;
+    else { const set=new Set(S.answers[S.cur]||[]); inp.checked?set.add(k):set.delete(k); S.answers[S.cur]=[...set].sort(); }
+    $('qBody').querySelectorAll('.opt').forEach((lab,idx)=>lab.classList.toggle('sel', q.t==='mcq'? S.answers[S.cur]===idx : (S.answers[S.cur]||[]).indexOf(idx)>=0));
+    renderPalette(); persist();
+  }));
+  const ni=$('numAns'); if(ni) ni.addEventListener('input',()=>{ ni.value=ni.value.replace(/[^0-9.\-]/g,''); S.answers[S.cur]=ni.value===''?null:ni.value; renderPalette(); persist(); });
+  const ta=$('subAns'); if(ta) ta.addEventListener('input',()=>{ S.answers[S.cur]=ta.value; renderPalette(); persist(); });
   renderPalette();
 }
 function renderPalette(){
-  const list = QL();
-  $('palSubj').textContent = S.subj;
+  const list = S.list, curTab = tabOf(list[S.cur]);
+  $('palSubj').textContent = curTab;
   const g = $('palGrid'); g.innerHTML='';
   list.forEach((q,i)=>{
-    if(q.s!==S.subj) return;
+    if(tabOf(q)!==curTab) return;
     const st = statusOf({visited:S.st[i].visited,marked:S.st[i].marked,has:hasAns(i)});
-    const b = document.createElement('button');
-    b.className = 'shape s-'+st+(i===S.cur?' cur':'');
-    b.textContent = i+1;
-    b.setAttribute('aria-label','Question '+(i+1));
-    b.onclick = ()=>{ goTo(i); closePal(); };
-    g.appendChild(b);
+    const b = document.createElement('button'); b.className='shape s-'+st+(i===S.cur?' cur':''); b.textContent=i+1; b.setAttribute('aria-label','Question '+(i+1));
+    b.onclick=()=>{ goTo(i); closePal(); }; g.appendChild(b);
   });
 }
-function next(){ const list=QL(); if(S.cur<list.length-1) goTo(S.cur+1); else { render(); persist(); toast('This is the last question'); } }
-$('bSave').onclick  = ()=>{ S.st[S.cur].marked = false; next(); };
-$('bMark').onclick  = ()=>{ S.st[S.cur].marked = true; next(); };
-$('bClear').onclick = ()=>{ const q=QL()[S.cur]; S.answers[S.cur] = q.t==='multi'? [] : null; render(); persist(); };
-$('bPrev').onclick  = ()=>goTo(S.cur-1);
+function next(){ if(S.cur<S.list.length-1) goTo(S.cur+1); else { render(); persist(); toast('This is the last question'); } }
+$('bSave').onclick = ()=>{ S.st[S.cur].marked=false; next(); };
+$('bMark').onclick = ()=>{ S.st[S.cur].marked=true; next(); };
+$('bClear').onclick = ()=>{ const q=S.list[S.cur]; S.answers[S.cur] = q.t==='multi'?[]:null; render(); persist(); };
+$('bPrev').onclick = ()=>goTo(S.cur-1);
 function openPal(){ $('pal').classList.add('open'); $('scrim').classList.remove('hidden'); }
 function closePal(){ $('pal').classList.remove('open'); $('scrim').classList.add('hidden'); }
-$('palBtn').onclick = openPal; $('palClose').onclick = closePal; $('scrim').onclick = closePal;
-
-/* submit + summary modal */
+$('palBtn').onclick=openPal; $('palClose').onclick=closePal; $('scrim').onclick=closePal;
 $('bSubmit').onclick = ()=>{
-  const list = QL();
-  const c = {an:0,na:0,nv:0,mk:0,am:0};
-  list.forEach((q,i)=>{ c[statusOf({visited:S.st[i].visited,marked:S.st[i].marked,has:hasAns(i)})]++; });
-  $('modalRoot').innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="box">
-    <h3>Submit test?</h3>
-    <table>
-      <tr><td>Answered</td><td>${c.an+c.am}</td></tr>
-      <tr><td>Not answered</td><td>${c.na}</td></tr>
-      <tr><td>Marked for review (no answer)</td><td>${c.mk}</td></tr>
-      <tr><td>Not visited</td><td>${c.nv}</td></tr>
-    </table>
+  const c={an:0,na:0,nv:0,mk:0,am:0};
+  S.list.forEach((q,i)=>{ c[statusOf({visited:S.st[i].visited,marked:S.st[i].marked,has:hasAns(i)})]++; });
+  $('modalRoot').innerHTML = `<div class="modal" role="dialog" aria-modal="true"><div class="box"><h3>Submit test?</h3>
+    <table><tr><td>Answered</td><td>${c.an+c.am}</td></tr><tr><td>Not answered</td><td>${c.na}</td></tr><tr><td>Marked for review (no answer)</td><td>${c.mk}</td></tr><tr><td>Not visited</td><td>${c.nv}</td></tr></table>
     <p style="margin:0 0 12px;color:var(--muted);font-size:13.5px">You cannot change your answers after submitting.</p>
-    <div class="row" style="justify-content:flex-end"><button class="btn light" id="mNo">Go back</button><button class="btn green" id="mYes">Yes, submit</button></div>
-  </div></div>`;
-  $('mNo').onclick = ()=>$('modalRoot').innerHTML='';
-  $('mYes').onclick = ()=>{ $('modalRoot').innerHTML=''; finish(false); };
+    <div class="row" style="justify-content:flex-end"><button class="btn light" id="mNo">Go back</button><button class="btn green" id="mYes">Yes, submit</button></div></div></div>`;
+  $('mNo').onclick=()=>$('modalRoot').innerHTML=''; $('mYes').onclick=()=>{ $('modalRoot').innerHTML=''; finish(false); };
 };
 
 /* ---------- FINISH / RESULT ---------- */
-let RESULT = null;
+function recompute(){ RESULT.ev = evaluateAll(EXAMS[S.exam],S.list,S.answers,S.self); }
 async function finish(auto){
-  if(!S || S.done) return;
-  S.done = true; clearInterval(tick); window.onbeforeunload = null;
-  const ex = EXAMS[S.exam], list = QL();
-  const usedSec = Math.min(ex.minutes*60, Math.round((Date.now()-S.startedAt)/1000));
-  const ev = evaluateAll(ex,list,S.answers);
-  RESULT = { ev, usedSec, sync:'pending', rank:null, total:null };
-  LS.del('avx_session');
-  closePal();
-  renderResult(auto);
-  show('result');
-  // save to backend
-  const payload = { action:'submit', attemptId:S.attemptId, visitorId, roll:S.cand.roll, name:S.cand.name, dob:S.cand.dob, state:S.cand.state,
-    exam:S.exam, score:ev.sum.score, max:ev.sum.max, correct:ev.sum.correct, incorrect:ev.sum.incorrect, partial:ev.sum.partial, unattempted:ev.sum.unattempted,
-    seconds:usedSec, subjects:ev.sum.subjects,
-    answers: ev.rows.map(r=>({n:r.i+1,s:r.q.s,t:r.q.t,g:r.given,st:r.status,m:r.marks})) };
+  if(!S||S.done) return;
+  S.done=true; clearInterval(tick); window.onbeforeunload=null; LS.del('avx_session'); closePal();
+  const usedSec = Math.min(S.minutes*60, Math.round((Date.now()-S.startedAt)/1000));
+  RESULT = {ev:null, usedSec, sync:'pending', rank:null, total:null, auto};
+  recompute(); renderResult(); show('result'); await sync();
+}
+let syncTimer = null;
+function scheduleSync(){ clearTimeout(syncTimer); syncTimer=setTimeout(sync,1500); }
+async function sync(){
+  if(!RESULT) return;
+  const sm = RESULT.ev.sum;
   if(!API_ON){ RESULT.sync='demo'; updateSync(); return; }
+  const payload = {action:'submit',attemptId:S.attemptId,visitorId,roll:S.cand.roll,name:S.cand.name,dob:S.cand.dob,state:S.cand.state,
+    exam:S.exam,mode:S.mode,subjectsSel:S.subjects.join(', '),chapters:(S.chapters||[]).map(k=>k.replace('|',': ')).join('; ').slice(0,300),level:S.level,source:S.src,
+    score:sm.score,max:sm.max,correct:sm.correct,incorrect:sm.incorrect,partial:sm.partial,unattempted:sm.unattempted,pending:sm.pending,
+    seconds:RESULT.usedSec,subjects:sm.subjects,
+    answers:RESULT.ev.rows.map(r=>({n:r.i+1,s:r.q.s,t:r.q.t,st:r.status,m:r.marks}))};
   const r = await api(payload);
-  if(r && r.ok){ RESULT.sync='ok'; RESULT.rank=r.rank; RESULT.total=r.total; LS.del('avx_pending'); }
-  else { RESULT.sync='fail'; LS.set('avx_pending',payload); }
-  updateSync(); renderResult(false);
+  if(r && r.ok){ RESULT.sync='ok'; RESULT.rank=r.rank; RESULT.total=r.total; LS.del('avx_pending'); } else { RESULT.sync='fail'; LS.set('avx_pending',payload); }
+  updateSync(); renderResult();
 }
 function syncHtml(){
   if(!RESULT) return '';
   if(RESULT.sync==='ok') return '<div class="sync ok">✓ Your result has been saved.</div>';
-  if(RESULT.sync==='fail') return '<div class="sync warn">Your result is shown below but could not be saved right now (check your internet). It will be retried automatically the next time you open this page. <button class="btn light" id="retrySync" style="padding:4px 12px;min-height:32px;margin-left:6px">Retry now</button></div>';
+  if(RESULT.sync==='fail') return '<div class="sync warn">Your result is shown below but could not be saved right now (check your internet). It will be retried automatically next time you open this page. <button class="btn light" id="retrySync" style="padding:4px 12px;min-height:32px;margin-left:6px">Retry now</button></div>';
   if(RESULT.sync==='demo') return '<div class="sync info">Demo mode: results are not being saved to a server.</div>';
   return '<div class="sync info">Saving your result…</div>';
 }
-function updateSync(){
-  const el = $('syncBox'); if(el) el.innerHTML = syncHtml();
-  const b = $('retrySync'); if(b) b.onclick = async ()=>{
-    const p = LS.get('avx_pending',null); if(!p) return;
-    b.disabled = true; const r = await api(p);
-    if(r && r.ok){ LS.del('avx_pending'); RESULT.sync='ok'; RESULT.rank=r.rank; RESULT.total=r.total; renderResult(false); toast('Saved'); }
-    else { b.disabled=false; toast('Still could not save'); }
-  };
-}
-function renderResult(auto){
-  const ex = EXAMS[S.exam], {ev,usedSec} = RESULT, sm = ev.sum;
-  $('resTitle').innerHTML = esc(ex.name)+' · Result<small>'+esc(S.cand.name)+' · Roll '+esc(S.cand.roll)+'</small>';
-  const pct = sm.max? Math.round(sm.score/sm.max*1000)/10 : 0;
-  let rankLine = '';
-  if(RESULT.rank) rankLine = `<div class="of">Rank ${RESULT.rank} of ${RESULT.total}</div>`;
-  $('resTop').innerHTML = `
-    ${auto?'<div class="sync warn">Time is up — your test was submitted automatically.</div>':''}
-    <div id="syncBox">${syncHtml()}</div>
-    <div class="scorehero">
-      <div class="bigscore"><div class="n">${sm.score}</div><div class="of">out of ${sm.max}</div><div class="of">${pct}%</div>${rankLine}</div>
-      <div class="kpis">
-        <div class="kpi ok"><b>${sm.correct}</b><span>Correct</span></div>
-        <div class="kpi bad"><b>${sm.incorrect}</b><span>Incorrect</span></div>
-        <div class="kpi na"><b>${sm.unattempted}</b><span>Unattempted</span></div>
-        <div class="kpi ${sm.partial?'pt':'na'}"><b>${sm.partial}</b><span>Partially correct</span></div>
-      </div>
-    </div>
-    <p style="margin:12px 0 0;color:var(--muted);font-size:13px">Time taken: ${fmtTime(usedSec)}</p>`;
-  updateSync();
-  $('resSubj').innerHTML = '<div class="wrapx" style="max-height:none"><table class="res"><tr><th>Subject</th><th>Score</th><th>Correct</th><th>Incorrect</th><th>Unattempted</th></tr>'
-    + Object.entries(sm.subjects).map(([k,v])=>`<tr><td>${k}</td><td><b>${v.score}</b> / ${v.max}</td><td>${v.correct}${v.partial?' (+'+v.partial+' partial)':''}</td><td>${v.incorrect}</td><td>${v.unattempted}</td></tr>`).join('')
-    + '</table></div>';
-  const label = {correct:'Correct',incorrect:'Incorrect',partial:'Partial',unattempted:'Unattempted'};
-  const cls = {correct:'ok',incorrect:'bad',partial:'pt',unattempted:'na'};
-  $('resTable').innerHTML = '<tr><th>Q</th><th>Subject</th><th>Your answer</th><th>Correct answer</th><th>Result</th><th>Marks</th></tr>'
-    + ev.rows.map(r=>`<tr><td>${r.i+1}</td><td>${r.q.s}</td><td>${givenText(r.q,r.given)}</td><td>${correctText(r.q)}</td><td><span class="tag ${cls[r.status]}">${label[r.status]}</span></td><td>${r.marks>0?'+':''}${r.marks}</td></tr>`).join('');
-}
-function optLetter(k){ return (S && S.exam==='adv') ? '('+'ABCD'[k]+')' : '('+(k+1)+')'; }
+function updateSync(){ const el=$('syncBox'); if(el) el.innerHTML=syncHtml(); const b=$('retrySync'); if(b) b.onclick=()=>sync(); }
+const CLS = {correct:'ok',incorrect:'bad',partial:'pt',unattempted:'na',pending:'pd'};
+const LBL = {correct:'Correct',incorrect:'Incorrect',partial:'Partial',unattempted:'Unattempted',pending:'Awaiting your marks'};
 function givenText(q,g){
-  if(q.t==='mcq') return (g===null||g===undefined)? '—' : optLetter(g);
-  if(q.t==='multi') return (!g||!g.length)? '—' : g.map(optLetter).join(', ');
-  return parseNum(g)===null ? '—' : esc(g);
+  if(q.t==='mcq') return (g===null||g===undefined)?'—':optLetter(g);
+  if(q.t==='multi') return (!g||!g.length)?'—':g.map(optLetter).join(', ');
+  if(isSub(q)) return (typeof g==='string'&&g.trim())?'Written answer':'—';
+  return parseNum(g)===null?'—':esc(g);
 }
 function correctText(q){
   if(q.t==='mcq') return optLetter(q.a);
   if(q.t==='multi') return q.a.map(optLetter).join(', ');
+  if(isSub(q)) return 'See model answer';
   return String(q.a);
+}
+function renderResult(){
+  const ex = EXAMS[S.exam], sm = RESULT.ev.sum, rows = RESULT.ev.rows;
+  $('resTitle').innerHTML = esc(ex.name)+' · Result<small>'+esc(S.cand.name)+' · Roll '+esc(S.cand.roll)+'</small>';
+  const pct = sm.max ? Math.round(sm.score/sm.max*1000)/10 : 0;
+  $('resTop').innerHTML = `
+    ${RESULT.auto?'<div class="sync warn">Time is up — your test was submitted automatically.</div>':''}
+    <div id="syncBox">${syncHtml()}</div>
+    ${sm.pending?`<div class="sync warn"><b>${sm.pending}</b> written answer${sm.pending===1?'':'s'} still need your marks. Open <b>Review Questions &amp; Solutions</b>, compare with the model answer and tick the points you earned. Your score updates automatically.</div>`:''}
+    <div class="scorehero">
+      <div class="bigscore"><div class="n">${sm.score}</div><div class="of">out of ${sm.max}</div><div class="of">${pct}%</div>${RESULT.rank?`<div class="of">Rank ${RESULT.rank} of ${RESULT.total}</div>`:''}</div>
+      <div class="kpis">
+        <div class="kpi ok"><b>${sm.correct}</b><span>Correct</span></div><div class="kpi bad"><b>${sm.incorrect}</b><span>Incorrect</span></div>
+        <div class="kpi na"><b>${sm.unattempted}</b><span>Unattempted</span></div>
+        <div class="kpi ${sm.pending?'pd':(sm.partial?'pt':'na')}"><b>${sm.pending||sm.partial}</b><span>${sm.pending?'Awaiting your marks':'Partially correct'}</span></div>
+      </div></div>
+    <p style="margin:12px 0 0;color:var(--muted);font-size:13px">Time taken: ${fmtTime(RESULT.usedSec)}${TYPE_ORDER.some(t=>SUBT.indexOf(t)>=0&&S.list.some(q=>q.t===t))?' · Marks for written answers are awarded by you.':''}</p>`;
+  updateSync();
+  $('resSubj').innerHTML = '<div class="wrapx" style="max-height:none"><table class="res"><tr><th>Subject</th><th>Score</th><th>Correct</th><th>Incorrect</th><th>Unattempted</th></tr>'
+    + Object.keys(sm.subjects).map(k=>{ const v=sm.subjects[k]; return `<tr><td>${k}</td><td><b>${v.score}</b> / ${v.max}</td><td>${v.correct}${v.partial?' (+'+v.partial+' partial)':''}</td><td>${v.incorrect}</td><td>${v.unattempted}</td></tr>`; }).join('') + '</table></div>';
+  $('resTable').innerHTML = '<tr><th>Q</th><th>Subject · Chapter</th><th>Your answer</th><th>Correct answer</th><th>Result</th><th>Marks</th></tr>'
+    + rows.map(r=>`<tr><td>${r.i+1}</td><td>${r.q.s} · ${esc(r.q.ch)}</td><td>${givenText(r.q,r.given)}</td><td>${correctText(r.q)}</td><td><span class="tag ${CLS[r.status]}">${LBL[r.status]}</span></td><td>${r.marks>0?'+':''}${r.marks}</td></tr>`).join('');
 }
 $('btnHome').onclick = ()=>{ S=null; RESULT=null; show('home'); checkResume(); };
 $('btnReview').onclick = ()=>openReview();
 
-/* ---------- REVIEW ---------- */
+/* ---------- REVIEW (+ self-evaluation of written answers) ---------- */
 let rvFilter = 'all';
-function openReview(){
-  $('rvSub').textContent = EXAMS[S.exam].name+' · '+S.cand.name;
-  rvFilter = 'all'; renderReview(); show('review');
-}
-$('rvBack').onclick = ()=>show('result');
+function openReview(){ $('rvSub').textContent = EXAMS[S.exam].name+' · '+S.cand.name; rvFilter='all'; renderReview(); show('review'); }
+$('rvBack').onclick = ()=>{ renderResult(); show('result'); };
 function renderReview(){
-  const {ev} = RESULT, rows = ev.rows;
-  const counts = {all:rows.length, incorrect:0, unattempted:0, partial:0, correct:0};
+  const rows = RESULT.ev.rows;
+  const counts = {all:rows.length,incorrect:0,unattempted:0,partial:0,pending:0,correct:0};
   rows.forEach(r=>counts[r.status]++);
-  const chips = [['all','All'],['incorrect','Incorrect'],['unattempted','Unattempted'],['partial','Partial'],['correct','Correct']].filter(c=>c[0]!=='partial'||counts.partial>0);
+  const chips = [['all','All'],['incorrect','Incorrect'],['unattempted','Unattempted'],['pending','Awaiting your marks'],['partial','Partial'],['correct','Correct']].filter(c=>c[0]==='all'||c[0]==='incorrect'||c[0]==='unattempted'||c[0]==='correct'||counts[c[0]]>0);
   $('rvChips').innerHTML = chips.map(c=>`<button class="chip${rvFilter===c[0]?' on':''}" data-f="${c[0]}">${c[1]} (${counts[c[0]]})</button>`).join('');
   $('rvChips').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{ rvFilter=b.dataset.f; renderReview(); });
-  const label = {correct:'Correct',incorrect:'Incorrect',partial:'Partial',unattempted:'Unattempted'};
-  const cls = {correct:'ok',incorrect:'bad',partial:'pt',unattempted:'na'};
   const list = rows.filter(r=>rvFilter==='all'||r.status===rvFilter);
-  if(!list.length){ $('rvList').innerHTML = '<div class="card"><div class="bd">Nothing to show here.</div></div>'; return; }
+  if(!list.length){ $('rvList').innerHTML='<div class="card"><div class="bd">Nothing to show here.</div></div>'; return; }
   $('rvList').innerHTML = list.map(r=>{
     const q = r.q;
     let body = '<p class="qtext" style="font-size:16px;margin-top:0">'+q.q+'</p>';
-    if(q.t==='num'){
-      body += `<p><b>Your answer:</b> ${givenText(q,r.given)} &nbsp;·&nbsp; <b>Correct answer:</b> ${q.a}</p>`;
+    if(isSub(q)){
+      const ans = (typeof r.given==='string'&&r.given.trim()) ? r.given : '';
+      body += '<div class="yours"><b>Your answer</b><br>'+(ans?esc(ans):'<i>Not attempted</i>')+'</div>';
+      body += '<div class="sol"><b class="t">Model answer</b><div class="model" style="margin-top:4px">'+q.x+'</div></div>';
+      const st = S.rb[r.i] || [];
+      body += '<div class="sol rb"><b class="t">Marking scheme — tick the points your answer earned'+(ans?'':' (not available: no answer written)')+'</b>'
+        + q.rb.map((p,j)=>`<label><input type="checkbox" data-i="${r.i}" data-j="${j}"${st[j]?' checked':''}${ans?'':' disabled'}><span>${esc(p[0])} <b>(${p[1]})</b></span></label>`).join('') + '</div>';
     } else {
-      const gset = q.t==='mcq' ? (r.given===null||r.given===undefined?[]:[r.given]) : (r.given||[]);
-      const aset = q.t==='mcq' ? [q.a] : q.a;
-      body += q.o.map((o,k)=>{
-        const isA = aset.includes(k), isG = gset.includes(k);
-        const c = isA ? 'right' : (isG ? 'wrong' : '');
-        const m = isA && isG ? '✓ Your answer · Correct' : isA ? '✓ Correct answer' : isG ? '✗ Your answer' : '';
-        return `<div class="rvopt ${c}"><b>${optLetter(k)}</b><span>${o}</span><span class="m" style="color:${isA?'var(--ok)':'var(--bad)'}">${m}</span></div>`;
-      }).join('');
+      if(q.t==='num') body += `<p><b>Your answer:</b> ${givenText(q,r.given)} &nbsp;·&nbsp; <b>Correct answer:</b> ${q.a}</p>`;
+      else {
+        const gset = q.t==='mcq' ? (r.given===null||r.given===undefined?[]:[r.given]) : (r.given||[]), aset = q.t==='mcq'?[q.a]:q.a;
+        body += q.o.map((o,k)=>{
+          const isA=aset.indexOf(k)>=0, isG=gset.indexOf(k)>=0, c=isA?'right':(isG?'wrong':'');
+          const m = isA&&isG?'✓ Your answer · Correct':isA?'✓ Correct answer':isG?'✗ Your answer':'';
+          return `<div class="rvopt ${c}"><b>${optLetter(k)}</b><span>${o}</span><span class="m" style="color:${isA?'var(--ok)':'var(--bad)'}">${m}</span></div>`;
+        }).join('');
+      }
     }
-    const needSol = r.status!=='correct';
     const sol = `<div class="sol"><b class="t">Solution</b><div style="margin-top:4px">${q.x}</div></div>`;
-    const solBlock = needSol ? sol : `<button class="chip" data-sol="${r.i}" style="margin-top:8px">Show solution</button><div class="hidden" id="sol${r.i}">${sol}</div>`;
-    return `<div class="rvq"><div class="h"><b>Q${r.i+1} · ${q.s}</b><span><span class="tag ${cls[r.status]}">${label[r.status]}</span> &nbsp; ${r.marks>0?'+':''}${r.marks} marks</span></div><div class="b">${body}${solBlock}</div></div>`;
+    let tail = '';
+    if(!isSub(q)) tail = r.status!=='correct' ? sol : `<button class="chip" data-sol="${r.i}" style="margin-top:8px">Show solution</button><div class="hidden" id="sol${r.i}">${sol}</div>`;
+    const meta = q.ch+(q.src==='pyq'?' · PYQ'+(q.yr?' '+q.yr:''):'')+' · '+['','Easy','Medium','Hard'][q.lv];
+    return `<div class="rvq" id="rv${r.i}"><div class="h"><b>Q${r.i+1} · ${q.s}</b><span><span class="tag ${CLS[r.status]}">${LBL[r.status]}</span> &nbsp; <span class="mk${r.i}">${r.marks>0?'+':''}${r.marks}</span> marks</span></div><div class="b"><div class="hintline" style="margin:0 0 8px">${esc(meta)}</div>${body}${tail}</div></div>`;
   }).join('');
   $('rvList').querySelectorAll('[data-sol]').forEach(b=>b.onclick=()=>{ $('sol'+b.dataset.sol).classList.toggle('hidden'); b.style.display='none'; });
+  $('rvList').querySelectorAll('.rb input').forEach(cb=>cb.onchange=()=>{
+    const i=+cb.dataset.i, q=S.list[i];
+    const st = S.rb[i] = S.rb[i] || q.rb.map(()=>false); st[+cb.dataset.j] = cb.checked;
+    S.self[i] = q.rb.reduce((t,p,j)=>t+(st[j]?p[1]:0),0);
+    recompute(); scheduleSync();
+    const r2 = RESULT.ev.rows[i]; const card=$('rv'+i);
+    card.querySelector('.tag').className='tag '+CLS[r2.status]; card.querySelector('.tag').textContent=LBL[r2.status];
+    card.querySelector('.mk'+i).textContent=(r2.marks>0?'+':'')+r2.marks;
+    // refresh chip counts without losing scroll position
+    const y=window.scrollY; const keep=rvFilter; renderReviewCountsOnly(); rvFilter=keep; window.scrollTo(0,y);
+  });
+}
+function renderReviewCountsOnly(){
+  const rows=RESULT.ev.rows, counts={all:rows.length,incorrect:0,unattempted:0,partial:0,pending:0,correct:0}; rows.forEach(r=>counts[r.status]++);
+  $('rvChips').querySelectorAll('.chip').forEach(b=>{ const f=b.dataset.f; b.textContent = b.textContent.replace(/\(\d+\)$/,'('+counts[f]+')'); });
 }
 
 /* init */
-show('home'); checkResume();
+renderHome(); show('home'); checkResume();
 </script>
 </body>
 </html>
