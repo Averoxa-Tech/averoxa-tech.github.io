@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Averoxa Weather</title>
+<style>
+:root{--bg:#0b0a08;--card:#16130d;--line:#332c1c;--gold:#d9a53e;--txt:#f4efe2;--mut:#a89f8c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#241b09 0%,var(--bg) 60%) fixed;color:var(--txt);font-family:system-ui,sans-serif;padding:14px}
+main{max-width:720px;margin:auto;position:relative;z-index:1}#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}h1{font-size:22px;margin:0 0 10px;background:linear-gradient(90deg,#f2c664,#d9a53e);-webkit-background-clip:text;background-clip:text;color:transparent}
+#sg{display:none;position:absolute;top:100%;left:0;right:0;z-index:5;margin-top:6px;background:rgba(22,19,13,.96);border:1px solid rgba(217,165,62,.35);border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.6)}.it{padding:11px 12px;cursor:pointer;border-bottom:1px solid var(--line);font-size:15px}.it:last-child{border:0}.it:hover{background:rgba(217,165,62,.16)}.bar{display:flex;gap:8px;position:relative}input{flex:1;padding:11px;background:#000;color:var(--txt);border:1px solid var(--line);border-radius:10px;font-size:16px}
+button{background:var(--gold);color:#171206;border:0;border-radius:10px;padding:0 14px;font-weight:700;cursor:pointer}
+.card{background:rgba(22,19,13,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(217,165,62,.28);border-radius:16px;padding:14px;margin-top:12px;box-shadow:0 0 24px rgba(217,165,62,.08)}
+.now{text-align:center}.big{font-size:64px;font-weight:800;color:var(--gold);line-height:1;text-shadow:0 0 28px rgba(217,165,62,.45)}.ico{font-size:56px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stats div{background:rgba(0,0,0,.45);border-radius:10px;padding:8px;font-size:13px;color:var(--mut)}
+.stats b{display:block;color:var(--txt);font-size:16px}
+.day{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.day:last-child{border:0}
+.m{color:var(--mut);font-size:13px}h3{margin:0 0 8px;font-size:15px}
+</style></head><body><canvas id="bg"></canvas><main>
+<h1>🌤️ Averoxa Weather</h1>
+<div class="bar"><input id="q" autocomplete="off" oninput="typing()" placeholder="Type a city (e.g. Mumbai)" onkeydown="if(event.key==='Enter')search()"><button onclick="search()">Search</button><button onclick="locate()" title="My location">📍</button><div id="sg"></div></div>
+<div id="out"><p class="m">Loading…</p></div>
+<script>
+const W={0:['☀️','Clear'],1:['🌤️','Mostly clear'],2:['⛅','Partly cloudy'],3:['☁️','Overcast'],45:['🌫️','Fog'],48:['🌫️','Fog'],51:['🌦️','Light drizzle'],53:['🌦️','Drizzle'],55:['🌦️','Heavy drizzle'],61:['🌧️','Light rain'],63:['🌧️','Rain'],65:['🌧️','Heavy rain'],71:['🌨️','Light snow'],73:['🌨️','Snow'],75:['❄️','Heavy snow'],80:['🌦️','Showers'],81:['🌧️','Showers'],82:['⛈️','Violent showers'],95:['⛈️','Thunderstorm'],96:['⛈️','Thunderstorm + hail'],99:['⛈️','Thunderstorm + hail']};
+const wc=c=>W[c]||['🌡️','Unknown'],out=document.getElementById('out');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function search(){const n=document.getElementById('q').value.trim();if(!n)return;sg.style.display='none';
+ out.innerHTML='<p class="m">Searching…</p>';
+ try{const r=await (await fetch('https://geocoding-api.open-meteo.com/v1/search?count=1&name='+encodeURIComponent(n))).json();
+  if(!r.results)return out.innerHTML='<p>City not found. Try another name.</p>';
+  const c=r.results[0];load(c.latitude,c.longitude,c.name+(c.admin1?', '+c.admin1:'')+', '+c.country)}
+ catch{out.innerHTML='<p>⚠️ Could not reach the weather service. Check your internet.</p>'}}
+function locate(){if(!navigator.geolocation)return;out.innerHTML='<p class="m">Finding you…</p>';
+ navigator.geolocation.getCurrentPosition(p=>load(p.coords.latitude,p.coords.longitude,'Your location'),()=>out.innerHTML='<p>Location permission denied. Search a city instead.</p>')}
+async function load(la,lo,name){
+ try{const u='https://api.open-meteo.com/v1/forecast?latitude='+la+'&longitude='+lo+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=7';
+ const d=await (await fetch(u)).json();localStorage.setItem('wx',JSON.stringify([la,lo,name]));render(d,name)}
+ catch{out.innerHTML='<p>⚠️ Could not load weather. Try again.</p>'}}
+function chart(t,times){const mn=Math.min(...t),mx=Math.max(...t),h=110,w=300,r=mx-mn||1;
+ const pts=t.map((v,i)=>[i*w/(t.length-1),h-8-(v-mn)/r*(h-28)]);
+ const lab=pts.map((p,i)=>i%4?'':`<text x="${p[0]}" y="${p[1]-7}" font-size="10" fill="#f4efe2" text-anchor="middle">${Math.round(t[i])}°</text><text x="${p[0]}" y="${h+10}" font-size="9" fill="#a89f8c" text-anchor="middle">${times[i].slice(11,13)}h</text>`).join('');
+ return `<svg viewBox="-10 0 320 ${h+16}" width="100%"><polyline fill="none" stroke="#d9a53e" stroke-width="2.5" stroke-linejoin="round" points="${pts.map(p=>p.join(',')).join(' ')}"/>${lab}</svg>`}
+function render(d,name){const c=d.current,[ic,ds]=wc(c.weather_code),i0=Math.max(0,d.hourly.time.findIndex(t=>t>=c.time.slice(0,13)));
+ const days=d.daily.time.map((t,i)=>{const[e]=wc(d.daily.weather_code[i]);return `<div class="day"><span>${i?new Date(t).toLocaleDateString('en',{weekday:'short',day:'numeric'}):'Today'}</span><span>${e} ${wc(d.daily.weather_code[i])[1]}</span><span><b>${Math.round(d.daily.temperature_2m_max[i])}°</b> <span class="m">${Math.round(d.daily.temperature_2m_min[i])}°</span></span></div>`}).join('');
+ out.innerHTML=`<div class="card now"><div class="m">${esc(name)}</div><div class="ico">${ic}</div><div class="big">${Math.round(c.temperature_2m)}°C</div><div>${ds}</div>
+ <div class="stats"><div>Feels like<b>${Math.round(c.apparent_temperature)}°C</b></div><div>Humidity<b>${c.relative_humidity_2m}%</b></div><div>Wind<b>${Math.round(c.wind_speed_10m)} km/h</b></div></div></div>
+ <div class="card"><h3>Next 24 hours</h3>${chart(d.hourly.temperature_2m.slice(i0,i0+24),d.hourly.time.slice(i0,i0+24))}</div>
+ <div class="card"><h3>7-day forecast</h3>${days}</div>`}
+const sg=document.getElementById('sg');let tmr,SGR=[];
+function typing(){clearTimeout(tmr);const n=document.getElementById('q').value.trim();if(n.length<2){sg.style.display='none';return}
+ tmr=setTimeout(async()=>{try{const r=await (await fetch('https://geocoding-api.open-meteo.com/v1/search?count=6&name='+encodeURIComponent(n))).json();
+  if(document.getElementById('q').value.trim()!==n)return;SGR=r.results||[];
+  sg.innerHTML=SGR.length?SGR.map((c,i)=>'<div class="it" onclick="pick('+i+')">📍 '+esc(c.name+(c.admin1?', '+c.admin1:'')+', '+c.country)+'</div>').join(''):'<div class="it m">No match found</div>';
+  sg.style.display='block'}catch{}},250)}
+function pick(i){const c=SGR[i];sg.style.display='none';const nm=c.name+(c.admin1?', '+c.admin1:'')+', '+c.country;document.getElementById('q').value=nm;load(c.latitude,c.longitude,nm)}
+document.addEventListener('click',e=>{if(!e.target.closest('.bar'))sg.style.display='none'});
+const s=JSON.parse(localStorage.getItem('wx')||'null')||[28.61,77.21,'New Delhi, India'];load(...s);
+</script></main><script>
+const cv=document.getElementById('bg'),cx=cv.getContext('2d'),S=64;let MW,MH,N=[],m={x:-999,y:-999},cols=0;
+function init(){MW=cv.width=innerWidth;MH=cv.height=innerHeight;N=[];cols=Math.ceil(MW/S)+1;const rows=Math.ceil(MH/S)+1;
+ for(let j=0;j<rows;j++)for(let i=0;i<cols;i++)N.push({hx:i*S,hy:j*S,x:i*S,y:j*S,i,j})}
+function pos(e){const p=e.touches?e.touches[0]:e;m.x=p.clientX;m.y=p.clientY}
+addEventListener('pointermove',pos);addEventListener('touchstart',pos,{passive:true});addEventListener('touchmove',pos,{passive:true});
+addEventListener('pointerleave',()=>{m.x=m.y=-999});addEventListener('resize',init);
+let sp={x:innerWidth/2,y:110};
+function spider(t){
+ const tx=m.x>0?m.x:MW*.5,ty=m.y>0?m.y:110,dx=tx-sp.x,dy=ty-sp.y,v=Math.hypot(dx,dy);
+ sp.x+=dx*.16;sp.y+=dy*.16;
+ cx.strokeStyle='rgba(242,198,100,.55)';cx.lineWidth=1;cx.beginPath();cx.moveTo(sp.x,0);cx.lineTo(sp.x,sp.y-12);cx.stroke();
+ const sw=Math.min(1,v/60),w=t/55;
+ cx.save();cx.translate(sp.x,sp.y);cx.rotate(Math.max(-.5,Math.min(.5,dx*.004)));
+ cx.strokeStyle='#f2c664';cx.lineWidth=2;cx.lineCap='round';
+ for(let s=-1;s<=1;s+=2)for(let k=0;k<4;k++){
+  const ph=Math.sin(w+k*1.6+(s>0?0:3))*6*sw,y1=(k-1.5)*7+ph*.5,x1=s*(14+k*1.5),x2=s*(26+k*2),y2=y1+(k<2?-10:10)+ph;
+  cx.beginPath();cx.moveTo(s*4,(k-1.5)*3);cx.lineTo(x1,y1-6);cx.lineTo(x2,y2);cx.stroke()}
+ cx.fillStyle='#d9a53e';cx.beginPath();cx.ellipse(0,8,9,12,0,0,7);cx.fill();
+ cx.fillStyle='#b6822a';cx.beginPath();cx.arc(0,-8,6,0,7);cx.fill();
+ cx.fillStyle='#0b0a08';cx.beginPath();cx.arc(-2.5,-9.5,1.4,0,7);cx.arc(2.5,-9.5,1.4,0,7);cx.fill();
+ cx.restore()}
+function frame(t){cx.clearRect(0,0,MW,MH);
+ for(const n of N){let tx=n.hx+Math.sin(t/1800+n.i*.7+n.j)*4,ty=n.hy+Math.cos(t/2100+n.j*.9+n.i)*4;
+  const dx=m.x-tx,dy=m.y-ty,d=Math.hypot(dx,dy);if(d<170){const f=(1-d/170)*.35;tx+=dx*f;ty+=dy*f}
+  n.x+=(tx-n.x)*.12;n.y+=(ty-n.y)*.12;n.h=Math.max((n.h||0)*.993,d<190?1-d/190:0)}
+ cx.lineWidth=1;
+ for(const n of N){
+  const r=n.i<cols-1?N[n.j*cols+n.i+1]:null,b=N[(n.j+1)*cols+n.i];
+  for(const o of [r,b]){if(!o)continue;const d=Math.hypot((n.x+o.x)/2-m.x,(n.y+o.y)/2-m.y),a=((n.h||0)+(o.h||0))/2*.6;
+   if(a>.01){cx.strokeStyle='rgba(217,165,62,'+a+')';cx.beginPath();cx.moveTo(n.x,n.y);cx.lineTo(o.x,o.y);cx.stroke()}}
+  const dm=Math.hypot(n.x-m.x,n.y-m.y);
+  if(dm<150){cx.strokeStyle='rgba(242,198,100,'+(1-dm/150)*.8+')';cx.beginPath();cx.moveTo(n.x,n.y);cx.lineTo(m.x,m.y);cx.stroke()}
+  if(n.h>.03){cx.fillStyle='rgba(242,198,100,'+n.h*.9+')';cx.beginPath();cx.arc(n.x,n.y,2.2,0,7);cx.fill()}}
+ spider(t);requestAnimationFrame(frame)}
+init();requestAnimationFrame(frame);
+</script></body></html>
