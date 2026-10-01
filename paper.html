@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Question Paper | Averoxa Foundation</title>
+<style>
+:root{ --ink:#111; --muted:#555; --line:#222; --accent:#8a6d1f; }
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#e9e9e9}
+body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);font-size:14px;line-height:1.55}
+.toolbar{position:sticky;top:0;z-index:5;background:#1c1c1c;color:#fff;padding:10px 16px;display:flex;gap:10px;align-items:center;font-family:Arial,sans-serif;flex-wrap:wrap}
+.toolbar button,.toolbar a{background:#d9a53e;color:#171206;border:0;border-radius:6px;padding:9px 16px;font-weight:700;cursor:pointer;text-decoration:none;font-size:14px}
+.toolbar button.light{background:transparent;color:#fff;border:1px solid #666}
+.toolbar .note{font-size:12.5px;color:#ccc;margin-left:auto}
+.sheet{max-width:800px;margin:22px auto;background:#fff;padding:46px 52px;box-shadow:0 2px 14px rgba(0,0,0,.25)}
+.hd{text-align:center;border-bottom:3px double var(--ink);padding-bottom:14px;margin-bottom:16px}
+.hd .org{font-size:26px;font-weight:700;letter-spacing:.04em}
+.hd .sub{font-size:12.5px;color:var(--muted);margin-top:4px}
+.titleblock{text-align:center;margin:18px 0}
+.titleblock h1{font-size:19px;margin:0 0 4px}
+.titleblock .mode{font-size:13px;color:var(--muted)}
+.metarow{display:flex;justify-content:space-between;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px 0;margin:14px 0;font-size:13.5px;font-weight:700}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin:16px 0 20px;font-size:13.5px}
+.fields .f{border-bottom:1px solid #999;padding-bottom:3px}
+.instr{font-size:12.5px;margin:0 0 20px}
+.instr b{display:block;margin-bottom:4px;font-size:13px}
+.instr ol{margin:0;padding-left:18px}
+.instr li{margin:2px 0}
+.secname{font-weight:700;text-align:center;text-decoration:underline;margin:22px 0 10px;font-size:14px;break-after:avoid}
+.q{margin:0 0 16px;break-inside:avoid}
+.q .qn{display:flex;gap:8px;justify-content:space-between;font-weight:700}
+.q .qtxt{flex:1}
+.q .mk{white-space:nowrap;color:var(--muted);font-weight:400;font-size:12.5px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;margin:6px 0 0 20px;font-size:13.5px}
+.ans{margin:8px 0 0 20px;font-size:13.5px}
+.ans .line{border-bottom:1px solid #777;display:inline-block;width:260px;margin-left:6px}
+.rule{border-bottom:1px solid #aaa;height:22px;margin:0 0 0 20px}
+.note-grow{font-size:11.5px;color:var(--muted);text-align:center;margin:28px 0 0}
+.qrpage{break-before:page;text-align:center;padding-top:140px}
+.qrpage img{width:190px;height:190px;border:1px solid #ccc;padding:6px}
+.qrpage .url{font-size:11.5px;color:var(--muted);margin-top:10px;word-break:break-all;max-width:420px;margin-left:auto;margin-right:auto}
+.qrpage .cap{font-weight:700;margin-top:18px;font-size:14px}
+.qrpage .foot{margin-top:60px;font-size:11.5px;color:var(--muted)}
+#err{max-width:700px;margin:60px auto;background:#fff;padding:30px;font-family:Arial,sans-serif;text-align:center}
+@media print{
+  html,body{background:#fff}
+  .toolbar{display:none}
+  .sheet{box-shadow:none;margin:0;padding:0;max-width:none}
+  .qrpage{break-before:page}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="light" onclick="window.close()">✕ Close</button>
+  <button onclick="window.print()">🖨 Print / Save as PDF</button>
+  <span class="note">Use your browser's print dialog, then choose "Save as PDF" as the destination.</span>
+</div>
+
+<div id="err" class="hidden" style="display:none">
+  <h2>Question bank not found</h2>
+  <p>Open this page together with <b>questions.js</b> in the same folder, or go back and generate the paper again.</p>
+</div>
+
+<div id="sheet" class="sheet"></div>
+
+<script src="questions.js"></script>
+<script>
+const EXAM_NAME = {jm:'JEE Main',ja:'JEE Advanced',neet:'NEET UG',cbse:'CBSE Class 12',isc:'ISC Class 12'};
+const ALPHA_EXAMS = ['ja','cbse','isc'];
+const RULES = {
+  jm:{mcq:4, multi:4, num:4}, ja:{mcq:3, multi:4, num:4}, neet:{mcq:4, multi:4, num:4},
+  cbse:{mcq:1, multi:1, num:1}, isc:{mcq:1, multi:1, num:1}
+};
+const SUBM = {vsa:2, sa:3, case:4, la:5, la4:4, la6:6, la10:10};
+const SUBT = Object.keys(SUBM);
+function isSub(q){ return SUBT.indexOf(q.t)>=0; }
+function markFor(ex,q){ if(isSub(q)) return q.m; const r=RULES[ex]||{}; return r[q.t]!==undefined ? r[q.t] : 4; }
+function optLetter(ex,k){ return ALPHA_EXAMS.indexOf(ex)>=0 ? '('+'ABCD'[k]+')' : '('+(k+1)+')'; }
+function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function ruleLines(q){ const m = isSub(q)?q.m:0; return m<=2?2 : m<=3?3 : m<=4?4 : m<=6?6 : 9; }
+
+const qs = new URLSearchParams(location.search);
+const ex = qs.get('ex'), mode = qs.get('m')||'custom', idStr = qs.get('q')||'', mx = qs.get('mx')||'', mins = qs.get('mins')||'';
+const QB = (typeof QBANK!=='undefined' && Array.isArray(QBANK)) ? QBANK : null;
+
+function fail(msg){ document.getElementById('sheet').style.display='none'; const e=document.getElementById('err'); e.style.display='block'; e.querySelector('p').textContent = msg; }
+
+if(!QB){ fail('questions.js was not found next to this page. Upload it in the same folder as paper.html, then reload.'); }
+else if(!ex || !EXAM_NAME[ex] || !idStr){ fail('This link is missing information needed to build the paper. Please generate it again from the test setup screen.'); }
+else {
+  const ids = idStr.split('.').map(s=>parseInt(s,36));
+  const list = ids.map(i=>QB[i]).filter(Boolean);
+  if(list.length !== ids.length){ fail('Some questions referenced by this link could not be found — the question bank may have changed since this paper was generated.'); }
+  else render(list);
+}
+
+function answerUrl(){
+  const base = location.href.replace(/paper\.html.*$/,'papers.html');
+  return base + '?' + new URLSearchParams({ex, q: idStr}).toString();
+}
+
+function render(list){
+  const subjects = [...new Set(list.map(q=>q.s))];
+  const title = subjects.length===1 ? (EXAM_NAME[ex]+' — '+subjects[0]) : EXAM_NAME[ex];
+  let html = `
+  <div class="hd">
+    <div class="org">AVEROXA FOUNDATION</div>
+    <div class="sub">contact.averoxa@gmail.com &nbsp;·&nbsp; Practice papers: averoxa-tech.github.io/papers.html</div>
+  </div>
+  <div class="titleblock">
+    <h1>${esc(title)} — Practice Paper</h1>
+    <div class="mode">${mode==='full' ? 'Full Paper (Official Pattern)' : 'Custom Practice Paper'} &middot; Independent practice material, not an official exam paper</div>
+  </div>
+  <div class="metarow"><span>Time Allowed: ${esc(mins)} minutes</span><span>Maximum Marks: ${esc(mx)}</span></div>
+  <div class="fields">
+    <div class="f">Name: </div><div class="f">Roll No.: </div>
+    <div class="f">Class / Section: </div><div class="f">Date: </div>
+  </div>
+  <div class="instr">
+    <b>General Instructions</b>
+    <ol>
+      <li>All questions are compulsory unless your teacher instructs otherwise.</li>
+      <li>Write answers in the space provided, or on separate sheets if instructed.</li>
+      <li>Marks for each question are indicated alongside it.</li>
+    </ol>
+  </div>`;
+
+  let lastSec = null;
+  list.forEach((q,i)=>{
+    const secTitle = (q.s||'') + ' — ' + (q.sec||'');
+    if(secTitle !== lastSec){ html += `<div class="secname">${esc(secTitle)}</div>`; lastSec = secTitle; }
+    const mk = markFor(ex,q);
+    html += `<div class="q"><div class="qn"><span class="qtxt">Q${i+1}. ${q.q}</span><span class="mk">[${mk} mark${mk===1?'':'s'}]</span></div>`;
+    if(q.t==='mcq' || q.t==='multi'){
+      html += '<div class="opts">' + q.o.map((o,k)=>`<div>${optLetter(ex,k)} ${o}</div>`).join('') + '</div>';
+    } else if(q.t==='num'){
+      html += '<div class="ans">Answer: <span class="line">&nbsp;</span></div>';
+    } else {
+      for(let r=0;r<ruleLines(q);r++) html += '<div class="rule"></div>';
+    }
+    html += '</div>';
+  });
+
+  html += `<div class="note-grow">Averoxa Foundation &middot; this paper and its answer key are independent practice material.</div>`;
+
+  const url = answerUrl();
+  const qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(url);
+  html += `
+  <div class="qrpage">
+    <div class="cap">Scan to view the Answer Key &amp; Solutions</div>
+    <img src="${qrSrc}" alt="QR code linking to the answer key" onerror="this.style.display='none'">
+    <div class="url">${esc(url)}</div>
+    <div class="foot">Averoxa Foundation &middot; contact.averoxa@gmail.com</div>
+  </div>`;
+
+  document.getElementById('sheet').innerHTML = html;
+}
+</script>
+</body>
+</html>
