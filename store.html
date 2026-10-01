@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Averoxa Store</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#e3e6e6;color:#0f1111;font-family:Arial,Helvetica,sans-serif;font-size:14px}
+a,.lk{color:#007185;cursor:pointer;text-decoration:none}.lk:hover{color:#c7511f;text-decoration:underline}
+header{background:#131921;color:#fff;display:flex;align-items:center;gap:10px;padding:8px 12px;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.logo{font-size:22px;font-weight:700;cursor:pointer}.logo span{color:#ff9900}
+.sb{display:flex;flex:1 1 320px;order:3;min-width:0}.sb select{border:0;background:#e6e6e6;border-radius:6px 0 0 6px;padding:0 6px;max-width:90px}
+.sb input{flex:1;min-width:0;border:0;padding:10px;font-size:15px}.sb button{border:0;background:#febd69;border-radius:0 6px 6px 0;padding:0 14px;font-size:17px;cursor:pointer}
+.hl{cursor:pointer;line-height:1.2;font-size:12px}.hl b{display:block;font-size:14px}.hl:hover{outline:1px solid #fff}
+nav{background:#232f3e;color:#fff;padding:7px 12px;display:flex;gap:16px;overflow-x:auto;white-space:nowrap}nav span{cursor:pointer}nav span:hover{outline:1px solid #fff}
+#bn{display:none;background:#fff3cd;padding:8px 12px;text-align:center}
+main{max-width:1300px;margin:auto;padding:12px}
+.car{position:relative;overflow:hidden;border-radius:6px;height:190px}.sl{display:flex;height:100%;transition:transform .6s}
+.sl>div{min-width:100%;display:flex;flex-direction:column;justify-content:center;padding:0 7%;color:#fff}.sl h2{margin:0 0 6px;font-size:28px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:-40px 8px 14px;position:relative}
+.box{background:#fff;padding:14px;border-radius:4px}.tiles h3{margin:0 0 8px;font-size:18px}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}.mini img{width:100%;aspect-ratio:1;object-fit:cover}
+.row{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px}.row .pc{min-width:170px;max-width:170px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.pc{background:#fff;padding:10px;border-radius:4px;display:flex;flex-direction:column}.pc img{width:100%;aspect-ratio:1;object-fit:cover;cursor:pointer}
+.tt{margin:8px 0 4px;height:36px;overflow:hidden;cursor:pointer;line-height:18px}.tt:hover{color:#c7511f}
+.st{color:#ffa41c;letter-spacing:1px}.pr{font-size:21px}.pr small{font-size:12px;vertical-align:top}.mu{color:#565959;font-size:12px}.dl{color:#cc0c39;font-size:12px}
+.b1,.b2{border:1px solid #fcd200;background:#ffd814;border-radius:20px;padding:8px 12px;cursor:pointer;width:100%;font-size:13px;margin-top:6px}.b2{background:#ffa41c;border-color:#ff8f00}.b1:hover{background:#f7ca00}
+.pdp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) 260px;gap:18px}.pdp img{width:100%;border-radius:4px}
+.cl{display:grid;grid-template-columns:1fr 300px;gap:14px}
+.it{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #ddd}.it img{width:90px;height:90px;object-fit:cover}
+input.f,select.q{width:100%;padding:9px;margin:4px 0;border:1px solid #888;border-radius:3px;font-size:14px}select.q{width:auto}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40;display:none;align-items:center;justify-content:center;padding:14px}.ov .box{width:100%;max-width:380px}
+.bt{background:#37475a;color:#fff;text-align:center;padding:14px;margin-top:20px;cursor:pointer}
+.ft{background:#232f3e;color:#ddd;padding:26px 14px;display:flex;gap:40px;justify-content:center;flex-wrap:wrap}.ft h4{color:#fff;margin:0 0 8px}.ft div div{padding:3px 0}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#232f3e;color:#fff;padding:10px 16px;border-radius:6px;display:none;z-index:60}
+@media(max-width:760px){.pdp,.cl{grid-template-columns:1fr}.tiles{margin-top:10px}}
+</style></head><body>
+<header><span class="logo" onclick="home()">averoxa<span>.store</span></span>
+<div class="sb"><select id="cs"></select><input id="q" placeholder="Search Averoxa Store" onkeydown="if(event.key==='Enter')srch()"><button onclick="srch()">🔍</button></div>
+<div class="hl" onclick="authBtn()">Hello, <span id="hn">sign in</span><b>Account</b></div>
+<div class="hl" onclick="orders()">Returns<b>&amp; Orders</b></div>
+<div class="hl" onclick="cartV()"><b>🛒 <span id="cn">0</span> Cart</b></div></header>
+<nav id="nv"></nav><div id="bn"></div>
+<main id="app"></main>
+<div class="bt" onclick="scrollTo({top:0,behavior:'smooth'})">Back to top</div>
+<div class="ft"><div><h4>Get to Know Us</h4><div><a href="https://averoxa-tech.github.io" style="color:#ddd">About Averoxa Technologies</a></div></div><div><h4>Let Us Help You</h4><div class="lk" style="color:#ddd" onclick="orders()">Your Orders</div><div class="lk" style="color:#ddd" onclick="authBtn()">Your Account</div></div><div><h4>Payments</h4><div>Cash on Delivery</div></div></div>
+<div class="ov" id="ov" onclick="if(event.target===this)this.style.display='none'"><div class="box" id="bx"></div></div><div id="toast"></div>
+<script>
+const API='https://e-com-1-qzr2.onrender.com';
+let token=localStorage.getItem('tk')||'',user=JSON.parse(localStorage.getItem('us')||'null'),P=[],CATS=[],cart=[],reg=false,slide=0;
+const $=i=>document.getElementById(i),e=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast=t=>{const x=$('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',2600)},wait=ms=>new Promise(r=>setTimeout(r,ms));
+const stars=r=>{r=Math.round(r||0);return '★'.repeat(r)+'☆'.repeat(5-r)},off=p=>p.mrp>p.price?Math.round((1-p.price/p.mrp)*100):0;
+const money=n=>'<small>₹</small>'+Number(n).toLocaleString('en-IN');
+async function wake(){const b=$('bn');for(let i=0;i<20;i++){try{if((await fetch(API+'/')).ok){b.style.display='none';return true}}catch{}
+ b.style.display='block';b.textContent='Server is waking up (free hosting)… please wait up to a minute. Attempt '+(i+1);await wait(4000)}
+ b.textContent='Could not reach the server. Check your internet and refresh.';return false}
+async function api(p,o={}){const r=await fetch(API+p,{...o,headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:o.body&&JSON.stringify(o.body)});
+ const j=await r.json().catch(()=>({}));if(!r.ok||j.ok===false)throw new Error(j.error||'Request failed');return j}
+function sync(){$('hn').textContent=user?user.name.split(' ')[0]:'sign in';$('cn').textContent=cart.reduce((s,i)=>s+i.qty,0)}
+async function loadCart(){if(!token)return;try{cart=(await api('/api/cart')).items}catch{}sync()}
+function modal(h){$('bx').innerHTML=h;$('ov').style.display='flex'}const close=()=>$('ov').style.display='none';
+function authBtn(){if(!user)return loginBox();modal(`<h3>Hello, ${e(user.name)}</h3><p class="mu">${e(user.email)}</p><button class="b1" onclick="logout()">Sign out</button>`)}
+function logout(){token='';user=null;cart=[];localStorage.clear();sync();close();toast('Signed out');home()}
+function loginBox(){modal(`<h2>${reg?'Create account':'Sign in'}</h2>${reg?'<input class="f" id="n" placeholder="Your name">':''}<input class="f" id="em" placeholder="Email"><input class="f" id="pw" type="password" placeholder="Password"><button class="b1" onclick="doAuth()">${reg?'Create your account':'Sign in'}</button><p class="lk" onclick="reg=!reg;loginBox()">${reg?'Already a customer? Sign in':'New customer? Create your account'}</p><p class="mu">Demo: buyer@example.com / password123</p>`)}
+async function doAuth(){try{const b={email:$('em').value,password:$('pw').value};if(reg)b.name=$('n').value;
+ const j=await api('/api/auth/'+(reg?'register':'login'),{method:'POST',body:b});token=j.token;user=j.user;localStorage.setItem('tk',token);localStorage.setItem('us',JSON.stringify(user));close();await loadCart();toast('Welcome '+user.name)}catch(x){toast(x.message)}}
+async function init(){$('app').innerHTML='<p>Loading store…</p>';sync();if(!await wake())return;
+ try{const[a,c]=await Promise.all([api('/api/products?limit=50'),api('/api/categories')]);P=a.products;CATS=c.categories}catch(x){$('app').innerHTML='<p>'+e(x.message)+'</p>';return}
+ $('cs').innerHTML='<option value="">All</option>'+CATS.map(c=>`<option value="${c.id}">${e(c.name)}</option>`).join('');
+ $('nv').innerHTML='<span onclick="results(\'\',\'\')">☰ All</span>'+CATS.map(c=>`<span onclick="results('${c.id}','')">${e(c.name)}</span>`).join('');
+ await loadCart();home();setInterval(()=>{const s=$('sl');if(s){slide=(slide+1)%3;s.style.transform='translateX(-'+slide*100+'%)'}},4000)}
+function card(p){return `<div class="pc"><img src="${e(p.images?.[0])}" alt="" onclick="pdp('${p.id}')"><div class="tt" onclick="pdp('${p.id}')">${e(p.title)}</div><div><span class="st">${stars(p.rating)}</span> <span class="mu">${p.ratingCount||0}</span></div><div class="pr">${money(p.price)}</div><div class="mu">${off(p)?`M.R.P: <s>₹${p.mrp}</s> <span class="dl">(${off(p)}% off)</span>`:'&nbsp;'}</div><div class="mu">FREE delivery</div><div style="flex:1"></div><button class="b1" ${p.stock>0?'':'disabled'} onclick="add('${p.id}')">${p.stock>0?'Add to Cart':'Out of stock'}</button></div>`}
+function home(){scrollTo(0,0);const bg=['linear-gradient(90deg,#232f3e,#ff9900)','linear-gradient(90deg,#0b3d91,#46a0ff)','linear-gradient(90deg,#0b6e4f,#6fd08c)'],tx=[['Mega Savings Fest','Up to 60% off on top picks'],['New Arrivals','Fresh products, every day'],['Free Delivery','On every order, Cash on Delivery']];
+ $('app').innerHTML=`<div class="car"><div class="sl" id="sl">${tx.map((t,i)=>`<div style="background:${bg[i]}"><h2>${t[0]}</h2><div>${t[1]}</div><button class="b2" style="width:140px" onclick="results('','')">Shop now</button></div>`).join('')}</div></div>
+ <div class="tiles">${CATS.slice(0,4).map(c=>`<div class="box"><h3>${e(c.name)}</h3><div class="mini">${P.filter(p=>p.categoryId===c.id).slice(0,4).map(p=>`<img src="${e(p.images?.[0])}" onclick="pdp('${p.id}')">`).join('')}</div><span class="lk" onclick="results('${c.id}','')">See more</span></div>`).join('')}</div>
+ <div class="box" style="margin-bottom:14px"><h3>Best sellers</h3><div class="row">${[...P].sort((a,b)=>(b.ratingCount||0)-(a.ratingCount||0)).slice(0,12).map(card).join('')}</div></div>
+ <div class="box"><h3>Recommended for you</h3><div class="grid">${P.map(card).join('')}</div></div>`}
+function srch(){results($('cs').value,$('q').value)}
+function results(c,q){scrollTo(0,0);q=(q||'').toLowerCase().trim();const L=P.filter(p=>(!c||p.categoryId===c)&&(!q||p.title.toLowerCase().includes(q)));
+ $('app').innerHTML=`<div class="box"><b>${L.length} results</b>${c?' in '+e(CATS.find(x=>x.id===c)?.name):''}${q?' for "'+e(q)+'"':''}<div class="grid" style="margin-top:10px">${L.map(card).join('')||'<p>No products found.</p>'}</div></div>`}
+function pdp(id){scrollTo(0,0);const p=P.find(x=>x.id===id);
+ $('app').innerHTML=`<div class="box pdp"><img src="${e(p.images?.[0])}"><div><h2 style="margin:0 0 6px">${e(p.title)}</h2><div><span class="st">${stars(p.rating)}</span> <span class="lk">${p.ratingCount||0} ratings</span></div><hr><div>${off(p)?`<span class="dl" style="font-size:22px">-${off(p)}%</span> `:''}<span class="pr" style="font-size:28px">${money(p.price)}</span></div><div class="mu">M.R.P: <s>₹${p.mrp}</s></div><p>${e(p.description)}</p></div>
+ <div class="box" style="border:1px solid #ddd;height:fit-content"><div class="pr">${money(p.price)}</div><div class="mu">FREE delivery · Cash on Delivery</div><p style="color:${p.stock>0?'#007600':'#b12704'};font-size:17px">${p.stock>0?'In stock':'Out of stock'}</p>Qty: <select class="q" id="qt">${[1,2,3,4,5].map(n=>`<option>${n}</option>`).join('')}</select><button class="b1" ${p.stock>0?'':'disabled'} onclick="add('${p.id}',+$('qt').value)">Add to Cart</button><button class="b2" ${p.stock>0?'':'disabled'} onclick="buy('${p.id}',+$('qt').value)">Buy Now</button></div></div>`}
+async function add(id,q=1,quiet){if(!token){toast('Please sign in first');loginBox();return false}
+ try{await api('/api/cart/items',{method:'POST',body:{productId:id,qty:q}});await loadCart();if(!quiet)toast('Added to Cart');return true}catch(x){toast(x.message);return false}}
+async function buy(id,q){if(await add(id,q,1))checkout()}
+async function cartV(){if(!token){toast('Please sign in first');return loginBox()}await loadCart();scrollTo(0,0);
+ const n=cart.reduce((s,i)=>s+i.qty,0),t=cart.reduce((s,i)=>s+i.lineTotal,0);
+ $('app').innerHTML=cart.length?`<div class="cl"><div class="box"><h2 style="margin:0">Shopping Cart</h2>${cart.map(i=>`<div class="it"><img src="${e(i.product?.images?.[0])}"><div style="flex:1"><div>${e(i.product?.title)}</div><div class="mu" style="color:#007600">In stock</div>Qty: <select class="q" onchange="qty('${i.productId}',+this.value)">${[0,1,2,3,4,5,6,7,8,9,10].map(k=>`<option ${k===i.qty?'selected':''} value="${k}">${k?k:'0 (Delete)'}</option>`).join('')}</select></div><b>₹${i.lineTotal}</b></div>`).join('')}<p style="text-align:right;font-size:18px">Subtotal (${n} items): <b>₹${t}</b></p></div>
+ <div class="box" style="height:fit-content"><p style="font-size:18px">Subtotal (${n} items): <b>₹${t}</b></p><button class="b1" onclick="checkout()">Proceed to Buy</button></div></div>`:'<div class="box"><h2>Your cart is empty</h2><span class="lk" onclick="home()">Continue shopping</span></div>'}
+async function qty(id,q){try{if(q<1)await api('/api/cart/items/'+id,{method:'DELETE'});else await api('/api/cart/items/'+id,{method:'PUT',body:{qty:q}});cartV()}catch(x){toast(x.message)}}
+async function checkout(){if(!token)return loginBox();await loadCart();if(!cart.length)return cartV();scrollTo(0,0);const t=cart.reduce((s,i)=>s+i.lineTotal,0);
+ $('app').innerHTML=`<div class="cl"><div class="box"><h2 style="margin-top:0">Checkout</h2><h3>1. Delivery address</h3><input class="f" id="l1" placeholder="Address line"><input class="f" id="ct" placeholder="City"><input class="f" id="st" placeholder="State"><input class="f" id="pc" placeholder="Pincode"><input class="f" id="ph" placeholder="Phone"><h3>2. Payment</h3><p>◉ Cash on Delivery</p><h3>3. Items</h3>${cart.map(i=>`<div class="mu">${e(i.product?.title)} × ${i.qty}</div>`).join('')}</div>
+ <div class="box" style="height:fit-content"><b>Order Summary</b><p>Items: ₹${t}<br>Delivery: FREE</p><p style="font-size:18px;color:#b12704"><b>Order Total: ₹${t}</b></p><button class="b2" onclick="place()">Place your order</button></div></div>`}
+async function place(){try{const a=await api('/api/users/me/addresses',{method:'POST',body:{line1:$('l1').value,city:$('ct').value,state:$('st').value,pincode:$('pc').value,phone:$('ph').value}});
+ const o=await api('/api/orders',{method:'POST',body:{addressId:a.address.id,paymentMethod:'cod'}});cart=[];sync();toast('Order placed! '+o.order.id);orders()}catch(x){toast(x.message)}}
+async function orders(){if(!token){toast('Please sign in first');return loginBox()}scrollTo(0,0);$('app').innerHTML='<p>Loading orders…</p>';
+ try{const j=await api('/api/orders');$('app').innerHTML='<div class="box"><h2 style="margin-top:0">Your Orders</h2>'+(j.orders.length?j.orders.map(o=>`<div class="it" style="display:block"><b>${e(o.id)}</b> · ₹${o.total} · <span style="color:#007600">${e(o.status)}</span><div class="mu">${new Date(o.createdAt).toLocaleString()}</div>${o.items.map(i=>`<div>${e(i.title)} × ${i.qty}</div>`).join('')}</div>`).join(''):'<p>No orders yet.</p>')+'</div>'}catch(x){$('app').innerHTML='<p>'+e(x.message)+'</p>'}}
+init();
+</script></body></html>
