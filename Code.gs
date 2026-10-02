@@ -60,7 +60,9 @@ function doPost(e) {
   } catch (err) {
     return json_({ ok: false, error: 'bad request' });
   }
-  if (b.action === 'qparse') return json_(qParse_(b)); // slow AI call: run outside the lock
+  if (b.action === 'qparse') { // slow AI call: run outside the lock; always answer with JSON
+    try { return json_(qParse_(b)); } catch (err) { return json_({ ok: false, error: 'Server error: ' + String(err).slice(0, 200) }); }
+  }
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(20000);
@@ -276,7 +278,7 @@ function aiCall_(system, content) {
     res = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', {
       method: 'post', contentType: 'application/json', muteHttpExceptions: true,
       headers: { 'x-goog-api-key': gKey },
-      payload: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ role: 'user', parts: parts }], generationConfig: { maxOutputTokens: 16000, temperature: 0.7 } })
+      payload: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ role: 'user', parts: parts }], generationConfig: { maxOutputTokens: 16000, temperature: 0.7, responseMimeType: 'application/json', thinkingConfig: { thinkingBudget: 0 } } })
     });
     if (res.getResponseCode() !== 200) return { ok: false, error: 'AI error ' + res.getResponseCode() + ': ' + res.getContentText().slice(0, 200) };
     const d = JSON.parse(res.getContentText());
