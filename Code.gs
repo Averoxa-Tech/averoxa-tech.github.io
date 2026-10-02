@@ -60,6 +60,7 @@ function doPost(e) {
   } catch (err) {
     return json_({ ok: false, error: 'bad request' });
   }
+  if (b.action === 'qparse') return json_(qParse_(b)); // slow AI call: run outside the lock
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(20000);
@@ -68,6 +69,9 @@ function doPost(e) {
       case 'start': return json_(logEvent_('start', b));
       case 'submit': return json_(saveAttempt_(b));
       case 'admin': return json_(adminData_(b));
+      case 'qcheck': return json_(qAuth_(b) ? { ok: true } : { ok: false, error: 'unauthorized' });
+      case 'qsave': return json_(qSave_(b));
+      case 'qget': return json_(qGet_());
       default: return json_({ ok: false, error: 'unknown action' });
     }
   } catch (err) {
@@ -162,4 +166,97 @@ function adminData_(b) {
     perDay: perDay,
     attempts: attempts
   };
+}
+
+/* ===================== QUESTION UPLOADER (added) =====================
+ * Extra setup: Project Settings -> Script properties -> add ANTHROPIC_KEY = your Anthropic API key.
+ * Then re-deploy (Deploy -> Manage deployments -> edit -> New version).
+ */
+const QUESTIONS_SHEET = 'Questions';
+const Q_TYPES = ['mcq', 'multi', 'num', 'vsa', 'sa', 'case', 'la', 'la4', 'la6', 'la10'];
+
+function qAuth_(b) {
+  if (String(b.password || '') === ADMIN_PASSWORD) return true;
+  Utilities.sleep(1200);
+  return false;
+}
+
+function qSafe_(s) { // strip dangerous HTML from AI/PDF text
+  return String(s == null ? '' : s)
+    .replace(/<\/?(script|iframe|object|embed|style|link|meta)[^>]*>/gi, '')
+    .replace(/\son\w+\s*=\s*("[^"]*"|'[^']*')/gi, '');
+}
+
+function qParse_(b) {
+  if (!qAuth_(b)) return { ok: false, error: 'unauthorized' };
+  const key = PropertiesService.getScriptProperties().getProperty('ANTHROPIC_KEY');
+  if (!key) return { ok: false, error: 'ANTHROPIC_KEY script property not set' };
+  const h = b.hint || {};
+  const content = [];
+  (b.files || []).slice(0, 10).forEach(function (f) {
+    if (f.mime === 'application/pdf') content.push({ type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: f.data } });
+    else content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: f.data } });
+  });
+  content.push({ type: 'text', text: 'Extract every question from the material above and below.\n' + String(b.text || '').slice(0, 30000) });
+  let system = 'You convert exam questions into JSON for a mock-test question bank. Reply with ONLY a JSON array, no prose, no code fences. ' +
+    'Each item: {"t": one of mcq|multi|num|vsa|sa|case|la, "s": subject, "ch": chapter, "q": question text (HTML allowed: <sup>, <sub>, <br>; write maths in plain text/unicode), ' +
+    '"o": [option texts without A/B/C/D labels] (mcq/multi only), "a": correct answer (mcq: 0-based index; multi: array of 0-based indices; num: number; omit for written), ' +
+    '"x": short worked solution or model answer, "m": marks (written only), "rb": [[point, marks],...] marking scheme (written only)}. ' +
+    'Use t=mcq for single-correct options, multi if several can be correct, num for numerical answer, vsa(2 marks)/sa(3)/la(5) for written. ' +
+    'If the answer is not given in the material, solve it yourself. Default subject: ' + (h.s || 'infer') + '; chapter: ' + (h.ch || 'infer') + '. Never invent questions that are not in the material.';
+  if (b.mode !== 'generate') {
+    system += ' ANSWERS: the uploaded questions usually come WITHOUT answers. For EVERY question you must work out the answer yourself: ' +
+      'for mcq/multi/num solve it step by step, double-check, and set "a" and a full worked solution in "x"; ' +
+      'for written questions (vsa/sa/case/la) write a complete model answer in "x" and a point-wise marking scheme in "rb" ' +
+      '(e.g. [["Defines the term",1],["Gives example",1]]) with "m" equal to the sum of the marks. ' +
+      'If the material already gives an answer, check it; if it looks wrong, use the correct one and mention the difference in "x". Never leave "a", "x" or "rb" empty.';
+  }
+  if (b.mode === 'generate') {
+    const n = Math.max(1, Math.min(30, Number(b.count) || 10));
+    system = system.replace('Never invent questions that are not in the material.', '') +
+      ' MODE OVERRIDE - DO NOT EXTRACT. The material is only a SAMPLE. Detect its subject, language (if Hindi, write everything in Devanagari Hindi; if English, English) and style, and write ' + n +
+      ' brand-new ORIGINAL questions of the SAME subject, language, difficulty and format, covering different chapters/topics of that subject. ' +
+      'Never copy or lightly reword a sample question: use new scenarios, numbers, passages and concepts, and make the questions different from each other. ' +
+      'For every written question (vsa/sa/case/la) "rb" MUST be a point-wise marking scheme, e.g. [["Defines the term correctly",1],["Gives one example",1],["Correct conclusion",1]], and "m" must equal the sum of the marks. ' +
+      'For mcq/multi/num, carefully compute and double-check the correct answer, and put the full working in "x". Set "s" to the subject of each question.';
+    content[content.length - 1] = { type: 'text', text: 'Sample material is above/below. Now write ' + n + ' new unique questions as specified.\n' + String(b.text || '').slice(0, 30000) };
+  }
+  const res = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+    method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+    headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+    payload: JSON.stringify({ model: 'claude-sonnet-5-5', max_tokens: 16000, system: system, messages: [{ role: 'user', content: content }] })
+  });
+  if (res.getResponseCode() !== 200) return { ok: false, error: 'AI error ' + res.getResponseCode() + ': ' + res.getContentText().slice(0, 200) };
+  const txt = (JSON.parse(res.getContentText()).content || []).map(function (c) { return c.text || ''; }).join('');
+  try {
+    const arr = JSON.parse(txt.replace(/^```(?:json)?|```$/gm, '').trim());
+    return { ok: true, questions: Array.isArray(arr) ? arr : [] };
+  } catch (e) {
+    return { ok: false, error: 'AI reply could not be read, try fewer pages at a time' };
+  }
+}
+
+function qSave_(b) {
+  if (!qAuth_(b)) return { ok: false, error: 'unauthorized' };
+  const sh = sheet_(QUESTIONS_SHEET, ['time', 'json']);
+  let n = 0;
+  (b.questions || []).slice(0, 200).forEach(function (q) {
+    if (!q || Q_TYPES.indexOf(q.t) === -1 || !q.q || !q.s || !q.ch) return;
+    const ex = (q.ex || []).filter(function (e) { return VALID_EXAMS.indexOf(e) !== -1; });
+    if (!ex.length) return;
+    q.ex = ex; q.q = qSafe_(q.q); q.x = qSafe_(q.x);
+    if (q.o) q.o = q.o.map(qSafe_);
+    sh.appendRow([new Date(), JSON.stringify(q).slice(0, 45000)]);
+    n++;
+  });
+  return { ok: true, saved: n };
+}
+
+function qGet_() {
+  const sh = sheet_(QUESTIONS_SHEET, ['time', 'json']);
+  const last = sh.getLastRow();
+  const rows = last > 1 ? sh.getRange(2, 2, last - 1, 1).getValues() : [];
+  const items = [];
+  rows.forEach(function (r) { try { items.push(JSON.parse(r[0])); } catch (e) { /* skip bad row */ } });
+  return { ok: true, items: items };
 }
