@@ -15,7 +15,7 @@
  * because it contains your admin password.
  */
 
-const ADMIN_PASSWORD = 'CHANGE-THIS-PASSWORD';
+const ADMIN_PASSWORD = 'AVEROXA@@MOCK';
 
 const EVENTS_SHEET = 'Events';
 const ATTEMPTS_SHEET = 'Attempts';
@@ -189,8 +189,6 @@ function qSafe_(s) { // strip dangerous HTML from AI/PDF text
 
 function qParse_(b) {
   if (!qAuth_(b)) return { ok: false, error: 'unauthorized' };
-  const key = PropertiesService.getScriptProperties().getProperty('ANTHROPIC_KEY');
-  if (!key) return { ok: false, error: 'ANTHROPIC_KEY script property not set' };
   const h = b.hint || {};
   const content = [];
   (b.files || []).slice(0, 10).forEach(function (f) {
@@ -221,13 +219,9 @@ function qParse_(b) {
       'For mcq/multi/num, carefully compute and double-check the correct answer, and put the full working in "x". Set "s" to the subject of each question.';
     content[content.length - 1] = { type: 'text', text: 'Sample material is above/below. Now write ' + n + ' new unique questions as specified.\n' + String(b.text || '').slice(0, 30000) };
   }
-  const res = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
-    method: 'post', contentType: 'application/json', muteHttpExceptions: true,
-    headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-    payload: JSON.stringify({ model: 'claude-sonnet-5-5', max_tokens: 16000, system: system, messages: [{ role: 'user', content: content }] })
-  });
-  if (res.getResponseCode() !== 200) return { ok: false, error: 'AI error ' + res.getResponseCode() + ': ' + res.getContentText().slice(0, 200) };
-  const txt = (JSON.parse(res.getContentText()).content || []).map(function (c) { return c.text || ''; }).join('');
+  const out = aiCall_(system, content);
+  if (!out.ok) return out;
+  const txt = out.text;
   try {
     const arr = JSON.parse(txt.replace(/^```(?:json)?|```$/gm, '').trim());
     return { ok: true, questions: Array.isArray(arr) ? arr : [] };
@@ -259,4 +253,42 @@ function qGet_() {
   const items = [];
   rows.forEach(function (r) { try { items.push(JSON.parse(r[0])); } catch (e) { /* skip bad row */ } });
   return { ok: true, items: items };
+}
+
+/* ===================== AI PROVIDER (switch without editing code) =====================
+ * Project Settings -> Script properties:
+ *   AI_PROVIDER   = claude  or  gemini      (optional; default: claude if ANTHROPIC_KEY exists, else gemini)
+ *   ANTHROPIC_KEY = your Claude API key     (for claude)
+ *   GEMINI_KEY    = your Google AI Studio key (for gemini; has a free tier)
+ *   CLAUDE_MODEL / GEMINI_MODEL = optional model names (defaults: claude-sonnet-5-5 / gemini-2.5-flash)
+ */
+function aiCall_(system, content) {
+  const props = PropertiesService.getScriptProperties();
+  const aKey = props.getProperty('ANTHROPIC_KEY'), gKey = props.getProperty('GEMINI_KEY');
+  const provider = String(props.getProperty('AI_PROVIDER') || (aKey ? 'claude' : 'gemini')).toLowerCase();
+  let res;
+  if (provider === 'gemini') {
+    if (!gKey) return { ok: false, error: 'GEMINI_KEY script property not set' };
+    const model = props.getProperty('GEMINI_MODEL') || 'gemini-2.5-flash';
+    const parts = content.map(function (c) {
+      return c.type === 'text' ? { text: c.text } : { inlineData: { mimeType: c.source.media_type, data: c.source.data } };
+    });
+    res = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent', {
+      method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+      headers: { 'x-goog-api-key': gKey },
+      payload: JSON.stringify({ systemInstruction: { parts: [{ text: system }] }, contents: [{ role: 'user', parts: parts }], generationConfig: { maxOutputTokens: 16000, temperature: 0.7 } })
+    });
+    if (res.getResponseCode() !== 200) return { ok: false, error: 'AI error ' + res.getResponseCode() + ': ' + res.getContentText().slice(0, 200) };
+    const d = JSON.parse(res.getContentText());
+    const ps = (d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts) || [];
+    return { ok: true, text: ps.map(function (p) { return p.text || ''; }).join('') };
+  }
+  if (!aKey) return { ok: false, error: 'ANTHROPIC_KEY script property not set' };
+  res = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+    method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+    headers: { 'x-api-key': aKey, 'anthropic-version': '2023-06-01' },
+    payload: JSON.stringify({ model: props.getProperty('CLAUDE_MODEL') || 'claude-sonnet-5-5', max_tokens: 16000, system: system, messages: [{ role: 'user', content: content }] })
+  });
+  if (res.getResponseCode() !== 200) return { ok: false, error: 'AI error ' + res.getResponseCode() + ': ' + res.getContentText().slice(0, 200) };
+  return { ok: true, text: (JSON.parse(res.getContentText()).content || []).map(function (c) { return c.text || ''; }).join('') };
 }
