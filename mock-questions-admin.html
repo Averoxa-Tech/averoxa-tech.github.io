@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
 <title>Question Uploader | Averoxa Mock Test</title>
@@ -29,26 +30,26 @@ button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line
 .msg{font-size:13.5px;margin-top:8px}.ok{color:var(--ok)}.err{color:var(--bad)}.hidden{display:none}
 </style></head><body>
 <div class="watermark"></div>
-<h1>Question Uploader</h1><div class="sub">Text, photo ya PDF daalo → AI questions nikalega → check karo → question bank mein save.</div>
+<h1>Question Uploader</h1><div class="sub">Add text, photos or a PDF → AI creates the questions → review them → save to the question bank.</div>
 
-<div id="login" class="card"><label>Admin password</label><input id="pw" type="password" placeholder="Code.gs wala ADMIN_PASSWORD"><div style="margin-top:10px"><button onclick="login()">Enter</button></div><div id="lmsg" class="msg err"></div></div>
+<div id="login" class="card"><label>Admin password</label><input id="pw" type="password" placeholder="Enter your admin password"><div style="margin-top:10px"><button onclick="login()">Enter</button></div><div id="lmsg" class="msg err"></div></div>
 
 <div id="app" class="hidden">
-<div class="card"><b>1. In sab questions par ye lagao</b>
+<div class="card"><b>1. Apply these settings to all questions</b>
 <div class="ex"><label>Exams:</label><label><input type="checkbox" value="jm" checked>JEE Main</label><label><input type="checkbox" value="ja" checked>JEE Adv</label><label><input type="checkbox" value="neet">NEET</label><label><input type="checkbox" value="cbse">CBSE</label><label><input type="checkbox" value="isc">ISC</label></div>
 <div class="row"><div><label>Subject</label><input id="hs" placeholder="Physics"></div><div><label>Chapter</label><input id="hc" placeholder="Kinematics"></div>
 <div><label>Level</label><select id="hl"><option value="1">Easy</option><option value="2" selected>Medium</option><option value="3">Hard</option></select></div>
 <div><label>Source</label><select id="hr"><option value="practice">Practice</option><option value="pyq">PYQ</option></select></div><div><label>Year (PYQ)</label><input id="hy" type="number" placeholder="2023"></div></div></div>
 
-<div class="card"><b>2. Paper / questions daalo</b>
-<div class="row"><div><label>AI kya kare?</label><select id="mode"><option value="generate">Naye unique questions banao (isi subject, isi bhasha, isi style ke)</option><option value="extract">Jaise hain waise nikalo</option></select></div><div><label>Kitne naye questions</label><input id="cnt2" type="number" value="10" min="1" max="30"></div></div>
-<label>Text paste karo (optional)</label><textarea id="txt" placeholder="Questions yahan paste karo, answers/solutions ho to saath mein..."></textarea>
-<label>Photos ya PDF (optional) — file choose karo ya screenshot paste (Ctrl+V)</label>
-<div class="drop"><input id="fi" type="file" accept="image/*,application/pdf" multiple onchange="addFiles(this.files)"><div>Photo: auto-resize hoti hai · PDF: max ~15 MB</div></div>
+<div class="card"><b>2. Add a paper / questions</b>
+<div class="row"><div><label>What should the AI do?</label><select id="mode"><option value="generate">Create new unique questions (same subject, language and style)</option><option value="extract">Extract the questions as they are</option></select></div><div><label>Number of new questions</label><input id="cnt2" type="number" value="10" min="1" max="30"></div></div>
+<label>Paste text (optional)</label><textarea id="txt" placeholder="Paste questions here, with answers/solutions if you have them..."></textarea>
+<label>Photos or PDF (optional) — choose a file or paste a screenshot (Ctrl+V)</label>
+<div class="drop"><input id="fi" type="file" accept="image/*,application/pdf" multiple onchange="addFiles(this.files)"><div>Photos are resized automatically · PDF: max ~15 MB</div></div>
 <div id="chips" class="chips"></div>
 <div style="margin-top:12px"><button id="xb" onclick="extract()">Extract questions</button></div><div id="xmsg" class="msg"></div></div>
 
-<div id="rev" class="hidden"><div class="card"><b>3. Check karke save karo</b> <span id="cnt" class="sub"></span><div class="sub">Galat ho to edit karo ya Remove. MCQ answer: A/B/C/D. Written answers mein marking scheme alag nahi chahiye to khali chhodo.</div>
+<div id="rev" class="hidden"><div class="card"><b>3. Review and save</b> <span id="cnt" class="sub"></span><div class="sub">Edit anything that is wrong, or remove the question. MCQ answer: A/B/C/D. Written questions need a marking scheme (one point per line).</div>
 <button onclick="save()" id="sb">Save all to question bank</button> <span id="smsg" class="msg"></span></div><div id="list"></div></div>
 </div>
 
@@ -61,17 +62,17 @@ let pw='',files=[],items=[],saved=[];
 async function api(p){const r=await fetch(API_URL,{method:'POST',body:JSON.stringify(p)});return r.json()}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 async function login(){
-  if(/PASTE_YOUR/.test(API_URL)){$('lmsg').textContent='Pehle file mein API_URL daalo.';return}
+  if(/PASTE_YOUR/.test(API_URL)){$('lmsg').textContent='Please set API_URL in this file first.';return}
   pw=$('pw').value;$('lmsg').textContent='Checking...';
   try{const r=await api({action:'qcheck',password:pw});
-    if(r.ok){$('login').classList.add('hidden');$('app').classList.remove('hidden');loadExisting()}else $('lmsg').textContent=r.error==='unauthorized'?'Galat password.':(r.error||'Error')}
-  catch(e){$('lmsg').textContent='Server se connect nahi hua.'}
+    if(r.ok){$('login').classList.add('hidden');$('app').classList.remove('hidden');loadExisting()}else $('lmsg').textContent=r.error==='unauthorized'?'Incorrect password.':(r.error||'Error')}
+  catch(e){$('lmsg').textContent='Could not connect to the server.'}
 }
 function b64(blob){return new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.readAsDataURL(blob)})}
 async function addFiles(list){
   for(const f of list){
     if(f.type==='application/pdf'){
-      if(f.size>15e6){alert(f.name+' bahut bada hai (15 MB se kam rakho)');continue}
+      if(f.size>15e6){alert(f.name+' is too large (keep it under 15 MB)');continue}
       files.push({name:f.name,mime:f.type,data:await b64(f)})
     }else if(f.type.startsWith('image/')){
       const img=await createImageBitmap(f),s=Math.min(1,1800/Math.max(img.width,img.height));
@@ -85,18 +86,18 @@ async function addFiles(list){
 function chips(){$('chips').innerHTML=files.map((f,i)=>`<span>${esc(f.name)} <a href="#" onclick="files.splice(${i},1);chips();return false">✕</a></span>`).join('')}
 document.addEventListener('paste',e=>{const fs=[...(e.clipboardData?.files||[])];if(fs.length)addFiles(fs)});
 async function extract(){
-  if(!$('txt').value.trim()&&!files.length){$('xmsg').innerHTML='<span class="err">Text ya file daalo.</span>';return}
+  if(!$('txt').value.trim()&&!files.length){$('xmsg').innerHTML='<span class="err">Add some text or a file.</span>';return}
   const ex=[...document.querySelectorAll('.ex input:checked')].map(i=>i.value);
-  if(!ex.length){$('xmsg').innerHTML='<span class="err">Kam se kam ek exam chuno.</span>';return}
+  if(!ex.length){$('xmsg').innerHTML='<span class="err">Select at least one exam.</span>';return}
   const hint={ex,s:$('hs').value.trim(),ch:$('hc').value.trim(),lv:+$('hl').value,src:$('hr').value,yr:+$('hy').value||0};
-  $('xb').disabled=true;$('xmsg').textContent='AI padh raha hai... (1-2 min lag sakta hai)';
+  $('xb').disabled=true;$('xmsg').textContent='The AI is reading... (this can take 1-2 minutes)';
   try{
     const r=await api({action:'qparse',password:pw,text:$('txt').value,files:files.map(f=>({mime:f.mime,data:f.data})),hint,mode:$('mode').value,count:+$('cnt2').value||10});
     if(!r.ok)throw new Error(r.error);
     const gen=$('mode').value==='generate',src=gen?'practice':hint.src;
     const all=r.questions.map(q=>Object.assign({},hint,q,{ex:hint.ex,src,yr:src==='pyq'?hint.yr:undefined}));
     const fresh=all.filter(q=>!isDup(q));fresh.forEach(q=>known.push(toks(q.q)));items=items.concat(fresh);
-    $('xmsg').innerHTML=`<span class="ok">${fresh.length} ${gen?'naye unique questions bane':'questions mile'}.</span>`+(all.length>fresh.length?` <span class="err">${all.length-fresh.length} duplicate hata diye (bank mein pehle se the).</span>`:'');files=[];chips();$('txt').value='';render()
+    $('xmsg').innerHTML=`<span class="ok">${fresh.length} ${gen?'new unique questions created':'questions found'}.</span>`+(all.length>fresh.length?` <span class="err">${all.length-fresh.length} duplicates removed (already in the bank).</span>`:'');files=[];chips();$('txt').value='';render()
   }catch(e){$('xmsg').innerHTML='<span class="err">'+esc(e.message||e)+'</span>'}
   $('xb').disabled=false
 }
@@ -117,10 +118,10 @@ function render(){
 <div class="row"><div><label>Type</label><select onchange="items[${i}].t=this.value;render()">${TYPES.map(t=>`<option ${t===q.t?'selected':''}>${t}</option>`).join('')}</select></div>
 <div><label>Subject</label><input value="${esc(q.s)}" oninput="items[${i}].s=this.value"></div><div><label>Chapter</label><input value="${esc(q.ch)}" oninput="items[${i}].ch=this.value"></div>
 <div><label>Level</label><select onchange="items[${i}].lv=+this.value">${[1,2,3].map(n=>`<option value="${n}" ${n==q.lv?'selected':''}>${['Easy','Medium','Hard'][n-1]}</option>`).join('')}</select></div></div>
-<label>Question (HTML ok, jaise x&lt;sup&gt;2&lt;/sup&gt;)</label><textarea oninput="items[${i}].q=this.value">${esc(q.q)}</textarea>
-${obj?`<label>Options (ek line mein ek)</label><textarea oninput="items[${i}].o=this.value.split('\\n')">${esc((q.o||[]).join('\n'))}</textarea>`:''}
+<label>Question (HTML allowed, e.g. x&lt;sup&gt;2&lt;/sup&gt;)</label><textarea oninput="items[${i}].q=this.value">${esc(q.q)}</textarea>
+${obj?`<label>Options (one per line)</label><textarea oninput="items[${i}].o=this.value.split('\\n')">${esc((q.o||[]).join('\n'))}</textarea>`:''}
 ${w?'':`<label>${q.t==='num'?'Answer (number)':q.t==='multi'?'Correct options (A,C)':'Correct option (A/B/C/D)'}</label><input value="${esc(ansStr(q))}" oninput="items[${i}].a=this.value">`}
-<label>Solution / model answer</label><textarea oninput="items[${i}].x=this.value">${esc(q.x)}</textarea>${w?`<label>Marking scheme — ek line mein ek point: point | marks</label><textarea oninput="items[${i}].rb=parseRb(this.value)">${esc((q.rb||[]).map(p=>p.join(' | ')).join('\n'))}</textarea>`:''}</div>`}).join('')
+<label>Solution / model answer</label><textarea oninput="items[${i}].x=this.value">${esc(q.x)}</textarea>${w?`<label>Marking scheme — one point per line: point | marks</label><textarea oninput="items[${i}].rb=parseRb(this.value)">${esc((q.rb||[]).map(p=>p.join(' | ')).join('\n'))}</textarea>`:''}</div>`}).join('')
 }
 function clean(q){
   const o={ex:q.ex,s:q.s,ch:q.ch,lv:+q.lv||2,t:q.t,src:q.src,q:q.q,x:q.x||''};if(q.yr)o.yr=q.yr;
@@ -132,18 +133,18 @@ function clean(q){
   return o
 }
 function valid(o,n){
-  if(!o.s||!o.ch||!o.q)return `#${n}: subject, chapter, question zaroori hain`;
-  if(o.t==='mcq'&&(o.o.length<2||!(o.a>=0&&o.a<o.o.length)))return `#${n}: MCQ ka answer/options check karo`;
-  if(o.t==='multi'&&(!o.a.length||o.a.some(i=>!(i>=0&&i<o.o.length))))return `#${n}: multi answer check karo`;
-  if(o.t==='num'&&!isFinite(o.a))return `#${n}: numerical answer number hona chahiye`;
-  if(!['mcq','multi','num'].includes(o.t)&&!o.rb.length)return `#${n}: marking scheme (point | marks) likho`;
+  if(!o.s||!o.ch||!o.q)return `#${n}: subject, chapter and question are required`;
+  if(o.t==='mcq'&&(o.o.length<2||!(o.a>=0&&o.a<o.o.length)))return `#${n}: check the MCQ options and answer`;
+  if(o.t==='multi'&&(!o.a.length||o.a.some(i=>!(i>=0&&i<o.o.length))))return `#${n}: check the multi-correct answer`;
+  if(o.t==='num'&&!isFinite(o.a))return `#${n}: the numerical answer must be a number`;
+  if(!['mcq','multi','num'].includes(o.t)&&!o.rb.length)return `#${n}: add a marking scheme (point | marks)`;
   return ''
 }
 async function save(){
   const out=items.map(clean);for(let i=0;i<out.length;i++){const e=valid(out[i],i+1);if(e){$('smsg').innerHTML='<span class="err">'+e+'</span>';return}}
   $('sb').disabled=true;$('smsg').textContent='Saving...';
   try{const r=await api({action:'qsave',password:pw,questions:out});if(!r.ok)throw new Error(r.error);
-    $('smsg').innerHTML=`<span class="ok">${r.saved} questions bank mein add ho gaye ✔</span>`;items=[];render();$('rev').classList.remove('hidden');$('list').innerHTML=''}
+    $('smsg').innerHTML=`<span class="ok">${r.saved} questions added to the question bank ✔</span>`;items=[];render();$('rev').classList.remove('hidden');$('list').innerHTML=''}
   catch(e){$('smsg').innerHTML='<span class="err">'+esc(e.message||e)+'</span>'}
   $('sb').disabled=false
 }
