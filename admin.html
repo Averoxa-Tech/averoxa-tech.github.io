@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Averoxa Store Admin</title>
+<style>
+:root{--bg:#0b0b0c;--card:#151517;--line:#2a2a2e;--text:#f4efe6;--mute:#a39b8b;--gold:#d9a441;--red:#e5604d;--green:#4cbf7b}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.4}
+body{padding:env(safe-area-inset-top) 0 calc(90px + env(safe-area-inset-bottom))}
+[hidden]{display:none!important}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+h1,h2{margin:0}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{width:100%;background:#0f0f11;border:1px solid var(--line);border-radius:10px;padding:12px;color:var(--text)}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+label{display:block;font-size:13px;color:var(--mute);margin:14px 0 6px}
+button{border:0;border-radius:10px;padding:12px 16px;min-height:44px;cursor:pointer;background:var(--card);border:1px solid var(--line)}
+.gold{background:var(--gold);color:#1a1405;font-weight:700;border-color:var(--gold)}
+.danger{color:var(--red)}
+.mute{color:var(--mute);font-size:14px}
+header.top{position:sticky;top:0;z-index:5;background:rgba(11,11,12,.95);border-bottom:1px solid var(--line);padding:12px 0}
+header.top .wrap{display:flex;align-items:center;gap:8px}
+header.top h1{font-size:18px;flex:1}
+header.top a,header.top button{font-size:14px;padding:8px 12px;min-height:36px;color:var(--text);text-decoration:none;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.login{max-width:380px;margin:12vh auto 0;padding:0 16px}
+.login h1{font-size:24px;margin-bottom:4px}
+.msg{min-height:20px;margin-top:12px;font-size:14px}
+.err{color:var(--red)}
+.toolbar{display:flex;gap:8px;margin:16px 0}
+.toolbar input{flex:1}
+.item{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:10px}
+.item img,.item .noimg{width:76px;height:76px;border-radius:10px;object-fit:cover;background:#222;flex:none}
+.item .info{flex:1;min-width:0}
+.item .t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.price{color:var(--gold);font-weight:700}
+.off{color:var(--green);font-size:13px;margin-left:6px}
+.item .acts{display:flex;gap:8px;margin-top:8px}
+.item .acts button{padding:6px 12px;min-height:34px;font-size:14px}
+.empty{text-align:center;color:var(--mute);padding:40px 0}
+#sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;padding:env(safe-area-inset-top) 0 calc(30px + env(safe-area-inset-bottom))}
+#sheet header{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:2}
+#sheet header h2{flex:1;font-size:18px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.photos{display:flex;flex-wrap:wrap;gap:10px}
+.ph{position:relative;width:88px;height:88px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph button{position:absolute;top:3px;right:3px;width:26px;height:26px;min-height:0;padding:0;border-radius:50%;background:rgba(0,0,0,.75);color:#fff;font-size:16px;line-height:1}
+.ph .main{position:absolute;left:0;bottom:0;right:0;background:rgba(217,164,65,.92);color:#1a1405;font-size:11px;text-align:center;font-weight:700}
+.addph{width:88px;height:88px;border:2px dashed var(--line);border-radius:10px;display:grid;place-items:center;color:var(--mute);font-size:13px;text-align:center;cursor:pointer}
+.preview{margin-top:10px;padding:10px 12px;border-radius:10px;background:#1b1810;border:1px solid #3a3217;font-size:14px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:6;box-shadow:0 6px 20px rgba(0,0,0,.5);padding:14px 20px;border-radius:999px}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom));background:#222;border:1px solid var(--line);padding:10px 16px;border-radius:999px;z-index:50;font-size:14px;max-width:90vw}
+</style>
+</head>
+<body>
+
+<section id="login" class="login">
+  <h1>Averoxa Store Admin</h1>
+  <p class="mute">Sign in with your admin account.</p>
+  <label for="em">Email</label>
+  <input id="em" type="email" autocomplete="username" autocapitalize="none" spellcheck="false">
+  <label for="pw">Password</label>
+  <input id="pw" type="password" autocomplete="current-password">
+  <button id="loginBtn" class="gold" style="width:100%;margin-top:18px">Sign in</button>
+  <div id="loginMsg" class="msg mute" role="status"></div>
+</section>
+
+<section id="main" hidden>
+  <header class="top"><div class="wrap">
+    <h1>Store items</h1>
+    <a href="store.html" target="_blank" rel="noopener">View store</a>
+    <button id="logout">Log out</button>
+  </div></header>
+  <div class="wrap">
+    <div class="toolbar"><input id="q" type="search" placeholder="Search items" aria-label="Search items"></div>
+    <div id="list"></div>
+  </div>
+  <button id="addBtn" class="gold fab">+ Add item</button>
+</section>
+
+<section id="sheet" hidden aria-label="Item form">
+  <header><button id="closeSheet" aria-label="Close">&larr; Back</button><h2 id="sheetTitle">Add item</h2></header>
+  <div class="wrap">
+    <label>Photos (first one is the main photo)</label>
+    <div class="photos" id="photos"></div>
+    <input id="file" type="file" accept="image/*" multiple hidden>
+
+    <label for="f-title">Item name</label>
+    <input id="f-title" maxlength="120" placeholder="e.g. Averoxa Smart Watch">
+
+    <label for="f-cat">Category</label>
+    <select id="f-cat"></select>
+    <input id="f-newcat" maxlength="40" placeholder="New category name" hidden style="margin-top:8px">
+
+    <div class="row2">
+      <div><label for="f-mrp">MRP (original price) &#8377;</label><input id="f-mrp" type="number" inputmode="decimal" min="0" step="any"></div>
+      <div><label for="f-disc">Discount %</label><input id="f-disc" type="number" inputmode="decimal" min="0" max="99" step="any" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div><label for="f-price">Selling price &#8377;</label><input id="f-price" type="number" inputmode="decimal" min="0" step="any"></div>
+      <div><label for="f-stock">Stock (quantity)</label><input id="f-stock" type="number" inputmode="numeric" min="0" step="1"></div>
+    </div>
+    <div class="preview" id="preview">Enter MRP and discount, the selling price fills in by itself.</div>
+
+    <label for="f-desc">Description</label>
+    <textarea id="f-desc" maxlength="2000" placeholder="What is this item? Key features."></textarea>
+
+    <div id="formMsg" class="msg err" role="alert"></div>
+    <button id="saveBtn" class="gold" style="width:100%;margin-top:6px">Save item</button>
+  </div>
+</section>
+
+<div id="toast" hidden></div>
+
+<script>
+const API = 'https://e-com-1-qzr2.onrender.com';
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => '\u20B9' + Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+const MAX_PHOTOS = 6;
+let token = localStorage.getItem('axAdminToken') || '';
+let products = [], categories = [], editing = null, photos = [], saving = false;
+
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 2800); }
+
+async function api(path, opts = {}) {
+  const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 75000);
+  try {
+    const res = await fetch(API + path, { ...opts, signal: ctl.signal, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}), ...(opts.headers || {}) } });
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401 && token) { logout(); throw new Error('Session ended. Please sign in again.'); }
+    if (!res.ok || data.ok === false) throw new Error(data.error || 'Something went wrong (' + res.status + ')');
+    return data;
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('The server did not answer. It may be waking up, try again in a minute.');
+    if (e instanceof TypeError) throw new Error('Cannot reach the server. Check your internet and try again.');
+    throw e;
+  } finally { clearTimeout(timer); }
+}
+
+// ---------- login ----------
+function logout() { token = ''; localStorage.removeItem('axAdminToken'); $('main').hidden = true; $('sheet').hidden = true; $('login').hidden = false; }
+async function login() {
+  const msg = $('loginMsg'); msg.className = 'msg mute'; msg.textContent = 'Signing in\u2026 (the server can take up to a minute to wake up)';
+  $('loginBtn').disabled = true;
+  try {
+    const d = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ email: $('em').value.trim().toLowerCase(), password: $('pw').value }) });
+    if (!d.user || d.user.role !== 'admin') throw new Error('This account is not an admin account.');
+    token = d.token; localStorage.setItem('axAdminToken', token); $('pw').value = ''; msg.textContent = '';
+    await start();
+  } catch (e) { msg.className = 'msg err'; msg.textContent = e.message; }
+  $('loginBtn').disabled = false;
+}
+
+async function start() {
+  $('login').hidden = true; $('main').hidden = false; $('list').innerHTML = '<p class="empty">Loading\u2026</p>';
+  try { await refresh(); } catch (e) { $('list').innerHTML = '<p class="empty err">' + esc(e.message) + '</p>'; }
+}
+async function refresh() {
+  const [p, c] = await Promise.all([api('/api/admin/products'), api('/api/categories')]);
+  products = p.products; categories = c.categories; renderList();
+}
+
+// ---------- list ----------
+function offPct(p) { return p.mrp > p.price ? Math.round((1 - p.price / p.mrp) * 100) : 0; }
+function renderList() {
+  const q = $('q').value.trim().toLowerCase();
+  const rows = products.filter(p => !q || p.title.toLowerCase().includes(q)).slice().reverse();
+  $('list').innerHTML = rows.length ? rows.map(p => {
+    const img = p.images && p.images[0] ? '<img loading="lazy" alt="" src="' + esc(p.images[0]) + '">' : '<div class="noimg"></div>';
+    const cat = (categories.find(c => c.id === p.categoryId) || {}).name || '';
+    return '<div class="item">' + img + '<div class="info"><div class="t">' + esc(p.title) + '</div>' +
+      '<div><span class="price">' + money(p.price) + '</span>' + (offPct(p) ? '<span class="off">' + offPct(p) + '% off</span>' : '') + '</div>' +
+      '<div class="mute">' + esc(cat) + ' \u00B7 Stock ' + esc(p.stock) + '</div>' +
+      '<div class="acts"><button data-edit="' + esc(p.id) + '">Edit</button><button class="danger" data-del="' + esc(p.id) + '">Delete</button></div></div></div>';
+  }).join('') : '<p class="empty">' + (q ? 'No items match.' : 'No items yet. Tap "+ Add item".') + '</p>';
+}
+$('list').addEventListener('click', async e => {
+  const ed = e.target.closest('[data-edit]'), dl = e.target.closest('[data-del]');
+  if (ed) openForm(products.find(p => p.id === ed.dataset.edit));
+  if (dl) {
+    const p = products.find(x => x.id === dl.dataset.del);
+    if (!p || !confirm('Delete "' + p.title + '"? This cannot be undone.')) return;
+    try { await api('/api/admin/products/' + encodeURIComponent(p.id), { method: 'DELETE' }); await refresh(); toast('Item deleted'); } catch (err) { toast(err.message); }
+  }
+});
+$('q').addEventListener('input', renderList);
+
+// ---------- form ----------
+function fillCats(selected) {
+  $('f-cat').innerHTML = categories.map(c => '<option value="' + esc(c.id) + '">' + esc(c.name) + '</option>').join('') + '<option value="__new__">+ Add new category\u2026</option>';
+  if (selected) $('f-cat').value = selected;
+  $('f-newcat').hidden = $('f-cat').value !== '__new__';
+}
+$('f-cat').addEventListener('change', () => { $('f-newcat').hidden = $('f-cat').value !== '__new__'; if (!$('f-newcat').hidden) $('f-newcat').focus(); });
+
+function openForm(p) {
+  editing = p || null; $('sheetTitle').textContent = p ? 'Edit item' : 'Add item'; $('formMsg').textContent = '';
+  photos = p ? p.images.map(url => ({ url })) : [];
+  fillCats(p && p.categoryId); $('f-newcat').value = '';
+  $('f-title').value = p ? p.title : ''; $('f-desc').value = p ? p.description || '' : '';
+  $('f-mrp').value = p ? p.mrp : ''; $('f-price').value = p ? p.price : ''; $('f-stock').value = p ? p.stock : '';
+  $('f-disc').value = p && p.mrp > p.price ? +((1 - p.price / p.mrp) * 100).toFixed(1) : '';
+  renderPhotos(); updatePreview(); $('sheet').hidden = false; $('sheet').scrollTop = 0; document.body.style.overflow = 'hidden';
+}
+function closeForm() { $('sheet').hidden = true; document.body.style.overflow = ''; }
+
+function renderPhotos() {
+  $('photos').innerHTML = photos.map((ph, i) => '<div class="ph"><img alt="" src="' + esc(ph.url || ph.preview) + '">' + (i === 0 ? '<span class="main">MAIN</span>' : '') + '<button type="button" data-rm="' + i + '" aria-label="Remove photo">&times;</button></div>').join('') +
+    (photos.length < MAX_PHOTOS ? '<div class="addph" id="addph" role="button" tabindex="0">+ Add<br>photo</div>' : '');
+}
+$('photos').addEventListener('click', e => {
+  const rm = e.target.closest('[data-rm]');
+  if (rm) { photos.splice(+rm.dataset.rm, 1); renderPhotos(); }
+  else if (e.target.closest('#addph')) $('file').click();
+});
+$('file').addEventListener('change', () => {
+  for (const f of $('file').files) { if (photos.length >= MAX_PHOTOS) break; photos.push({ file: f, preview: URL.createObjectURL(f) }); }
+  $('file').value = ''; renderPhotos();
+});
+
+// price <-> discount stay in sync
+const num = id => parseFloat($(id).value);
+function updatePreview() {
+  const mrp = num('f-mrp'), price = num('f-price');
+  $('preview').innerHTML = mrp > 0 && price > 0
+    ? 'Customers will see <b>' + money(price) + '</b> <s class="mute">' + money(mrp) + '</s> ' + (mrp > price ? '<b style="color:var(--green)">' + Math.round((1 - price / mrp) * 100) + '% off</b>' : '')
+    : 'Enter MRP and discount, the selling price fills in by itself.';
+}
+function fromDiscount() { const m = num('f-mrp'), d = num('f-disc') || 0; if (m > 0 && d >= 0 && d < 100) $('f-price').value = +(m * (1 - d / 100)).toFixed(2); updatePreview(); }
+function fromPrice() { const m = num('f-mrp'), p = num('f-price'); if (m > 0 && p > 0 && p <= m) $('f-disc').value = +((1 - p / m) * 100).toFixed(1); updatePreview(); }
+$('f-mrp').addEventListener('input', fromDiscount);
+$('f-disc').addEventListener('input', fromDiscount);
+$('f-price').addEventListener('input', fromPrice);
+
+// shrink a phone photo (about 900px, JPEG) before upload
+function compress(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const s = Math.min(1, 900 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+      const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height);
+      let q = 0.82, d = c.toDataURL('image/jpeg', q);
+      while (d.length > 480000 && q > 0.4) { q -= 0.12; d = c.toDataURL('image/jpeg', q); }
+      resolve(d);
+    };
+    img.onerror = () => reject(new Error('Could not read one of the photos. Try a JPG or PNG.'));
+    img.src = url;
+  });
+}
+
+async function save() {
+  if (saving) return; const msg = $('formMsg'); msg.textContent = '';
+  const title = $('f-title').value.trim(), mrp = num('f-mrp'), price = num('f-price'), stock = parseInt($('f-stock').value, 10);
+  if (!title) return msg.textContent = 'Enter the item name.';
+  if (!photos.length) return msg.textContent = 'Add at least one photo.';
+  if (!(mrp > 0)) return msg.textContent = 'Enter the MRP.';
+  if (!(price > 0) || price > mrp) return msg.textContent = 'Selling price must be above 0 and not more than MRP.';
+  if (!Number.isInteger(stock) || stock < 0) return msg.textContent = 'Enter the stock quantity (0 or more).';
+  if ($('f-cat').value === '__new__' && !$('f-newcat').value.trim()) return msg.textContent = 'Type the new category name.';
+
+  saving = true; const btn = $('saveBtn'); btn.disabled = true;
+  try {
+    let categoryId = $('f-cat').value;
+    if (categoryId === '__new__') {
+      btn.textContent = 'Creating category\u2026';
+      categoryId = (await api('/api/admin/categories', { method: 'POST', body: JSON.stringify({ name: $('f-newcat').value.trim() }) })).category.id;
+    }
+    const urls = [];
+    for (let i = 0; i < photos.length; i++) {
+      if (photos[i].url) { urls.push(photos[i].url); continue; }
+      btn.textContent = 'Uploading photo ' + (i + 1) + ' of ' + photos.length + '\u2026';
+      const dataUrl = await compress(photos[i].file);
+      urls.push((await api('/api/admin/images', { method: 'POST', body: JSON.stringify({ dataUrl }) })).url);
+    }
+    btn.textContent = 'Saving\u2026';
+    const body = JSON.stringify({ title, categoryId, mrp, price, stock, description: $('f-desc').value.trim(), images: urls });
+    if (editing) await api('/api/admin/products/' + encodeURIComponent(editing.id), { method: 'PUT', body });
+    else await api('/api/admin/products', { method: 'POST', body });
+    await refresh(); closeForm(); toast(editing ? 'Item updated' : 'Item added to the store');
+  } catch (e) { msg.textContent = e.message; }
+  saving = false; btn.disabled = false; btn.textContent = 'Save item';
+}
+
+$('sheet').addEventListener('input', () => { $('formMsg').textContent = ''; });
+$('loginBtn').addEventListener('click', login);
+$('pw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+$('logout').addEventListener('click', logout);
+$('addBtn').addEventListener('click', () => openForm(null));
+$('closeSheet').addEventListener('click', closeForm);
+$('saveBtn').addEventListener('click', save);
+if (token) start();
+</script>
+</body>
+</html>
